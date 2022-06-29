@@ -1,0 +1,33 @@
+name: "eQTLGenConsortium"
+navbar:
+  title: "eQTLGen"
+  left:
+    - text: "Home"
+      icon: fa-home
+      href: index.html
+    - text: "Cohorts"
+      icon: fa-dna
+      href: cohorts.html
+    - text: "Projects"
+      icon: fa-chart-pie
+      href: projects.html
+    - text: "Documents and guidelines"
+      icon: fa-folder
+      href: documents.html
+    - text: "Joining and collaborating"
+      icon: fa-handshake
+      href: collaboration.html
+    - text: "Articles and preprints"
+      icon: fa-book
+      href: articles.html
+    - text: "Resources"
+      icon: fa-database
+      href: resources.html
+    - text: ""
+      icon: fa-github
+      href: https://github.com/eQTLGen
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+      

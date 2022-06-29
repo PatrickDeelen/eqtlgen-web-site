@@ -1,0 +1,48 @@
+---
+title: "Documents and Guidelines"
+output: html_document
+date: '2022-06-16'
+---
+### Communication
+
+Consortium-wide announcements and information about projects, analyses progress, manuscripts, preprints and conference abstracts will be sent into the consortium e-mail list. If any cohort needs to update their respective PI/analyst/author contact(s), plase send the e-mail to eQTLGen coordinators.
+
+### Authorship model
+
+For the main projects, the ordering of the consortium authors will be mostly affected by the following criteria:
+
+1. Author or work group gets better place in the author list if, he/she contributed with unpublished datasets, interpretative analyzes, benchmarks, custom analyses, drafting the manuscript, etc.
+2. Author or work group gets better place if they contributed by following the analysis plan on more than one datasets.
+3. If number of analyzed datasets is equal, the better place goes to the analyst who analysed the higher combined sample size.
+4. If all above criteria are equal, authors are ordered by alphabetical order.
+5. Inside each cohort or work group, PI should indicate the order of their authors.
+
+Disagreements about the author lists will be solved by direct communication with lead authors.
+
+### Publishing
+
+The papers for main projects will be communicated with all consortium members and authors regularly, as soon as the initial draft is ready.
+
+For secondary projects and external collaborations, there are following requirements:
+
+- If consortium contributes only with the unpublished data freeze, "eQTLGen Consortium" should be added as the named banner author into the author list and adds the full banner into the supplementary material of the paper. Individual collaborators should appear in the PubMed under "Collaborators, Affiliations".
+- Submission-ready manuscript draft should be disseminated among the consortium members 2 work weeks before prospective submission deadline, and all authors on the banner should be given chance to send any comments.
+
+### Conference abstracts
+
+There are following requirements:
+
+- If consortium contributes with only the interim unpublished data freeze, "eQTLGen Consortium" should be added as the named banner author into the author list.
+- Submission-ready manuscript draft should be disseminated among the consortium members 3 work days before prospective submission deadline, and all authors on the banner should be given chance to send any comments.
+
+## Documents
+
+### Consortium agreement for eQTLGen phase II
+
+### Project proposal template
+
+### Consortium banner author
+
+### Analysis plans
+
+#### Analysis plan for eQTLGen phase II

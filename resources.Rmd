@@ -1,0 +1,9 @@
+---
+title: "Resources"
+output: html_document
+date: '2022-06-16'
+---
+
+### eQTLGen summary statistics
+
+- Summary statistics from eQTLGen phase I are available on http://www.eqtlgen.org

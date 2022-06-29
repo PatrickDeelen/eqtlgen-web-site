@@ -1,0 +1,15 @@
+---
+title: "Projects"
+output: html_document
+---
+
+On this web site you will find some information about projects which are being conducted in eQTLGen.
+
+### Main projects
+
+#### eQTLGen phase II: global eQTL analysis
+
+### Secondary projects
+
+### Collaborations
+

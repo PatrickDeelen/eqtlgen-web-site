@@ -1,0 +1,38 @@
+---
+title: "Joining the consortium and collaborating"
+output: html_document
+date: '2022-06-16'
+---
+
+## Joining the consortium
+
+## Collaboration
+
+### Establishing new projects inside the consortium
+
+If somebody from the consortium would like to initiate their own project, one should fill in the project proposal form here and send it to eQTLGen coordinator, together with google sheet where interested cohorts can sign up. We then disseminate the proposal and in the consortium and, if enough cohorts will sign up, will add the project into the active projects. As a good practice, the proposed project should not undermine the scientific novelity of any of the active and planned consortium projects. If this is the case, we will encourage collaboration and joining forces.
+
+Once project is agreed, it is up to lead analyst of corresponding project to provide analysis instructions and coordinate the analyses.
+
+### Access to unpublished data
+
+Occasionally, the results from interim unpublished freezes of the analyses are of interest for consortium members or external collaborators, e.g. for testing their hypotheses or developing tools. Because we encourage collaboration and acknowledge the relevance of this resource, we certainly encourage the use of the for collaboration inside the consortium and, for some data modalities, also with external collaborators. 
+
+Requirements for establishing collaboration:
+
+- Proposed project must not undermine the scientific novelity of any of the active consortium projects.
+- Unpublished summary data must not be disseminated with third parties before it is made public by the consortium.
+- Applicant acknowledges that data is from interim freeze and some updates might happen in later freezes.
+- Applicant adds "eQTLGen Consortium" as the named banner author into the author list and adds the full banner into the supplementary material of the paper. Individual collaborators should appear in the PubMed under "Collaborators, Affiliations".
+- Applicant agrees to disseminate the submission-ready manuscript with consortium members 2 weeks before submission and give all collaborators the chance to give comments.
+- Applicant agrees to disseminate any conference abstracts with consortium members 1 week before submission and give all collaborators the chance to give comments.
+
+For every project which makes use of non-public eQTLGen data, it is needed to fill in the project proposal template and send it to consortium coordinators. After inital screening, the project proposal will be circulated in the consortium mailing list and all consortium members have 2 work weeks to send any concerns about this collaboration. If none are received, usually the collaboration is initiated.
+
+### Access to published data
+
+Please find our published datasets under [Resources](resources.Rmd) and cite the relevant paper/preprint/resource.
+
+### Personal data
+
+Sensitive individual-level data is administered by individual cohorts and each of them have their own legal requirements and procedures for data sharing. Therefore, it is best to contact directly with corresponding cohort PI directly.
