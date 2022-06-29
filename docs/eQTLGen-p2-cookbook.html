@@ -31,8 +31,6 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -45,18 +43,103 @@
   ul.task-list{list-style: none;}
     </style>
 
-<style type="text/css">code{white-space: pre;}</style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
   }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
 </script>
-
-
 
 
 
@@ -770,50 +853,51 @@ unique dataset name used by all pipelines.</li>
 </ol>
 <p>This is the template for Slurm scheduler
 (<code>submit_DataQC_pipeline_template.sh</code>):</p>
-<pre class="bash"><code>#!/bin/bash
-
-#SBATCH --time=48:00:00
-#SBATCH -N 1
-#SBATCH --ntasks-per-node=1
-#SBATCH --mem=6G
-#SBATCH --mail-type=BEGIN
-#SBATCH --mail-type=END
-#SBATCH --mail-type=FAIL
-#SBATCH --job-name=&quot;DataQc&quot;
-
-# These are needed modules in UT HPC to get singularity and Nextflow running. Replace with appropriate ones for your HPC.
-module load java-1.8.0_40
-module load singularity/3.5.3
-module load squashfs/4.4
-
-# Define paths
-# If you follow eQTLGen phase II cookbook, you can use some provided default paths
-
-nextflow_path=../../tools # folder where Nextflow executable is, can be kept as is.
-
-geno_path=[full path to your input genotype file without .bed extension]
-exp_path=[full path to your gene expression matrix]
-gte_path=[full path to your genotype-to-expression file]
-exp_platform=[expression platform name: HT12v3/HT12v4/HuRef8/RNAseq/AffyU219/AffyHumanExon]
-cohort_name=[name of the cohort]
-output_path=../output # Output path, can be kept as is.
-
-# Optional arguments for the command
-# --GenOutThresh [numeric threshold]
-# --GenSdThresh [numeric threshold]
-# --ExpSdThresh [numeric threshold]
-# --ContaminationArea [number between 0 and 90, default 30]
-
-# Command:
-NXF_VER=21.10.6 ${nextflow_path}/nextflow run DataQC.nf \
---bfile ${geno_path} \
---expfile ${exp_path} \
---gte ${gte_path} \
---exp_platform ${exp_platform} \
---cohort_name ${cohort_name} \
---outdir ${output_path}  \
--profile slurm,singularity \
--resume</code></pre></li>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=48:00:00</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -N 1</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks-per-node=1</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=6G</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mail-type=</span><span class="re">BEGIN</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mail-type=</span><span class="re">END</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mail-type=FAIL</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=&quot;DataQc&quot;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># These are needed modules in UT HPC to get singularity and Nextflow running. Replace with appropriate ones for your HPC.</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load java-1.8.0_40</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load singularity/3.5.3</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load squashfs/4.4</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Define paths</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># If you follow eQTLGen phase II cookbook, you can use some provided default paths</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="va">nextflow_path</span><span class="op">=</span>../../tools <span class="co"># folder where Nextflow executable is, can be kept as is.</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="va">geno_path</span><span class="op">=</span>[full <span class="ex">path</span> to your input genotype file without .bed extension]</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="va">exp_path</span><span class="op">=</span>[full <span class="ex">path</span> to your gene expression matrix]</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="va">gte_path</span><span class="op">=</span>[full <span class="ex">path</span> to your genotype-to-expression file]</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="va">exp_platform</span><span class="op">=</span>[expression <span class="ex">platform</span> name: HT12v3/HT12v4/HuRef8/RNAseq/AffyU219/AffyHumanExon]</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="va">cohort_name</span><span class="op">=</span>[name <span class="ex">of</span> the cohort]</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="va">output_path</span><span class="op">=</span>../output <span class="co"># Output path, can be kept as is.</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># Optional arguments for the command</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># --GenOutThresh [numeric threshold]</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co"># --GenSdThresh [numeric threshold]</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co"># --ExpSdThresh [numeric threshold]</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co"># --ContaminationArea [number between 0 and 90, default 30]</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Command:</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="va">NXF_VER</span><span class="op">=</span>21.10.6 <span class="va">${nextflow_path}</span><span class="ex">/nextflow</span> run DataQC.nf <span class="dt">\</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>--bfile <span class="va">${geno_path}</span> <span class="dt">\</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>--expfile <span class="va">${exp_path}</span> <span class="dt">\</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>--gte <span class="va">${gte_path}</span> <span class="dt">\</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>--exp_platform <span class="va">${exp_platform}</span> <span class="dt">\</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>--cohort_name <span class="va">${cohort_name}</span> <span class="dt">\</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>--outdir <span class="va">${output_path}</span>  <span class="dt">\</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>-profile slurm,singularity <span class="dt">\</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>-resume</span></code></pre></div></li>
 <li><p>Submit the job.</p></li>
 <li><p>Go into the output folder, download and investigate the thorough
 report file <code>Report_DataQc_[your cohort name].html</code>. You will
@@ -921,47 +1005,48 @@ extension</strong>.</li>
 </ol>
 <p>This is the template for Slurm scheduler
 (<code>submit_imputation_pipeline_template.sh</code>):</p>
-<pre class="bash"><code>#!/bin/bash
-
-#SBATCH --time=72:00:00
-#SBATCH -N 1
-#SBATCH --ntasks-per-node=1
-#SBATCH --mem=6G
-#SBATCH --mail-type=BEGIN
-#SBATCH --mail-type=END
-#SBATCH --mail-type=FAIL
-#SBATCH --job-name=&quot;ImputeGenotypes&quot;
-
-# These are needed modules in UT HPC to get Singularity and Nextflow running.
-# Replace with appropriate ones for your HPC.
-module load java-1.8.0_40
-module load singularity/3.5.3
-module load squashfs/4.4
-
-# If you follow the eQTLGen phase II cookbook and analysis folder structure,
-# some of the following paths are pre-filled.
-# https://github.com/eQTLGen/eQTLGen-phase-2-cookbook/wiki/eQTLGen-phase-II-cookbook
-
-# Define paths and arguments
-nextflow_path=../../tools # folder where Nextflow executable is.
-reference_path=../hg38 # folder where you unpacked the reference files.
-
-cohortname=[name of your cohort]
-qc_input_folder=../../1_DataQC/output # folder with QCd genotype and expression data, output of DataQC pipeline.
-output_path=../output/ # Output path.
-
-# Command
-NXF_VER=21.10.6 ${nextflow_path}/nextflow run eQTLGenImpute.nf \
---qcdata ${qc_input_folder} \
---target_ref ${reference_path}/ref_genome_QC/Homo_sapiens.GRCh38.dna.primary_assembly.fa \
---ref_panel_hg38 ${reference_path}/ref_panel_QC/30x-GRCh38_NoSamplesSorted \
---eagle_genetic_map ${reference_path}/phasing/genetic_map/genetic_map_hg38_withX.txt.gz \
---eagle_phasing_reference ${reference_path}/phasing/phasing_reference/ \
---minimac_imputation_reference ${reference_path}/imputation/ \
---cohort_name ${cohortname} \
---outdir ${output_path}  \
--profile slurm,singularity \
--resume</code></pre></li>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=72:00:00</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -N 1</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks-per-node=1</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=6G</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mail-type=</span><span class="re">BEGIN</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mail-type=</span><span class="re">END</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mail-type=FAIL</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=&quot;ImputeGenotypes&quot;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co"># These are needed modules in UT HPC to get Singularity and Nextflow running.</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace with appropriate ones for your HPC.</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load java-1.8.0_40</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load singularity/3.5.3</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load squashfs/4.4</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># If you follow the eQTLGen phase II cookbook and analysis folder structure,</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># some of the following paths are pre-filled.</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co"># https://github.com/eQTLGen/eQTLGen-phase-2-cookbook/wiki/eQTLGen-phase-II-cookbook</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Define paths and arguments</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="va">nextflow_path</span><span class="op">=</span>../../tools <span class="co"># folder where Nextflow executable is.</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="va">reference_path</span><span class="op">=</span>../hg38 <span class="co"># folder where you unpacked the reference files.</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="va">cohortname</span><span class="op">=</span>[name <span class="ex">of</span> your cohort]</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="va">qc_input_folder</span><span class="op">=</span>../../1_DataQC/output <span class="co"># folder with QCd genotype and expression data, output of DataQC pipeline.</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="va">output_path</span><span class="op">=</span>../output/ <span class="co"># Output path.</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a><span class="co"># Command</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a><span class="va">NXF_VER</span><span class="op">=</span>21.10.6 <span class="va">${nextflow_path}</span><span class="ex">/nextflow</span> run eQTLGenImpute.nf <span class="dt">\</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>--qcdata <span class="va">${qc_input_folder}</span> <span class="dt">\</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>--target_ref <span class="va">${reference_path}</span>/ref_genome_QC/Homo_sapiens.GRCh38.dna.primary_assembly.fa <span class="dt">\</span></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>--ref_panel_hg38 <span class="va">${reference_path}</span>/ref_panel_QC/30x-GRCh38_NoSamplesSorted <span class="dt">\</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>--eagle_genetic_map <span class="va">${reference_path}</span>/phasing/genetic_map/genetic_map_hg38_withX.txt.gz <span class="dt">\</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>--eagle_phasing_reference <span class="va">${reference_path}</span>/phasing/phasing_reference/ <span class="dt">\</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>--minimac_imputation_reference <span class="va">${reference_path}</span>/imputation/ <span class="dt">\</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>--cohort_name <span class="va">${cohortname}</span> <span class="dt">\</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>--outdir <span class="va">${output_path}</span>  <span class="dt">\</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>-profile slurm,singularity <span class="dt">\</span></span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>-resume</span></code></pre></div></li>
 <li><p>Submit the job.</p></li>
 <li><p>Check the
 <code>output/pipeline_info/imputation_report.html</code>.</p></li>
@@ -1030,34 +1115,34 @@ inputs.</p></li>
 <li><p>Adjust the template script.</p>
 <p>This is the template for Slurm scheduler
 (<code>submit_genotype_conversion_template.sh</code>):</p>
-<pre class="bash"><code>#!/bin/bash
-
-#SBATCH --time=24:00:00
-#SBATCH -N 1
-#SBATCH --ntasks-per-node=1
-#SBATCH --mem=5G
-#SBATCH --job-name=&quot;ConvertVcf2Hdf5&quot;
-
-# These are needed modules in UT HPC to get Singularity and Nextflow running.
-# Replace with appropriate ones for your HPC.
-module load java-1.8.0_40
-module load singularity/3.5.3
-module load squashfs/4.4
-
-# Define paths
-nextflow_path=../../tools/
-
-genopath=[Folder with input genotype files .vcf.gz format]
-outputpath=../output/
-studyname=[your study name CohortName_ExpressionPlatformName]
-
-NXF_VER=21.10.6 ${nextflow_path}/nextflow run ConvertVcf2Hdf5.nf \
---vcf ${genopath} \
---outdir ${outputpath} \
---cohort_name ${studyname} \
--profile slurm,singularity \
--resume
-</code></pre></li>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=24:00:00</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -N 1</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks-per-node=1</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=5G</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=&quot;ConvertVcf2Hdf5&quot;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># These are needed modules in UT HPC to get Singularity and Nextflow running.</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace with appropriate ones for your HPC.</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load java-1.8.0_40</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load singularity/3.5.3</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load squashfs/4.4</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Define paths</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="va">nextflow_path</span><span class="op">=</span>../../tools/</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="va">genopath</span><span class="op">=</span>[Folder <span class="ex">with</span> input genotype files .vcf.gz format]</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="va">outputpath</span><span class="op">=</span>../output/</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="va">studyname</span><span class="op">=</span>[your <span class="ex">study</span> name CohortName_ExpressionPlatformName]</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="va">NXF_VER</span><span class="op">=</span>21.10.6 <span class="va">${nextflow_path}</span><span class="ex">/nextflow</span> run ConvertVcf2Hdf5.nf <span class="dt">\</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>--vcf <span class="va">${genopath}</span> <span class="dt">\</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>--outdir <span class="va">${outputpath}</span> <span class="dt">\</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>--cohort_name <span class="va">${studyname}</span> <span class="dt">\</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>-profile slurm,singularity <span class="dt">\</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>-resume</span></code></pre></div></li>
 <li><p>Submit the job.</p></li>
 <li><p>Check the
 <code>output/pipeline_info/ConvertGenotype_report.html</code>.</p></li>
@@ -1144,35 +1229,36 @@ reference.</p>
 <li><p>Adjust the template script.</p>
 <p>This is the template script for Slurm scheduler
 (<code>submit_per_cohort_preparations_template.sh</code>):</p>
-<pre class="bash"><code>#!/bin/bash
-
-#SBATCH --time=24:00:00
-#SBATCH -N 1
-#SBATCH --ntasks-per-node=1
-#SBATCH --mem=5G
-#SBATCH --job-name=&quot;RunDataPreparations&quot;
-
-# These are needed modules in UT HPC to get Singularity and Nextflow running.
-# Replace with appropriate ones for your HPC.
-module load java-1.8.0_40
-module load singularity/3.5.3
-module load squashfs/4.4
-
-# If you follow the eQTLGen phase II cookbook and analysis folder structure,
-# some of the following paths are pre-filled.
-# https://github.com/eQTLGen/eQTLGen-phase-2-cookbook/wiki/eQTLGen-phase-II-cookbook
-nextflow_path=../../tools
-
-genotypes_hdf5=../../3_ConvertVcf2Hdf5/output # Folder with genotype files in .hdf5 format
-qc_data_folder=../../1_DataQC/output # Folder containing QCd data, inc. expression and covariates
-output_path=../output
-
-NXF_VER=21.10.6 ${nextflow_path}/nextflow run PerCohortDataPreparations.nf \
---hdf5 ${genotypes_hdf5} \
---qcdata ${qc_data_folder} \
---outdir ${output_path} \
--profile slurm,singularity \
--resume</code></pre></li>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=24:00:00</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH -N 1</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks-per-node=1</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=5G</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=&quot;RunDataPreparations&quot;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># These are needed modules in UT HPC to get Singularity and Nextflow running.</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace with appropriate ones for your HPC.</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load java-1.8.0_40</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load singularity/3.5.3</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="ex">module</span> load squashfs/4.4</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># If you follow the eQTLGen phase II cookbook and analysis folder structure,</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># some of the following paths are pre-filled.</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># https://github.com/eQTLGen/eQTLGen-phase-2-cookbook/wiki/eQTLGen-phase-II-cookbook</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="va">nextflow_path</span><span class="op">=</span>../../tools</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="va">genotypes_hdf5</span><span class="op">=</span>../../3_ConvertVcf2Hdf5/output <span class="co"># Folder with genotype files in .hdf5 format</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="va">qc_data_folder</span><span class="op">=</span>../../1_DataQC/output <span class="co"># Folder containing QCd data, inc. expression and covariates</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="va">output_path</span><span class="op">=</span>../output</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="va">NXF_VER</span><span class="op">=</span>21.10.6 <span class="va">${nextflow_path}</span><span class="ex">/nextflow</span> run PerCohortDataPreparations.nf <span class="dt">\</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>--hdf5 <span class="va">${genotypes_hdf5}</span> <span class="dt">\</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>--qcdata <span class="va">${qc_data_folder}</span> <span class="dt">\</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>--outdir <span class="va">${output_path}</span> <span class="dt">\</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>-profile slurm,singularity <span class="dt">\</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>-resume</span></code></pre></div></li>
 <li><p>Submit the job.</p></li>
 <li><p>Check the
 <code>output/pipeline_info/PerCohortDataPreparations_report.html</code>.</p></li>

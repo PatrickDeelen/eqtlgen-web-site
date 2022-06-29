@@ -1,6 +1,8 @@
 ---
 title: "Cookbook for eQTLGen phase II analyses"
-output: html_document
+output: 
+  html_document:
+    highlight: pygments
 date: '2022-06-15'
 ---
 
