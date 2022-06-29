@@ -31,3 +31,5 @@ output:
     theme: cosmo
     highlight: textmate
 output_dir: "docs"
+plugins:
+  - jemoji
