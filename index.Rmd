@@ -49,4 +49,5 @@ University of Tartu, Institute of Genomics, Estonian Genome Center (Urmo Võsa, 
 
 University Medical Center Groningen, University of Groningen (Robert Warmerdam, PI: Prof. Lude Franke)
 
-<img src="figs/genoomika instituut_eng_hall.svg" style="width:25%"/> <img src="figs/rug-umcg_logobalk_enbuitennl_grijsw_staand_a5.jpeg" style="width:50%"/>
+![](figs/genoomika instituut_eng_hall.svg){width=3in}
+![](figs/rug-umcg_logobalk_enbuitennl_grijsw_staand_a5.jpeg){width=6in}
