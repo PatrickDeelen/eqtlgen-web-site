@@ -983,9 +983,18 @@ imputation. We provide it <a href="TODO!!!">here</a>.</li>
 <li><p>Clone the <code>eQTLGenImpute</code> pipeline
 <code>git clone https://github.com/eQTLGen/eQTLGenImpute.git</code>.</p></li>
 <li><p>Make folder <code>output</code>.</p></li>
-<li><p>Download and unzip the folder with reference from <a
-href="TODO!!!">here</a>. This yields the folder named
-<code>hg38</code>.</p></li>
+<li><p>Download the zipped reference
+<code>wget https://www.dropbox.com/s/6g58ygjg9d2fvbi/eQTLGenReferenceFiles.tar.gz?dl=1</code>.</p></li>
+<li><p>Because this file is ~30GB and can corrupt during the download,
+also download corresponding md5sum file
+<code>wget https://www.dropbox.com/s/ekfciajzevn6o1l/eQTLGenReferenceFiles.tar.gz.md5?dl=0</code>.</p></li>
+<li><p>Check if download was sucessful
+<code>md5sum --check eQTLGenReferenceFiles.tar.gz.md5</code>. You should
+see <code>eQTLGenReferenceFiles.tar.gz:OK</code>.</p></li>
+<li><p>Unzip the reference file
+<code>tar -xfvz eQTLGenReferenceFiles.tar.gz</code>. This yields the
+folder named <code>hg38</code> which contains all needed reference
+files.</p></li>
 <li><p>Go into <code>eQTLGen_phase2/2_Imputation/eQTLGenImpute</code>
 pipeline folder and adjust the imputation script template with needed
 modules and inputs.</p>
@@ -1031,7 +1040,7 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="va">nextflow_path</span><span class="op">=</span>../../tools <span class="co"># folder where Nextflow executable is.</span></span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="va">reference_path</span><span class="op">=</span>../hg38 <span class="co"># folder where you unpacked the reference files.</span></span>
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="va">cohortname</span><span class="op">=</span>[name <span class="ex">of</span> your cohort]</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="va">cohort_name</span><span class="op">=</span>[name <span class="ex">of</span> your cohort]</span>
 <span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="va">qc_input_folder</span><span class="op">=</span>../../1_DataQC/output <span class="co"># folder with QCd genotype and expression data, output of DataQC pipeline.</span></span>
 <span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="va">output_path</span><span class="op">=</span>../output/ <span class="co"># Output path.</span></span>
 <span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
@@ -1043,7 +1052,7 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="
 <span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>--eagle_genetic_map <span class="va">${reference_path}</span>/phasing/genetic_map/genetic_map_hg38_withX.txt.gz <span class="dt">\</span></span>
 <span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>--eagle_phasing_reference <span class="va">${reference_path}</span>/phasing/phasing_reference/ <span class="dt">\</span></span>
 <span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>--minimac_imputation_reference <span class="va">${reference_path}</span>/imputation/ <span class="dt">\</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>--cohort_name <span class="va">${cohortname}</span> <span class="dt">\</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>--cohort_name <span class="va">${cohort_name}</span> <span class="dt">\</span></span>
 <span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>--outdir <span class="va">${output_path}</span>  <span class="dt">\</span></span>
 <span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>-profile slurm,singularity <span class="dt">\</span></span>
 <span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>-resume</span></code></pre></div></li>
@@ -1135,12 +1144,12 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="
 <span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="va">genopath</span><span class="op">=</span>[Folder <span class="ex">with</span> input genotype files .vcf.gz format]</span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="va">outputpath</span><span class="op">=</span>../output/</span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="va">studyname</span><span class="op">=</span>[your <span class="ex">study</span> name CohortName_ExpressionPlatformName]</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="va">cohort_name</span><span class="op">=</span>[]</span>
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="va">NXF_VER</span><span class="op">=</span>21.10.6 <span class="va">${nextflow_path}</span><span class="ex">/nextflow</span> run ConvertVcf2Hdf5.nf <span class="dt">\</span></span>
 <span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>--vcf <span class="va">${genopath}</span> <span class="dt">\</span></span>
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>--outdir <span class="va">${outputpath}</span> <span class="dt">\</span></span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>--cohort_name <span class="va">${studyname}</span> <span class="dt">\</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>--cohort_name <span class="va">${cohort_name}</span> <span class="dt">\</span></span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>-profile slurm,singularity <span class="dt">\</span></span>
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>-resume</span></code></pre></div></li>
 <li><p>Submit the job.</p></li>
@@ -1208,24 +1217,19 @@ structure.</li>
 <div id="instructions-3" class="section level5">
 <h5>Instructions</h5>
 <ol style="list-style-type: decimal">
-<li>Go into <code>eQTLGen_phase2/4_PerCohortPreparations</code>.</li>
-<li>Make folder <code>output</code></li>
-<li>Clone the <code>PerCohortPreparations</code> pipeline
-<code>git clone https://github.com/eQTLGen/PerCohortDataPreparatons.git</code>.</li>
-<li>Go into
-<code>4_PerCohortPreparations/PerCohortPreparations</code>.</li>
-<li>Put genotype reference file into
+<li><p>Go into
+<code>eQTLGen_phase2/4_PerCohortPreparations</code>.</p></li>
+<li><p>Make folder <code>output</code></p></li>
+<li><p>Clone the <code>PerCohortPreparations</code> pipeline
+<code>git clone https://github.com/eQTLGen/PerCohortDataPreparatons.git</code>.</p></li>
+<li><p>Go into
+<code>4_PerCohortPreparations/PerCohortPreparations</code>.</p></li>
+<li><p>Put genotype reference file into
 <code>4_PerCohortPreparations/PerCohortPreparations/bin/hase/data/</code>
-folder. For eQTLGen phase 2 analyses, you can get this file from <a
-href="https://owncloud.ut.ee/owncloud/index.php/s/a42sTSJwrynLziq">here</a>.
-Use the following command to download it within terminal
-environment:</li>
-</ol>
-<p><code>wget https://owncloud.ut.ee/owncloud/index.php/s/a42sTSJwrynLziq/download -O 1000Gp1v3.ref.gz</code></p>
-<p>:exclamation: Currently the name is hardcoded to 1000Gp1v3.ref.gz in
-HASE scripts. This file actually contains info for 1000G 30x
-reference.</p>
-<ol start="6" style="list-style-type: decimal">
+folder. This was already downloaded together with imputation references
+in <a href="#2-genotype-imputation">Imputation step</a>. Therefore you
+can copy it to the correct location like that:
+<code>cp ../../2_Imputation/hg38/hase_reference/* bin/hase/data/.</code>.</p></li>
 <li><p>Adjust the template script.</p>
 <p>This is the template script for Slurm scheduler
 (<code>submit_per_cohort_preparations_template.sh</code>):</p>
@@ -1287,7 +1291,7 @@ pipeline</a> named
 <code>[YourCohortName]_IntermediateFilesEncoded_to_upload</code> and its
 accompanying <code>.md5</code> file should be uploaded into our sftp
 server: <strong>TBA</strong>.</p>
-<p>The instructions for getting the sftp account:
+<p>The instructions for getting the SFTP account:
 <strong>TBA</strong>.</p>
 <p>:exclamation: You might want to inform your HPC team about this
 project and the planned upload. Although the sheer file size is much
