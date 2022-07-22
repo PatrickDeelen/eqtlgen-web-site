@@ -1,6 +1,6 @@
 # This is a basic workflow to copy the build folder for the eqtlgen domain
 
-name: build eqtlgen domain
+name: build-eqtlgen-org
 
 # Controls when the workflow will run
 on:
@@ -29,7 +29,7 @@ jobs:
       - name: copy
         env: 
           SRC_FOLDER_PATH: '_site_eqtlgen_org'
-          TARGET_BRANCH: 'site_eqtlgen_org'
+          TARGET_BRANCH: 'site-eqtlgen-org'
           
         run: |
           files=$(find $SRC_FOLDER_PATH -type f) # get the file list
