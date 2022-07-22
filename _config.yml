@@ -3,4 +3,4 @@ url: https://eqtlgen.org
 baseurl: /eqtlgen-web-site
 
 title: eQTLGen Phase II
-exclude: ["*.Rmd"]
+exclude: ["*.Rmd", "README", "*.Rproj"]
