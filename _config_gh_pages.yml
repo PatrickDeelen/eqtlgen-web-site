@@ -1,0 +1,7 @@
+baseurl: /eqtlgen-web-site
+url: https://eqtlgen.github.io/
+
+title: eQTLGen Phase II
+exclude: ["*.Rmd", "README", "*.Rproj"]
+
+destination: docs

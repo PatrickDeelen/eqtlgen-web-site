@@ -1,6 +1,7 @@
 domain: eqtlgen.org
 url: https://eqtlgen.org
-baseurl: /eqtlgen-web-site
 
 title: eQTLGen Phase II
-exclude: ["*.Rmd", "README", "*.Rproj"]
+exclude: ["*.Rmd", "README", "*.Rproj", "script"]
+
+destination: build_eqtlgen_org
