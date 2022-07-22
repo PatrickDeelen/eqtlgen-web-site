@@ -1,6 +1,7 @@
 ---
 title: "Projects"
 output: html_document
+layout: default
 ---
 
 On this web site you will find some information about projects which are being conducted in eQTLGen.

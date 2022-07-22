@@ -1,6 +1,6 @@
 ---
-title: |
-  ![](figs/Logo_test2.png){width=3in}
+title: Home
+layout: default
 ---
 
 The eQTLGen Consortium has been set up to investigate the genetic architecture of blood gene expression and to understand the genetic underpinnings of complex traits.
@@ -48,6 +48,3 @@ eQTLGen Consortium is jointly coordinated by:
 University of Tartu, Institute of Genomics, Estonian Genome Center (Urmo Võsa, PI: Prof. Tõnu Esko)
 
 University Medical Center Groningen, University of Groningen (Robert Warmerdam, PI: Prof. Lude Franke)
-
-![](figs/genoomika instituut_eng_hall.svg){width=3in}
-![](figs/rug-umcg_logobalk_enbuitennl_grijsw_staand_a5.jpeg){width=6in}

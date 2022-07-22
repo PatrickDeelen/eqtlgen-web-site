@@ -1,0 +1,16 @@
+- name: Home
+  link: /phase2/
+- name: Consortium members
+  link: /phase2/cohorts.html
+- name: Projects
+  link: /phase2/projects.html
+- name: Collaborate
+  link: /phase2/collaboration.html
+- name: Documents
+  link: /phase2/documents.html
+- name: Cookbook
+  link: /phase2/eQTLGen-p2-cookbook.html
+- name: Publications
+  link: /phase2/articles.html
+- name: Recources
+  link: /phase2/resources.html
