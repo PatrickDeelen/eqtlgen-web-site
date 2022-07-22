@@ -1,0 +1,7 @@
+domain: eqtlgen.org
+url: https://eqtlgen.org
+
+title: eQTLGen Phase II
+exclude: ["*.Rmd", "README", "*.Rproj", "script", "_site_eqtlgen_org", "docs"]
+
+destination: _site_eqtlgen_org

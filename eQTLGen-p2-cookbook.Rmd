@@ -7,6 +7,7 @@ date: '2022-06-15'
 editor_options: 
   markdown: 
     wrap: sentence
+layout: default
 ---
 
 This cookbook is for running genome-wide eQTL mapping in the consortium settings, by using HASE ([Roschupkin et al, 2016](https://www.nature.com/articles/srep36076); [original code repo](https://github.com/roshchupkin/hase)).

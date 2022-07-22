@@ -1,0 +1,16 @@
+- name: Home
+  link: index.html
+- name: Consortium members
+  link: cohorts.html
+- name: Projects
+  link: projects.html
+- name: Collaborate
+  link: collaboration.html
+- name: Documents
+  link: documents.html
+- name: Cookbook
+  link: eQTLGen-p2-cookbook.html
+- name: Publications
+  link: articles.html
+- name: Recources
+  link: resources.html

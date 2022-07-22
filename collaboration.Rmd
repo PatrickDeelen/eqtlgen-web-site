@@ -2,6 +2,7 @@
 title: "Joining the consortium and collaborating"
 output: html_document
 date: '2022-06-16'
+layout: default
 ---
 
 ## Joining the consortium

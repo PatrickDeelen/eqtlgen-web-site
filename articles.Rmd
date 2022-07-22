@@ -1,6 +1,7 @@
 ---
 title: "Articles and preprints"
 output: html_document
+layout: default
 ---
 
 #### eQTLGen phase II

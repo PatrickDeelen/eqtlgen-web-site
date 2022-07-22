@@ -2,6 +2,7 @@
 title: "Resources"
 output: html_document
 date: '2022-06-16'
+layout: default
 ---
 
 ### eQTLGen summary statistics

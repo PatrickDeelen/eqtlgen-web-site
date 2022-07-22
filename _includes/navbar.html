@@ -1,0 +1,42 @@
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">eQTLGen</a>
+        <div class="btn-group align-items-center mr-auto">
+            <button type="button" class="btn btn-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                /Phase II
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="./">Phase II</a>
+                {% if site.url == "https://eqtlgen.org" %}
+                <a class="dropdown-item" href="../">Phase I</a>
+                <a class="dropdown-item" href="../cs">Single-cell</a>
+                {% else %}
+                <a class="dropdown-item" href="https://eqtlgen.org/">Phase I</a>
+                <a class="dropdown-item" href="https://eqtlgen.org/sc">Single-cell</a>
+                {% endif %}
+            </div>
+        </div>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                {% for item in site.data.navbar %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{item.link}}">
+                        {{ item.name }}
+                    </a>
+                </li>
+                {% endfor %}
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/eQTLGen">
+                        <span class="fa fa-github"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
