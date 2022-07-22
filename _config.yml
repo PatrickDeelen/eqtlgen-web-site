@@ -1,6 +1,5 @@
 domain: eqtlgen.org
 url: https://eqtlgen.org
-baseurl: /phase2
 
 title: eQTLGen Phase II
 exclude: ["*.Rmd"]
