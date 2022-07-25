@@ -28,4 +28,4 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Render R markdown files
-        uses: actions/render-and-deploy
+        uses: actions/render-rmd-action
