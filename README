@@ -1,1 +1,11 @@
 Web site is hosted here: https://eqtlgen.github.io/eqtlgen-web-site/
+
+# Deployment
+
+Use script/render-rmarkdown.R to generate .md files from .Rmd files
+
+To generate deployment folder for the eqtlgen.org domain
+`bundle exec jekyll build --config _config.yml`
+
+To generate deployment folder for the github page
+`bundle exec jekyll build --config _config_gh_pages.yml`
