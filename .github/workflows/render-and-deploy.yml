@@ -25,7 +25,3 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout git repository
         uses: actions/render-rmd-action
-
-      # Runs a single command using the runners shell
-      - name: Render R markdown files
-        uses: ./
