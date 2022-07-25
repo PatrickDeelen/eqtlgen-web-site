@@ -5,5 +5,5 @@ FROM rocker/r-rmd
 COPY entrypoint.sh /entrypoint.sh
 COPY render-rmarkdown.R /render-rmarkdown.R
 
-# Code file to execute when the docker container starts up (`entrypoint_render_rmd.sh`)
+# Code file to execute when the docker container starts up (`entrypoint.sh`)
 ENTRYPOINT ["/entrypoint.sh"]
