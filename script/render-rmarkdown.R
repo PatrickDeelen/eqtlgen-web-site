@@ -1,5 +1,8 @@
 library(rmarkdown)
-library(devtools)
+
+if (!require("devtools",character.only = TRUE)) {
+    install.packages("devtools")
+}
 
 if (!require("emo",character.only = TRUE)) {
     devtools::install_github("hadley/emo")
