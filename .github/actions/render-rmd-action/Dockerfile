@@ -3,7 +3,7 @@ FROM rocker/r-rmd
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
-COPY ../../../script/render-rmarkdown.R /render-rmarkdown.R
+COPY render-rmarkdown.R /render-rmarkdown.R
 
 # Code file to execute when the docker container starts up (`entrypoint_render_rmd.sh`)
 ENTRYPOINT ["/entrypoint.sh"]
