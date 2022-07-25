@@ -2,4 +2,4 @@
 
 echo $(ls -al)
 
-Rscript render-rmarkdown.R
+Rscript script/render-rmarkdown.R
