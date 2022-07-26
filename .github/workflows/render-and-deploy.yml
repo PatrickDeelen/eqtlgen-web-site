@@ -16,7 +16,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  render-and-deploy:
+  render:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -28,3 +28,19 @@ jobs:
       # Runs a single command using the runners shell
       - name: Render R markdown files
         uses: ./.github/actions/render-rmd-action
+
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      # Runs a single command using the runners shell
+      - name: Build the site in the jekyll/builder container
+        run: |
+          docker run \
+          -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
+          jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future --config _config.yml"
