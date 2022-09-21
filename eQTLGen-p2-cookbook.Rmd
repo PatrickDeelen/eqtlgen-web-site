@@ -76,9 +76,9 @@ We will provide detailed instructions for each pipeline below, however for the m
     -   `eQTLGen_phase2/2_Imputation`
     -   `eQTLGen_phase2/3_ConvertVcf2Hdf5`
     -   `eQTLGen_phase2/4_PerCohortPreparations`
--   *Inside* each of those folders, you should clone/download the corresponding pipeline. If git is available in your HPC, easiest is to use command `git clone [repo of the pipeline]`. This yields a pipeline folder e.g. for the first pipeline it will look like that: `eQTLGen_phase2/1_DataQC/dataqc`.
+-   *Inside* each of those folders, you should clone/download the corresponding pipeline. If git is available in your HPC, easiest is to use command `git clone [repo of the pipeline]`. This yields a pipeline folder e.g. for the first pipeline it will look like that: `eQTLGen_phase2/1_DataQC/DataQC`.
 -   We recommend to specify `output` (and, if needed, `input` etc.) folder(s) for each step. E.g. `eQTLGen_phase2/1_DataQC/output`.
--   Inside each pipeline folder is the script template using name format `submit_*_template.sh` e.g. `eQTLGen_phase2/1_DataQC/dataqc/submit_DataQc_pipeline_template.sh`. You should adjust this according to your data (e.g. specify the path to your input folder, add required HPC modules), and save it. For better tracking, I usually rename it too: `eQTLGen_phase2/1_DataQC/dataqc/submit_DataQc_pipeline_EstBB_HT12v3.sh`.
+-   Inside each pipeline folder is the script template using name format `submit_*_template.sh` e.g. `eQTLGen_phase2/1_DataQC/DataQC/submit_DataQc_pipeline_template.sh`. You should adjust this according to your data (e.g. specify the path to your input folder, add required HPC modules), and save it. For better tracking, I usually rename it too: `eQTLGen_phase2/1_DataQC/DataQC/submit_DataQc_pipeline_EstBB_HT12v3.sh`.
 
 ❗ To ease the process, we have pre-filled some paths in the templates, assuming that you use the recommended folder structure.
 - You should submit each pipeline from *inside* each pipeline folder.
@@ -153,7 +153,7 @@ Example 2: If there would be two EstBB RNAseq datasets, I would use: `EstBB_RNAs
 
 #### Genotype data
 
--   As an input we expect the set of unimputed plink [.bed](https://www.cog-genomics.org/plink/1.9/formats#bed)/[.bim](https://www.cog-genomics.org/plink/1.9/formats#bim)/[.fam](https://www.cog-genomics.org/plink/1.9/formats#fam) files where chromosome positions are in **hg19**.
+-   As an input we expect the set of unimputed plink [.bed](https://www.cog-genomics.org/plink/1.9/formats#bed)/[.bim](https://www.cog-genomics.org/plink/1.9/formats#bim)/[.fam](https://www.cog-genomics.org/plink/1.9/formats#fam) files where chromosome positions are in **hg19/GRCh37**.
 -   Ideally, the `.fam` file should contain information about the reported sex of the sample. This information is used in the automatic data quality control step. If this information is not available, you can still use those files but this specific quality control step will be skipped.
 -   In order to take advantage of optimal pre-phasing, the input genotype data should have several thousands genotype samples. This means that if you have e.g. 7,000 samples in the available genotype data and only 500 of those have expression available (eQTL samples), please specify all 7,000 as the input of the analysis, not only eQTL samples. The larger number of input genotype samples will yield better pre-phasing and subsequent imputation. eQTL samples will be filtered after the imputation step. Our pipelines will automatically use up to 5,000 genotype samples in data QC and imputation pipelines. If only eQTL samples have genotype data available, only eQTL samples will be used.
 
@@ -233,7 +233,7 @@ If the genotype data is available for \<5,000 samples, the pipeline uses those s
 
 1.  Go into `eQTLGen_phase2/1_DataQC`.
 
-2.  Clone the `dataqc` pipeline `git clone https://github.com/eQTLGen/DataQC.git`.
+2.  Clone the `DataQC` pipeline `git clone https://github.com/eQTLGen/DataQC.git`.
 
 3.  Make folder `output`.
 
@@ -241,7 +241,7 @@ If the genotype data is available for \<5,000 samples, the pipeline uses those s
     Copy or symlink the unimputed genotype files, gene expression matrix and genotype-to-expression file into respective folders.
     You can also specify the original location for each file in the script template.
 
-5.  Go into pipeline folder `eQTLGen_phase2/1_DataQC/dataqc` and adjust the script template with needed modules, input paths and settings.
+5.  Go into pipeline folder `eQTLGen_phase2/1_DataQC/DataQC` and adjust the script template with needed modules, input paths and settings.
     Aside from the paths to your data files, you must specify:
 
     1.  Expression platform of your expression data (`--exp_platform`). Options: Illumina arrays: `HT12v3`, `HT12v4` or `HuRef8`; RNA-seq: `RNAseq`; Affymetrix arrays: `AffyU219` or `AffyHumanExon`.
@@ -370,7 +370,7 @@ Specifically, this pipeline performs the following steps:
     1.  Genotype path: path to unimputed and QC'd genotype files in plink `.bed/.bim/.fam` format, ending with `*_ToImputation`. These files are in the output of previous [data QC pipeline](#1-data-qc), files end with `*_ToImputation.*`. These are in the folder `output/outputfolder_gen/gen_data_QCd`. You should specify the full path to those files but **without file extension**.
     2.  Path to reference folder (pre-filled).
     3.  Output path: to the folder `output` you made.
-    4.  Cohort name: this should be the same as in `dataqc`.
+    4.  Cohort name: this should be the same as in `DataQC`.
     5.  Path to the folder with reference files (pre-filled).
 
     This is the template for Slurm scheduler (`submit_imputation_pipeline_template.sh`):
