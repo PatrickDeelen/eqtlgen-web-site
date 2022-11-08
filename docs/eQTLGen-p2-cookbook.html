@@ -408,12 +408,18 @@ e.g. <code class="language-plaintext highlighter-rouge">_EUR</code>.</p>
 <h4 id="genotype-data">Genotype data</h4>
 
 <ul>
-  <li>As an input we expect the set of unimputed PLINK
+  <li>We require either an unimputed PLINK dataset.
 <a href="https://www.cog-genomics.org/plink/1.9/formats#bed">.bed</a>/<a href="https://www.cog-genomics.org/plink/1.9/formats#bim">.bim</a>/<a href="https://www.cog-genomics.org/plink/1.9/formats#fam">.fam</a>
-files where chromosome positions are in <strong>hg19/GRCh37</strong>.</li>
-  <li>If your genotype data concerns whole genome sequencing (WGS) data,
-thinning variants based on minor allele frequency (0.01&lt;MAF) may
-help in preparing a PLINK dataset.</li>
+or</li>
+  <li>an unimputed VCF dataset.</li>
+  <li>WGS datasets are expected to have some sample-level quality control
+done (such as mean sequence coverage, percent of chimeric reads,
+median and standard deviation of insert size, contamination rate,
+bacterial contamination, large chromosomal abnormalities)</li>
+  <li>We encourage the use of a VCF dataset for WGS data. This enables the
+DataQC step to perform variant level WGS-specific quality control.</li>
+  <li>A VCF dataset can either be split by chromosome (by using a globbing
+pattern surrounded with quotes), or it can be a single VCF.</li>
   <li>Ideally, the <code class="language-plaintext highlighter-rouge">.fam</code> file should contain information about the
 reported sex of the sample. This information is used in the
 automatic data quality control step. If this information is not
@@ -471,6 +477,29 @@ can just use file with same sample IDs in both columns.</li>
 
 <p>If you participated in eQTLGen phase 1 analyses, this file should
 already be available.</p>
+
+<h4 id="additional-covariates">Additional covariates</h4>
+
+<p>As standard, within the dataQC step a number of default covariates are
+constructed from both Genotype data and Expression data. Respectively,
+we calculate 10 and 100 PCs from Genotype and expression data. The
+genotype inferred sex is used as an additional covariate. An additional
+set of covariates can be supplied:</p>
+
+<ul>
+  <li>File with additional cohort-specific covariates.</li>
+  <li>Can be tab-delimited or space-delimited.</li>
+  <li>The first column should be the sample identifier, labeled
+<code class="language-plaintext highlighter-rouge">SampleID</code>.</li>
+  <li>Subsequent columns constitute the additional covariate, with the
+column name corresponding to the covariate name.</li>
+  <li>Categorical variables need to be text-based (e.g. batch1, batch2,
+etc), rather than numerical.</li>
+  <li>Categorical variables with <em>k</em> categories over 2 (<em>k</em> &gt; 2) are
+automatically split into binary variables with values of 0 or 1.</li>
+  <li>Dichotomous text-based variables (<em>k</em> =  = 2) are similarly
+converted to a variable with values of 0 or 1.</li>
+</ul>
 
 <h4 id="mixups">Mixups</h4>
 
