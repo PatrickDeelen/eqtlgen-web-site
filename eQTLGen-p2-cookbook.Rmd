@@ -162,10 +162,31 @@ Example 2: If there would be two EstBB RNAseq datasets, I would use: `EstBB_RNAs
 
 #### Genotype data
 
--   As an input we expect the set of unimputed PLINK [.bed](https://www.cog-genomics.org/plink/1.9/formats#bed)/[.bim](https://www.cog-genomics.org/plink/1.9/formats#bim)/[.fam](https://www.cog-genomics.org/plink/1.9/formats#fam) files where chromosome positions are in **hg19/GRCh37**.
--   If your genotype data concerns whole genome sequencing (WGS) data, thinning variants based on minor allele frequency (0.01<MAF) may help in preparing a PLINK dataset.
--   Ideally, the `.fam` file should contain information about the reported sex of the sample. This information is used in the automatic data quality control step. If this information is not available, you can still use those files but this specific quality control step will be skipped.
--   In order to take advantage of optimal pre-phasing, the input genotype data should have several thousands genotype samples. This means that if you have e.g. 7,000 samples in the available genotype data and only 500 of those have expression available (eQTL samples), please specify all 7,000 as the input of the analysis, not only eQTL samples. A larger number of input genotype samples will yield better pre-phasing and subsequent imputation. eQTL samples will be filtered after the imputation step. Our pipelines will automatically use up to 5,000 genotype samples in data QC and imputation pipelines. If only eQTL samples have genotype data available, only eQTL samples will be used.
+
+- We require either an unimputed PLINK dataset. [.bed](https://www.cog-genomics.org/plink/1.9/formats#bed)/[.bim](https://www.cog-genomics.org/plink/1.9/formats#bim)/[.fam](https://www.cog-genomics.org/plink/1.9/formats#fam) or
+- an unimputed VCF dataset.
+- WGS datasets are expected to have some sample-level quality control done
+  (such as mean sequence coverage, percent of chimeric reads,
+  median and standard deviation of insert size, contamination rate,
+  bacterial contamination, large chromosomal abnormalities)
+- We encourage the use of a VCF dataset for WGS data. This enables the DataQC step to perform variant level WGS-specific quality control.
+- A VCF dataset can either be split by chromosome (by using a globbing pattern surrounded with quotes), or it can be a single VCF.
+- Ideally, the `.fam` file should contain information about the
+  reported sex of the sample. This information is used in the
+  automatic data quality control step. If this information is not
+  available, you can still use those files but this specific quality
+  control step will be skipped.
+- In order to take advantage of optimal pre-phasing, the input
+  genotype data should have several thousands genotype samples. This
+  means that if you have e.g. 7,000 samples in the available genotype
+  data and only 500 of those have expression available (eQTL samples),
+  please specify all 7,000 as the input of the analysis, not only eQTL
+  samples. A larger number of input genotype samples will yield better
+  pre-phasing and subsequent imputation. eQTL samples will be filtered
+  after the imputation step. Our pipelines will automatically use up
+  to 5,000 genotype samples in data QC and imputation pipelines. If
+  only eQTL samples have genotype data available, only eQTL samples
+  will be used.
 
 :exclamation: Standard pre-imputation genotype and sample quality control will be done by our pipeline, so no need for thorough QC.
 
@@ -187,6 +208,22 @@ On top of those, our pipeline just applies inverse normal transformation on each
 -   Genotype-to-expression (GTE) linking file: tab-delimited file with sample ID matches between genotype data (column 1) and expression data (column 2). If those IDs are the same in both data layers, you can just use file with same sample IDs in both columns.
 
 If you participated in eQTLGen phase 1 analyses, this file should already be available.
+
+#### Additional covariates
+
+As standard, within the dataQC step a number of default covariates are
+constructed from both Genotype data and Expression data.
+Respectively, we calculate 10 and 100 PCs from Genotype and expression data.
+The genotype inferred sex is used as an additional covariate.
+An additional set of covariates can be supplied:
+
+- File with additional cohort-specific covariates.
+- Can be tab-delimited or space-delimited.
+- The first column should be the sample identifier, labeled `SampleID`.
+- Subsequent columns constitute the additional covariate, with the column name corresponding to the covariate name.
+- Categorical variables need to be text-based (e.g. batch1, batch2, etc), rather than numerical.
+- Categorical variables with $k$ categories over 2 ($k>2$) are automatically split into binary variables with values of 0 or 1.
+- Dichotomous text-based variables ($k==2$) are similarly converted to a variable with values of 0 or 1.
 
 #### Mixups
 
