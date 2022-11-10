@@ -58,8 +58,9 @@ jobs:
       - name: Build the site in the jekyll/builder container
         run: |
           docker run \
-          -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
-          jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future --baseurl "${{ steps.pages.outputs.base_path }}" --config _config_site.yml"
+          -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}:/srv/jekyll/ \
+          jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && \
+          jekyll build --future --baseurl "${{ steps.pages.outputs.base_path }}" --config _config_site.yml
 
       - name: Upload artifact
         # Automatically uploads an artifact from the './_site' directory by default
