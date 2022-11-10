@@ -54,11 +54,14 @@ jobs:
         id: pages
         uses: actions/configure-pages@v2
 
+      - name: Create destination
+        run: mkdir ${{ github.workspace }}/_site
+
       # Runs a single command using the runners shell
       - name: Build the site in the jekyll/builder container
         run: |
           docker run \
-          -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}:/srv/jekyll/ \
+          -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
           jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && \
           jekyll build --future --baseurl "${{ steps.pages.outputs.base_path }}" --config _config_site.yml
 
