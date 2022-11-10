@@ -50,6 +50,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Setup Pages
+          id: pages
+          uses: actions/configure-pages@v2
+
       # Runs a single command using the runners shell
       - name: Build the site in the jekyll/builder container
         run: |
