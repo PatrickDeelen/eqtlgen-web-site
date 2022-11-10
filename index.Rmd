@@ -3,7 +3,11 @@ title: Home
 layout: default
 ---
 
+# Welcome to the eQTLGen consortium
+
 The eQTLGen Consortium has been set up to investigate the genetic architecture of blood gene expression and to understand the genetic underpinnings of complex traits.
+
+<img src="figs/eQTLGen.svg" width="200"/>
 
 ## Aims
 
