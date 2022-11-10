@@ -2,5 +2,3 @@ url: https://eqtlgen.github.io/
 
 title: eQTLGen Phase II
 exclude: ["*.Rmd", "README", "*.Rproj", "script", "_site_eqtlgen_org", "docs"]
-
-destination: _site
