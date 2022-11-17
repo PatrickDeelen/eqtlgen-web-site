@@ -113,42 +113,44 @@ of genome-wide high-dimensional association analyses in consortium
 settings by limiting the size of the shared data while preserving
 participant privacy.</p>
 
-<p>In this cookbook we perform the needed steps for that: we do data QC,
-remove related samples, do genotype phasing and imputation, convert
-genotype data to the needed format, prepare covariates, convert
-expression and covariate data into the needed format, encode the data,
-calculate partial derivatives, prepare files for permuted data, and
-organize <em>non-personal</em> encoded and data and partial derivatives for
-sharing with the central site. We also include pipelines that will be
-used for running meta-analyses on the central site. For eQTLGen phase II
-we perform this analysis for <strong>whole blood</strong> and <strong>PBMC</strong> tissues.</p>
+<p>In this cookbook we perform the required steps for performing eQTL
+analysis: we do data QC, remove related samples, do genotype phasing and
+imputation, convert genotype data to the needed format, prepare
+covariates, convert expression and covariate data into the needed
+format, encode the data, calculate partial derivatives, prepare files
+for permuted data, and organize <em>non-personal</em> encoded data and partial
+derivatives for sharing with the central site. We also include pipelines
+that will be used for running meta-analyses on the central site. For
+eQTLGen phase II we perform this analysis for <strong>whole blood</strong> and
+<strong>PBMC</strong> tissues.</p>
 
 <h3 id="why-this-method">Why this method?</h3>
 
-<p>Classical meta-analysis requires the performing full GWAS for every gene
-(~20,000) by each cohort. Full summary statistics are large, meaning
+<p>Classical meta-analysis requires that each cohort performs a full GWAS
+for every gene (~20,000). Full summary statistics are large, meaning
 that, per every cohort, <em>several terabytes</em> of data would be needed to
 be shared with the central site. Sharing that much data is technically
 very complicated.</p>
 
-<p>In contrast, HASE method calculates matrices of aggregate statistics
+<p>In contrast, the HASE method calculates matrices of aggregate statistics
 (called partial derivatives) which are needed for running predefined
 models and, additionally, encoded genotype and expression matrices. All
 those matrices are in the efficient file format and relatively small
-size, making it feasible to share those. Encoding means multiplying the
-original data with the random matrix <em>F</em> (or its inverse, in case of
-expression matrix), so that no person-level information is obtainable
-from the genotype and expression matrices after encoding. However,
-sharing partial derivatives and encoded matrices with the central site
-enables to run of pre-defined association tests between every variant
-and every gene for every dataset; and finally, running the meta-analysis
-over datasets. An additional merit of HASE is that it is possible
-adaptively drop covariates in the encoded association test (by slicing
-the aggregate partial derivative matrices), therefore enabling to make
-informed decisions on the most suitable set of covariates to include
-into the final meta-analysis. Also, this method shifts most of the
-computational burden into the central site, so individual cohorts do not
-need to run ~20,000 GWAS’es in their respective HPCs.</p>
+size, making it feasible to share those. Encoding means performing a
+matrix multiplication of the original data with the random matrix <em>F</em>
+(or its inverse, in case of expression matrix), so that no person-level
+information is obtainable from the genotype and expression matrices
+after encoding. However, sharing partial derivatives and encoded
+matrices with the central site enables running of pre-defined
+association tests between every variant and every gene for every
+dataset; and finally, running the meta-analysis over datasets. An
+additional merit of HASE is that it is possible adaptively drop
+covariates in the encoded association test (by slicing the aggregate
+partial derivative matrices), therefore enabling to make informed
+decisions on the most suitable set of covariates to include into the
+final meta-analysis. Also, this method shifts most of the computational
+burden into the central site, so individual cohorts do not need to run
+~20,000 GWAS’es in their respective HPCs.</p>
 
 <p>You can see the specifics of the method here: <a href="https://www.nature.com/articles/srep36076">Roschupkin et al,
 2016</a></p>
@@ -156,7 +158,8 @@ need to run ~20,000 GWAS’es in their respective HPCs.</p>
 <h3 id="technical-support">Technical support</h3>
 
 <p>In case of any issues when running this cookbook please contact Urmo
-Võsa (urmo.vosa at gmail.com).</p>
+Võsa (urmo.vosa at gmail.com) or Robert Warmerdam
+(<a href="mailto:c.a.warmerdam@umcg.nl">c.a.warmerdam@umcg.nl</a>).</p>
 
 <h3 id="prerequisites">Prerequisites</h3>
 
@@ -297,10 +300,10 @@ named <strong>squashFS</strong> needed, so that Singularity would work correctly
   <li>
     <p>When you submit the job
 e.g. <code class="language-plaintext highlighter-rouge">sbatch submit_DataQc_pipeline_EstBB_HT12v3.sh</code>, this initiates
-the pipeline, makes analysis environment (using singularity
+the pipeline, makes the analysis environment (using singularity
 container) and automatically submits all the pipeline steps in the
-correct order and parallelized way. Separate <code class="language-plaintext highlighter-rouge">work</code> directory is
-made to the pipeline folder and this contains all the interim files
+correct order and parallelized way. A separate <code class="language-plaintext highlighter-rouge">work</code> directory is
+made in the pipeline folder and will contain all the interim files
 of the pipeline.</p>
   </li>
   <li>
@@ -317,9 +320,9 @@ the queue.</li>
   </li>
   <li>
     <p>If the pipeline crashes (e.g. due to wall time), you can just
-resubmit the same script after the fixes. Nextflow does not rerun
-completed steps and continues only from the steps which had not been
-completed.</p>
+resubmit the same script after any required changes are implemented.
+Nextflow does not rerun completed steps and continues only from the
+steps which had not been completed.</p>
   </li>
   <li>
     <p>When the work has finished, download and check the job report, for

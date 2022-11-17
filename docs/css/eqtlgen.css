@@ -17,6 +17,12 @@
 }
 
 @font-face {
+    font-family: GP;
+    font-weight: medium;
+    src: url("../fonts/GalaxiePolaris-Medium.otf");
+}
+
+@font-face {
     font-family: GPC;
     font-weight: lighter;
     font-style: italic;
@@ -25,7 +31,7 @@
 
 body {
   padding-top: 54px;
-  font-family: GG;
+  font-family: GP;
 }
 
 div.dataTables_wrapper div.dataTables_processing {

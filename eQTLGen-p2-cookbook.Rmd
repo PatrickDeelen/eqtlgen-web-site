@@ -13,20 +13,20 @@ layout: default
 This cookbook is for running genome-wide eQTL mapping in the consortium settings, by using HASE ([Roschupkin et al, 2016](https://www.nature.com/articles/srep36076); [original code repo](https://github.com/roshchupkin/hase)).
 This method enables to run of genome-wide high-dimensional association analyses in consortium settings by limiting the size of the shared data while preserving participant privacy.
 
-In this cookbook we perform the needed steps for that: we do data QC, remove related samples, do genotype phasing and imputation, convert genotype data to the needed format, prepare covariates, convert expression and covariate data into the needed format, encode the data, calculate partial derivatives, prepare files for permuted data, and organize *non-personal* encoded and data and partial derivatives for sharing with the central site.
+In this cookbook we perform the required steps for performing eQTL analysis: we do data QC, remove related samples, do genotype phasing and imputation, convert genotype data to the needed format, prepare covariates, convert expression and covariate data into the needed format, encode the data, calculate partial derivatives, prepare files for permuted data, and organize *non-personal* encoded data and partial derivatives for sharing with the central site.
 We also include pipelines that will be used for running meta-analyses on the central site.
 For eQTLGen phase II we perform this analysis for **whole blood** and **PBMC** tissues.
 
 ### Why this method?
 
-Classical meta-analysis requires the performing full GWAS for every gene (\~20,000) by each cohort.
+Classical meta-analysis requires that each cohort performs a full GWAS for every gene (\~20,000).
 Full summary statistics are large, meaning that, per every cohort, *several terabytes* of data would be needed to be shared with the central site.
 Sharing that much data is technically very complicated.
 
-In contrast, HASE method calculates matrices of aggregate statistics (called partial derivatives) which are needed for running predefined models and, additionally, encoded genotype and expression matrices.
+In contrast, the HASE method calculates matrices of aggregate statistics (called partial derivatives) which are needed for running predefined models and, additionally, encoded genotype and expression matrices.
 All those matrices are in the efficient file format and relatively small size, making it feasible to share those.
-Encoding means multiplying the original data with the random matrix *F* (or its inverse, in case of expression matrix), so that no person-level information is obtainable from the genotype and expression matrices after encoding.
-However, sharing partial derivatives and encoded matrices with the central site enables to run of pre-defined association tests between every variant and every gene for every dataset; and finally, running the meta-analysis over datasets.
+Encoding means performing a matrix multiplication of the original data with the random matrix *F* (or its inverse, in case of expression matrix), so that no person-level information is obtainable from the genotype and expression matrices after encoding.
+However, sharing partial derivatives and encoded matrices with the central site enables running of pre-defined association tests between every variant and every gene for every dataset; and finally, running the meta-analysis over datasets.
 An additional merit of HASE is that it is possible adaptively drop covariates in the encoded association test (by slicing the aggregate partial derivative matrices), therefore enabling to make informed decisions on the most suitable set of covariates to include into the final meta-analysis.
 Also, this method shifts most of the computational burden into the central site, so individual cohorts do not need to run \~20,000 GWAS'es in their respective HPCs.
 
@@ -34,7 +34,7 @@ You can see the specifics of the method here: [Roschupkin et al, 2016](https://w
 
 ### Technical support
 
-In case of any issues when running this cookbook please contact Urmo Võsa (urmo.vosa at gmail.com).
+In case of any issues when running this cookbook please contact Urmo Võsa (urmo.vosa at gmail.com) or Robert Warmerdam (c.a.warmerdam@umcg.nl).
 
 ### Prerequisites
 
@@ -96,15 +96,15 @@ Example commands here are based on Slurm scheduler, however can be easily convey
     If this is the case, we recommend to check this with your HPC documentation and/or tech support.
     E.g. in University of Tartu HPC there is also module named **squashFS** needed, so that Singularity would work correctly.
 
--   When you submit the job e.g. `sbatch submit_DataQc_pipeline_EstBB_HT12v3.sh`, this initiates the pipeline, makes analysis environment (using singularity container) and automatically submits all the pipeline steps in the correct order and parallelized way.
-    Separate `work` directory is made to the pipeline folder and this contains all the interim files of the pipeline.
+-   When you submit the job e.g. `sbatch submit_DataQc_pipeline_EstBB_HT12v3.sh`, this initiates the pipeline, makes the analysis environment (using singularity container) and automatically submits all the pipeline steps in the correct order and parallelized way.
+    A separate `work` directory is made in the pipeline folder and will contain all the interim files of the pipeline.
 
 -   Monitoring:
 
     -   Monitor the `slurm-***.out` log file and check if all the steps finish without error. Trick: command `watch tail -n 20 slurm-***.out` helps you to interactively monitor the status of the jobs.
     -   Use `squeue -u [YourUserName]` to see if individual tasks are in the queue.
 
--   If the pipeline crashes (e.g. due to wall time), you can just resubmit the same script after the fixes.
+-   If the pipeline crashes (e.g. due to wall time), you can just resubmit the same script after any required changes are implemented.
     Nextflow does not rerun completed steps and continues only from the steps which had not been completed.
 
 -   When the work has finished, download and check the job report, for potential errors or warnings.
@@ -161,7 +161,6 @@ Example 1: For EstBB cohort I have 2 datasets `EstBB_HT12v3` and `EstBB_RNAseq`.
 Example 2: If there would be two EstBB RNAseq datasets, I would use: `EstBB_RNAseq_batch1` and `EstBB_RNAseq_batch2`.
 
 #### Genotype data
-
 
 - We require either an unimputed PLINK dataset. [.bed](https://www.cog-genomics.org/plink/1.9/formats#bed)/[.bim](https://www.cog-genomics.org/plink/1.9/formats#bim)/[.fam](https://www.cog-genomics.org/plink/1.9/formats#fam) or
 - an unimputed VCF dataset.
