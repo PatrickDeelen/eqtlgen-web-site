@@ -100,7 +100,7 @@ div.dataTables_wrapper div.dataTables_length {
     margin-right: 0.5rem;
 }
 
-nav.navbar {
+.nav-item {
     font-family: GG, 'PT Sans Caption', Helvetica, Arial, sans-serif;
 }
 
