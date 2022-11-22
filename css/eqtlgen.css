@@ -31,7 +31,7 @@
 
 body {
   padding-top: 54px;
-  font-family: Arial;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 div.dataTables_wrapper div.dataTables_processing {
