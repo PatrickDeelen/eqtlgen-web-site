@@ -668,25 +668,29 @@ the script template.</p>
   </li>
   <li>
     <p>Go into pipeline folder <code class="language-plaintext highlighter-rouge">eQTLGen_phase2/1_DataQC/DataQC</code> and adjust
-the script template with needed modules, input paths and settings.</p>
+the script template with needed modules, input paths and settings.
+Aside from the paths to your data files, you must specify:</p>
   </li>
-</ol>
-
-<p>Aside from the paths to your data files, you must specify:</p>
-
-<ol>
-  <li>Expression platform of your expression data (<code class="language-plaintext highlighter-rouge">--exp_platform</code>).
+  <li>
+    <p>Expression platform of your expression data (<code class="language-plaintext highlighter-rouge">--exp_platform</code>).
 Options: Illumina arrays: <code class="language-plaintext highlighter-rouge">HT12v3</code>, <code class="language-plaintext highlighter-rouge">HT12v4</code> or <code class="language-plaintext highlighter-rouge">HuRef8</code>; RNA-seq:
-<code class="language-plaintext highlighter-rouge">RNAseq</code>; Affymetrix arrays: <code class="language-plaintext highlighter-rouge">AffyU219</code> or <code class="language-plaintext highlighter-rouge">AffyHumanExon</code>.</li>
-  <li>Informative name for your dataset (<code class="language-plaintext highlighter-rouge">--cohort_name</code>): your unique
-dataset name used by all pipelines.</li>
-  <li>The genome build of your dataset (<code class="language-plaintext highlighter-rouge">--genome_build</code>): <code class="language-plaintext highlighter-rouge">hg19</code>,
-<code class="language-plaintext highlighter-rouge">GRCh37</code>, <code class="language-plaintext highlighter-rouge">hg38</code> or <code class="language-plaintext highlighter-rouge">GRCh38</code> (<code class="language-plaintext highlighter-rouge">GRCh37</code> prefilled).</li>
-  <li>If your dataset concerns a VCF dataset, replace the –bfile argument
+<code class="language-plaintext highlighter-rouge">RNAseq</code>; Affymetrix arrays: <code class="language-plaintext highlighter-rouge">AffyU219</code> or <code class="language-plaintext highlighter-rouge">AffyHumanExon</code>.</p>
+  </li>
+  <li>
+    <p>Informative name for your dataset (<code class="language-plaintext highlighter-rouge">--cohort_name</code>): your unique
+dataset name used by all pipelines.</p>
+  </li>
+  <li>
+    <p>The genome build of your dataset (<code class="language-plaintext highlighter-rouge">--genome_build</code>): <code class="language-plaintext highlighter-rouge">hg19</code>,
+<code class="language-plaintext highlighter-rouge">GRCh37</code>, <code class="language-plaintext highlighter-rouge">hg38</code> or <code class="language-plaintext highlighter-rouge">GRCh38</code> (<code class="language-plaintext highlighter-rouge">GRCh37</code> prefilled).</p>
+  </li>
+  <li>
+    <p>If your dataset concerns a VCF dataset, replace the –bfile argument
 with the –vcf argument. The –vcf argument expects a full path to a
 vcf dataset. Pathname extension using globbing is allowed (using <code class="language-plaintext highlighter-rouge">*</code>
 or <code class="language-plaintext highlighter-rouge">?</code>), but the path should be provided without pathway extension
-already performed.</li>
+already performed.</p>
+  </li>
 </ol>
 
 <p>This is the template for Slurm scheduler

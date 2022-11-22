@@ -305,14 +305,12 @@ If the genotype data is available for \<5,000 samples, the pipeline uses those s
 Copy or symlink the unimputed genotype files, gene expression matrix and genotype-to-expression file into respective folders.
 You can also specify the original location for each file in the script template.
 
-5. Go into pipeline folder `eQTLGen_phase2/1_DataQC/DataQC` and adjust the script template with needed modules, input paths and settings.
+5. Go into pipeline folder `eQTLGen_phase2/1_DataQC/DataQC` and adjust the script template with needed modules, input paths and settings. Aside from the paths to your data files, you must specify:
 
-Aside from the paths to your data files, you must specify:
-
-6. Expression platform of your expression data (`--exp_platform`). Options: Illumina arrays: `HT12v3`, `HT12v4` or `HuRef8`; RNA-seq: `RNAseq`; Affymetrix arrays: `AffyU219` or `AffyHumanExon`.
-7. Informative name for your dataset (`--cohort_name`): your unique dataset name used by all pipelines.
-8. The genome build of your dataset (`--genome_build`): `hg19`, `GRCh37`, `hg38` or `GRCh38` (`GRCh37` prefilled).
-9. If your dataset concerns a VCF dataset, replace the
+7. Expression platform of your expression data (`--exp_platform`). Options: Illumina arrays: `HT12v3`, `HT12v4` or `HuRef8`; RNA-seq: `RNAseq`; Affymetrix arrays: `AffyU219` or `AffyHumanExon`.
+8. Informative name for your dataset (`--cohort_name`): your unique dataset name used by all pipelines.
+9. The genome build of your dataset (`--genome_build`): `hg19`, `GRCh37`, `hg38` or `GRCh38` (`GRCh37` prefilled).
+10. If your dataset concerns a VCF dataset, replace the
 --bfile argument with the --vcf argument.
 The --vcf argument expects a full path to a vcf dataset.
 Pathname extension using globbing is allowed (using `*` or `?`),
