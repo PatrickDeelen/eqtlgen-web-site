@@ -267,6 +267,7 @@ Specifically, the pipeline does the following steps:
 
 ##### Input files
 
+###### Genotype data
 - Unimputed genotype file in plink [.bed/.bim/.fam](https://www.cog-genomics.org/plink/1.9/input#bed) format. It is advisable that the .fam file also includes observed sex for all samples (format: males=1, females=2) so that pipeline is able to compare this with genetically inferred sex. For samples with missing reported sex, this step will be skipped.
 - We also allow unimputed VCF datasets as input, specifically for WGS datasets for which we can do WGS specific variant level QC.
 - We allow a separate .fam file to be supplied with reported sex information, which is especially useful for VCF datasets.
@@ -275,14 +276,22 @@ Specifically, the pipeline does the following steps:
 Our pipeline will extract eQTL samples itself (based on the genotype-to-expression file) and, *if* additional samples are available, includes additional up to 5,000 genotype samples which will be kept until the pre-phasing step of the analysis.
 If the genotype data is available for \<5,000 samples, the pipeline uses those samples which are avilable.
 
-[![](https://mermaid.ink/img/pako:eNpdkdFuwiAUhl_ljGv7Al2yRWv0ak7TZWZpjSFwqmQUkMKSpu2771RddHJB4M___efA6ZiwElnKDp67I3zMn0sDtKbFEo0NrUOQPPDdnwxJ8gKzrst57TSCxh_UZWlOkWsVWhDWBG81SGvwdRiu1OxM9Svbw6JYo6-sr6G5S4AH_mn3n_zCpoes67bLHKwH7j1vqerY2a1KdvGSpwfaLu7GoVCVEuTeZA9tXYHpmNbD-n171UfuVpb0Yq2V-QZuJHxmC6gU9c2FQBdQ7h6h8ZV02a82WZFH53R7B1FCbJCaSZIDmv1J7JuArhmBMYhNWI2-5krSRLoxuGThiDWWLKWjxIpHHUpWmoGsPAabt0awNPiIExYdfQjOFadZ1iytuG5IRamC9W-XKZ-HPfwC2vKkCQ?type=png)](https://mermaid.live/edit#pako:eNpdkdFuwiAUhl_ljGv7Al2yRWv0ak7TZWZpjSFwqmQUkMKSpu2771RddHJB4M___efA6ZiwElnKDp67I3zMn0sDtKbFEo0NrUOQPPDdnwxJ8gKzrst57TSCxh_UZWlOkWsVWhDWBG81SGvwdRiu1OxM9Svbw6JYo6-sr6G5S4AH_mn3n_zCpoes67bLHKwH7j1vqerY2a1KdvGSpwfaLu7GoVCVEuTeZA9tXYHpmNbD-n171UfuVpb0Yq2V-QZuJHxmC6gU9c2FQBdQ7h6h8ZV02a82WZFH53R7B1FCbJCaSZIDmv1J7JuArhmBMYhNWI2-5krSRLoxuGThiDWWLKWjxIpHHUpWmoGsPAabt0awNPiIExYdfQjOFadZ1iytuG5IRamC9W-XKZ-HPfwC2vKkCQ)
+###### Expression data
+- Raw, unprocessed gene expression matrix. Tab-delimited file, genes/probes in the rows, samples in the columns.
+- First column has header "-".
+- For Illumina arrays, probe ID has to be Illumina ArrayAddress.
+- For RNA-seq, gene ID has to be stable ENSEMBL gene ID (ENSEMBL v75).
+- For Affymetrix arrays we expect that gene expression matrix has already gone through the standard preprocessing and is in the same format as was used in eQTLGen phase 1 analyses (incl. array probe names).
 
--   Raw, unprocessed gene expression matrix. Tab-delimited file, genes/probes in the rows, samples in the columns.
--   First column has header "-".
--   For Illumina arrays, probe ID has to be Illumina ArrayAddress.
--   For RNA-seq, gene ID has to be stable ENSEMBL gene ID (ENSEMBL v75).
--   For Affymetrix arrays we expect that gene expression matrix has already gone through the standard preprocessing and is in the same format as was used in eQTLGen phase 1 analyses (incl. array probe names).
--   Genotype-to-expression linking file (GTE). Tab-delimited file, no header, 2 columns: sample ID in genotype data, corresponding sample ID in gene expression data. You can use this file to select samples which go into the analysis.
+###### Additional files
+- Genotype-to-expression linking file (GTE). Tab-delimited file, no header, 2 columns: sample ID in genotype data, corresponding sample ID in gene expression data. You can use this file to select samples which go into the analysis.
+- Additional, cohort-specific covariates.
+  - Can be tab-delimited or space-delimited.
+  - The first column should be the sample identifier, labeled `SampleID`.
+  - Subsequent columns constitute the additional covariate, with the column name corresponding to the covariate name.
+  - Categorical variables need to be text-based (e.g. batch1, batch2, etc), rather than numerical.
+  - Categorical variables with $k$ categories over 2 ($k>2$) are automatically split into binary variables with values of 0 or 1.
+  - Dichotomous text-based variables ($k==2$) are similarly converted to a variable with values of 0 or 1.
 
 ##### Instructions
 

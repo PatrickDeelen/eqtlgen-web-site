@@ -582,6 +582,8 @@ overview of the quality of the data.</li>
 
 <h5 id="input-files">Input files</h5>
 
+<h6 id="genotype-data-1">Genotype data</h6>
+
 <ul>
   <li>Unimputed genotype file in plink
 <a href="https://www.cog-genomics.org/plink/1.9/input#bed">.bed/.bim/.fam</a>
@@ -605,7 +607,7 @@ genotype samples which will be kept until the pre-phasing step of the
 analysis. If the genotype data is available for &lt;5,000 samples, the
 pipeline uses those samples which are avilable.</p>
 
-<p><a href="https://mermaid.live/edit#pako:eNpdkdFuwiAUhl_ljGv7Al2yRWv0ak7TZWZpjSFwqmQUkMKSpu2771RddHJB4M___efA6ZiwElnKDp67I3zMn0sDtKbFEo0NrUOQPPDdnwxJ8gKzrst57TSCxh_UZWlOkWsVWhDWBG81SGvwdRiu1OxM9Svbw6JYo6-sr6G5S4AH_mn3n_zCpoes67bLHKwH7j1vqerY2a1KdvGSpwfaLu7GoVCVEuTeZA9tXYHpmNbD-n171UfuVpb0Yq2V-QZuJHxmC6gU9c2FQBdQ7h6h8ZV02a82WZFH53R7B1FCbJCaSZIDmv1J7JuArhmBMYhNWI2-5krSRLoxuGThiDWWLKWjxIpHHUpWmoGsPAabt0awNPiIExYdfQjOFadZ1iytuG5IRamC9W-XKZ-HPfwC2vKkCQ"><img src="https://mermaid.ink/img/pako:eNpdkdFuwiAUhl_ljGv7Al2yRWv0ak7TZWZpjSFwqmQUkMKSpu2771RddHJB4M___efA6ZiwElnKDp67I3zMn0sDtKbFEo0NrUOQPPDdnwxJ8gKzrst57TSCxh_UZWlOkWsVWhDWBG81SGvwdRiu1OxM9Svbw6JYo6-sr6G5S4AH_mn3n_zCpoes67bLHKwH7j1vqerY2a1KdvGSpwfaLu7GoVCVEuTeZA9tXYHpmNbD-n171UfuVpb0Yq2V-QZuJHxmC6gU9c2FQBdQ7h6h8ZV02a82WZFH53R7B1FCbJCaSZIDmv1J7JuArhmBMYhNWI2-5krSRLoxuGThiDWWLKWjxIpHHUpWmoGsPAabt0awNPiIExYdfQjOFadZ1iytuG5IRamC9W-XKZ-HPfwC2vKkCQ?type=png" alt="" /></a></p>
+<h6 id="expression-data">Expression data</h6>
 
 <ul>
   <li>Raw, unprocessed gene expression matrix. Tab-delimited file,
@@ -617,10 +619,31 @@ genes/probes in the rows, samples in the columns.</li>
 already gone through the standard preprocessing and is in the same
 format as was used in eQTLGen phase 1 analyses (incl. array probe
 names).</li>
+</ul>
+
+<h6 id="additional-files">Additional files</h6>
+
+<ul>
   <li>Genotype-to-expression linking file (GTE). Tab-delimited file, no
 header, 2 columns: sample ID in genotype data, corresponding sample
 ID in gene expression data. You can use this file to select samples
 which go into the analysis.</li>
+  <li>Additional, cohort-specific covariates.
+    <ul>
+      <li>Can be tab-delimited or space-delimited.</li>
+      <li>The first column should be the sample identifier, labeled
+<code class="language-plaintext highlighter-rouge">SampleID</code>.</li>
+      <li>Subsequent columns constitute the additional covariate, with the
+column name corresponding to the covariate name.</li>
+      <li>Categorical variables need to be text-based (e.g. batch1,
+batch2, etc), rather than numerical.</li>
+      <li>Categorical variables with <em>k</em> categories over 2 (<em>k</em> &gt; 2)
+are automatically split into binary variables with values of 0
+or 1.</li>
+      <li>Dichotomous text-based variables (<em>k</em> =  = 2) are similarly
+converted to a variable with values of 0 or 1.</li>
+    </ul>
+  </li>
 </ul>
 
 <h5 id="instructions">Instructions</h5>
