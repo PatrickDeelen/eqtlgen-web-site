@@ -190,7 +190,7 @@ to 5,000 genotype samples in data QC and imputation pipelines. If
 only eQTL samples have genotype data available, only eQTL samples
 will be used.
 
-:exclamation: Standard pre-imputation genotype and sample quality control will be done by our pipeline, so no need for thorough QC.
+❗ Standard pre-imputation genotype and sample quality control will be done by our pipeline, so no need for thorough QC.
 
 #### Gene expression data
 
@@ -200,9 +200,9 @@ will be used.
 -   For RNA-seq and Illumina arrays we expect that data is raw: not normalized and/or transformed. Our pipeline takes care of those steps.
 -   Can be gzipped.
 
-:exclamation: For **RNA-seq data** we expect that the raw RNA-seq data has already been appropriately processed and QC'd prior to generating the count matrix (e.g. proper settings for the read mapping, etc.).
+❗ For **RNA-seq data** we expect that the raw RNA-seq data has already been appropriately processed and QC'd prior to generating the count matrix (e.g. proper settings for the read mapping, etc.).
 
-:exclamation: For **Affymetrix arrays** we expect that **all** the standard data preprocessing steps for this array type have already been applied (e.g. RMA normalization).
+❗ For **Affymetrix arrays** we expect that **all** the standard data preprocessing steps for this array type have already been applied (e.g. RMA normalization).
 On top of those, our pipeline just applies inverse normal transformation on each gene (forces the distribution to be normal).
 
 #### Genotype-to-expression (GTE) linking file
@@ -272,7 +272,7 @@ Specifically, the pipeline does the following steps:
 - We also allow unimputed VCF datasets as input, specifically for WGS datasets for which we can do WGS specific variant level QC.
 - We allow a separate .fam file to be supplied with reported sex information, which is especially useful for VCF datasets.
 
-:exclamation: Because pre-phasing of genotypes benefits from larger sample sizes and many eQTL datasets have modest sample sizes (N\<1,000), it is not advisable to prefilter the unimputed genotype data to include only eQTL samples.
+❗ Because pre-phasing of genotypes benefits from larger sample sizes and many eQTL datasets have modest sample sizes (N\<1,000), it is not advisable to prefilter the unimputed genotype data to include only eQTL samples.
 Our pipeline will extract eQTL samples itself (based on the genotype-to-expression file) and, *if* additional samples are available, includes additional up to 5,000 genotype samples which will be kept until the pre-phasing step of the analysis.
 If the genotype data is available for \<5,000 samples, the pipeline uses those samples which are avilable.
 
@@ -711,7 +711,7 @@ The output folder from [per-cohort preparations pipeline](#4-per-cohort-data-pre
 
 The instructions for getting the SFTP account: **TBA**.
 
-:exclamation: You might want to inform your HPC team about this project and the planned upload.
+❗ You might want to inform your HPC team about this project and the planned upload.
 Although the sheer file size is much smaller that would be for the classical meta-analysis, it is still \~50GB in case of 500 samples and RNA-seq.
 For the few largest datasets, the upload might be up to 500GB and might raise some red flags when monitoring the data traffic ;).
 
@@ -728,7 +728,7 @@ However, feel free to use this code and instructions to conduct further analyses
 
 [Pipeline for extracting subsets of data from full summary statistics](https://gitlab.com/eqtlgen-group/ExtractMetaAnalysisResults) - this is for extracting data subsets for subsequent interpretation.
 
-:exclamation: TODO: add documentation for those repos.
+❗ TODO: add documentation for those repos.
 
 ### Runtime estimates
 
