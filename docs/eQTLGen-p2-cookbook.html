@@ -105,7 +105,9 @@
 </nav>
 
 <div class="container" style="margin-top: 75px">
-    <p>This cookbook is for running genome-wide eQTL mapping in the consortium
+    <h1 id="eqtlgen-phase-ii-cookbook">eQTLGen phase II cookbook</h1>
+
+<p>This cookbook is for running genome-wide eQTL mapping in the consortium
 settings, by using HASE (<a href="https://www.nature.com/articles/srep36076">Roschupkin et al,
 2016</a>; <a href="https://github.com/roshchupkin/hase">original code
 repo</a>). This method enables to run
@@ -236,35 +238,82 @@ for the most optimal setup, we recommend you to first organize your
 analysis folder as follows:</p>
 
 <ul>
-  <li>Make analysis root folder for this project, e.g. <code class="language-plaintext highlighter-rouge">eQTLGen_phase2</code>.</li>
-  <li><em>Inside</em> this folder make another folder for Nextflow executable,
+  <li>
+    <p>Make analysis root folder for this project, e.g. <code class="language-plaintext highlighter-rouge">eQTLGen_phase2</code>.</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir eQTLGen_phase2
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><em>Inside</em> this folder make another folder for Nextflow executable,
 called <code class="language-plaintext highlighter-rouge">tools</code>. This path is specified in all the template scripts,
-so that scripts find Nextflow executable.</li>
-  <li><em>Inside</em> <code class="language-plaintext highlighter-rouge">eQTLGen_phase2/tools</code> download and self-install Nextflow
+so that scripts find Nextflow executable.</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir eQTLGen_phase2/tools
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><em>Inside</em> <code class="language-plaintext highlighter-rouge">eQTLGen_phase2/tools</code> download and self-install Nextflow
 executable, as specified
 <a href="https://www.nextflow.io/docs/latest/getstarted.html#installation">here</a>.
 You might need to load Java &gt;=8 before running self-install
-(e.g. <code class="language-plaintext highlighter-rouge">module load [Java &gt;=8 module name in your HPC]</code>).</li>
-  <li><em>Inside</em> <code class="language-plaintext highlighter-rouge">eQTLGen_phase2</code>, make additional separate folders for each
-step of this analysis plan:</li>
-  <li><code class="language-plaintext highlighter-rouge">eQTLGen_phase2/1_DataQC</code></li>
-  <li><code class="language-plaintext highlighter-rouge">eQTLGen_phase2/2_Imputation</code></li>
-  <li><code class="language-plaintext highlighter-rouge">eQTLGen_phase2/3_ConvertVcf2Hdf5</code></li>
-  <li><code class="language-plaintext highlighter-rouge">eQTLGen_phase2/4_PerCohortPreparations</code></li>
-  <li><em>Inside</em> each of those folders, you should clone/download the
+(e.g. <code class="language-plaintext highlighter-rouge">module load [Java &gt;=8 module name in your HPC]</code>).</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd eQTLGen_phase2/tools
+wget -qO- https://get.nextflow.io | bash
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><em>Inside</em> <code class="language-plaintext highlighter-rouge">eQTLGen_phase2</code>, make additional separate folders for each
+step of this analysis plan:</p>
+
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">eQTLGen_phase2/1_DataQC</code></li>
+      <li><code class="language-plaintext highlighter-rouge">eQTLGen_phase2/2_Imputation</code></li>
+      <li><code class="language-plaintext highlighter-rouge">eQTLGen_phase2/3_ConvertVcf2Hdf5</code></li>
+      <li><code class="language-plaintext highlighter-rouge">eQTLGen_phase2/4_PerCohortPreparations</code></li>
+    </ul>
+
+    <!-- -->
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd ../
+mkdir 1_DataQC 2_Imputation 3_ConvertVcf2Hdf5 4_PerCohortPreparations
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p><em>Inside</em> each of those folders, you should clone/download the
 corresponding pipeline. If git is available in your HPC, easiest is
 to use command <code class="language-plaintext highlighter-rouge">git clone [repo of the pipeline]</code>. This yields a
 pipeline folder e.g. for the first pipeline it will look like that:
-<code class="language-plaintext highlighter-rouge">eQTLGen_phase2/1_DataQC/DataQC</code>.</li>
-  <li>We recommend to specify <code class="language-plaintext highlighter-rouge">output</code> (and, if needed, <code class="language-plaintext highlighter-rouge">input</code> etc.)
-folder(s) for each step. E.g. <code class="language-plaintext highlighter-rouge">eQTLGen_phase2/1_DataQC/output</code>.</li>
-  <li>Inside each pipeline folder is the script template using name format
+<code class="language-plaintext highlighter-rouge">eQTLGen_phase2/1_DataQC/DataQC</code>.</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd 1_DataQC
+git clone https://github.com/eQTLGen/DataQC.git
+cd ../2_Imputation
+git clone https://github.com/eQTLGen/eQTLGenImpute.git
+cd ../3_ConvertVcf2Hdf5
+git clone https://github.com/eQTLGen/ConvertVcf2Hdf5.git
+cd ../4_PerCohortPreparations
+git clone https://github.com/eQTLGen/PerCohortDataPreparations.git
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>We recommend to specify <code class="language-plaintext highlighter-rouge">output</code> (and, if needed, <code class="language-plaintext highlighter-rouge">input</code> etc.)
+folder(s) for each step. E.g. <code class="language-plaintext highlighter-rouge">eQTLGen_phase2/1_DataQC/output</code>.</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd ..
+mkdir 1_DataQC/output 2_Imputation/output 3_ConvertVcf2Hdf5/output 4_PerCohortPreparations/output
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Inside each pipeline folder is the script template using name format
 <code class="language-plaintext highlighter-rouge">submit_*_template.sh</code>
 e.g. <code class="language-plaintext highlighter-rouge">eQTLGen_phase2/1_DataQC/DataQC/submit_DataQc_pipeline_template.sh</code>.
 You should adjust this according to your data (e.g. specify the path
 to your input folder, add required HPC modules), and save it. For
 better tracking, I usually rename it too:
-<code class="language-plaintext highlighter-rouge">eQTLGen_phase2/1_DataQC/DataQC/submit_DataQc_pipeline_EstBB_HT12v3.sh</code>.</li>
+<code class="language-plaintext highlighter-rouge">eQTLGen_phase2/1_DataQC/DataQC/submit_DataQc_pipeline_EstBB_HT12v3.sh</code>.</p>
+  </li>
 </ul>
 
 <p>❗ To ease the process, we have pre-filled some paths in the templates,

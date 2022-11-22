@@ -10,6 +10,8 @@ wrap: sentence
 layout: default
 ---
 
+# eQTLGen phase II cookbook
+
 This cookbook is for running genome-wide eQTL mapping in the consortium settings, by using HASE ([Roschupkin et al, 2016](https://www.nature.com/articles/srep36076); [original code repo](https://github.com/roshchupkin/hase)).
 This method enables to run of genome-wide high-dimensional association analyses in consortium settings by limiting the size of the shared data while preserving participant privacy.
 
@@ -68,17 +70,57 @@ Those pipelines are:
 
 We will provide detailed instructions for each pipeline below, however for the most optimal setup, we recommend you to first organize your analysis folder as follows:
 
--   Make analysis root folder for this project, e.g. `eQTLGen_phase2`.
--   *Inside* this folder make another folder for Nextflow executable, called `tools`. This path is specified in all the template scripts, so that scripts find Nextflow executable.
--   *Inside* `eQTLGen_phase2/tools` download and self-install Nextflow executable, as specified [here](https://www.nextflow.io/docs/latest/getstarted.html#installation). You might need to load Java \>=8 before running self-install (e.g. `module load [Java >=8 module name in your HPC]`).
--   *Inside* `eQTLGen_phase2`, make additional separate folders for each step of this analysis plan:
--   `eQTLGen_phase2/1_DataQC`
--   `eQTLGen_phase2/2_Imputation`
--   `eQTLGen_phase2/3_ConvertVcf2Hdf5`
--   `eQTLGen_phase2/4_PerCohortPreparations`
--   *Inside* each of those folders, you should clone/download the corresponding pipeline. If git is available in your HPC, easiest is to use command `git clone [repo of the pipeline]`. This yields a pipeline folder e.g. for the first pipeline it will look like that: `eQTLGen_phase2/1_DataQC/DataQC`.
--   We recommend to specify `output` (and, if needed, `input` etc.) folder(s) for each step. E.g. `eQTLGen_phase2/1_DataQC/output`.
--   Inside each pipeline folder is the script template using name format `submit_*_template.sh` e.g. `eQTLGen_phase2/1_DataQC/DataQC/submit_DataQc_pipeline_template.sh`. You should adjust this according to your data (e.g. specify the path to your input folder, add required HPC modules), and save it. For better tracking, I usually rename it too: `eQTLGen_phase2/1_DataQC/DataQC/submit_DataQc_pipeline_EstBB_HT12v3.sh`.
+- Make analysis root folder for this project, e.g. `eQTLGen_phase2`.
+
+  ```bash
+  mkdir eQTLGen_phase2
+  ```
+
+- *Inside* this folder make another folder for Nextflow executable, called `tools`. This path is specified in all the template scripts, so that scripts find Nextflow executable.
+
+  ```bash
+  mkdir eQTLGen_phase2/tools
+  ```
+
+- *Inside* `eQTLGen_phase2/tools` download and self-install Nextflow executable, as specified [here](https://www.nextflow.io/docs/latest/getstarted.html#installation). You might need to load Java \>=8 before running self-install (e.g. `module load [Java >=8 module name in your HPC]`).
+
+  ```bash
+  cd eQTLGen_phase2/tools
+  wget -qO- https://get.nextflow.io | bash
+  ```
+
+- *Inside* `eQTLGen_phase2`, make additional separate folders for each step of this analysis plan:
+  - `eQTLGen_phase2/1_DataQC`
+  - `eQTLGen_phase2/2_Imputation`
+  - `eQTLGen_phase2/3_ConvertVcf2Hdf5`
+  - `eQTLGen_phase2/4_PerCohortPreparations`
+
+  ```bash
+  cd ../
+  mkdir 1_DataQC 2_Imputation 3_ConvertVcf2Hdf5 4_PerCohortPreparations
+  ```
+
+- *Inside* each of those folders, you should clone/download the corresponding pipeline. If git is available in your HPC, easiest is to use command `git clone [repo of the pipeline]`. This yields a pipeline folder e.g. for the first pipeline it will look like that: `eQTLGen_phase2/1_DataQC/DataQC`.
+
+  ```bash
+  cd 1_DataQC
+  git clone https://github.com/eQTLGen/DataQC.git
+  cd ../2_Imputation
+  git clone https://github.com/eQTLGen/eQTLGenImpute.git
+  cd ../3_ConvertVcf2Hdf5
+  git clone https://github.com/eQTLGen/ConvertVcf2Hdf5.git
+  cd ../4_PerCohortPreparations
+  git clone https://github.com/eQTLGen/PerCohortDataPreparations.git
+  ```
+
+- We recommend to specify `output` (and, if needed, `input` etc.) folder(s) for each step. E.g. `eQTLGen_phase2/1_DataQC/output`.
+
+  ```bash
+  cd ..
+  mkdir 1_DataQC/output 2_Imputation/output 3_ConvertVcf2Hdf5/output 4_PerCohortPreparations/output
+  ```
+
+- Inside each pipeline folder is the script template using name format `submit_*_template.sh` e.g. `eQTLGen_phase2/1_DataQC/DataQC/submit_DataQc_pipeline_template.sh`. You should adjust this according to your data (e.g. specify the path to your input folder, add required HPC modules), and save it. For better tracking, I usually rename it too: `eQTLGen_phase2/1_DataQC/DataQC/submit_DataQc_pipeline_EstBB_HT12v3.sh`.
 
 ❗ To ease the process, we have pre-filled some paths in the templates, assuming that you use the recommended folder structure.
 - You should submit each pipeline from *inside* each pipeline folder.
