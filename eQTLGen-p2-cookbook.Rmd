@@ -305,7 +305,7 @@ Aside from the paths to your data files, you must specify:
 
 This is the template for Slurm scheduler (`submit_DataQC_pipeline_template.sh`):
 
-``` bash
+```bash
 #!/bin/bash
 
 #SBATCH --time=48:00:00
@@ -352,7 +352,7 @@ NXF_VER=21.10.6 ${nextflow_path}/nextflow run DataQC.nf \
 --outdir ${output_path}  \
 -profile slurm,singularity \
 -resume
-    ```
+```
 
 6.  Submit the job.
 
@@ -438,7 +438,7 @@ This yields the folder named `hg38` which contains all needed reference files.
 
 This is the template for Slurm scheduler (`submit_imputation_pipeline_template.sh`):
 
-``` bash
+```bash
 #!/bin/bash
 
 #SBATCH --time=72:00:00
@@ -481,7 +481,7 @@ NXF_VER=21.10.6 ${nextflow_path}/nextflow run eQTLGenImpute.nf \
 --outdir ${output_path}  \
 -profile slurm,singularity \
 -resume
-    ```
+```
 
 9.  Submit the job.
 
@@ -528,7 +528,7 @@ Specifically, this pipeline performs the following steps:
 
 This is the template for Slurm scheduler (`submit_genotype_conversion_template.sh`):
 
-``` bash
+```bash
 #!/bin/bash
 
 #SBATCH --time=24:00:00
@@ -556,7 +556,7 @@ NXF_VER=21.10.6 ${nextflow_path}/nextflow run ConvertVcf2Hdf5.nf \
 --cohort_name ${cohort_name} \
 -profile slurm,singularity \
 -resume
-    ```
+```
 
 5.  Submit the job.
 
@@ -608,7 +608,7 @@ Therefore you can copy it to the correct location like that: `cp ../../2_Imputat
 
 This is the template script for Slurm scheduler (`submit_per_cohort_preparations_template.sh`):
 
-``` bash
+```bash
 #!/bin/bash
 
 #SBATCH --time=24:00:00
@@ -638,7 +638,7 @@ NXF_VER=21.10.6 ${nextflow_path}/nextflow run PerCohortDataPreparations.nf \
 --outdir ${output_path} \
 -profile slurm,singularity \
 -resume
-    ```
+```
 
 7.  Submit the job.
 
