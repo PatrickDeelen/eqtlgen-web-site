@@ -3,7 +3,33 @@ title: Home
 layout: default
 ---
 
-The eQTLGen Consortium has been set up to investigate the genetic architecture of blood gene expression and to understand the genetic underpinnings of complex traits.
+<img src="figs/eQTLGen.svg" width="200">
+
+# Welcome to the eQTLGen consortium
+
+The eQTLGen Consortium has been set up to investigate the genetic
+architecture of blood gene expression and to understand the genetic
+underpinnings of complex traits. Currently, we are initiating the
+second phase of [eQTLGen analyses](projects.html#eqtlgen-phase-ii-global-eqtl-analysis):
+highly-powered *genome-wide* eQTL
+meta-analysis in blood. This project
+dramatically expands our previous work where we tested, in addition to
+*cis*-eQTLs, *trans*-eQTLs for a limited subset of ~10,000
+trait-associated SNPs. We plan to conduct such genome-wide meta-analysis
+on as many blood-based cohorts as possible.
+
+Resulting genome-wide association profiles on gene expression would
+enable to address many relevant scientific questions. Most simple
+example: with such data, you can interpret your GWAS locus by finding
+potentially relevant genes from all over the genome, not only in the
+near vicinity of trait-associated locus.
+
+Therefore, if you have blood-based eQTL cohort, please consider
+[joining](collaboration.html) our effort! Please find the details and
+analysis cookbook from [here](eQTLGen-p2-cookbook.html).
+
+If you know any blood-based eQTL cohort not yet joined our consortium,
+please drop us a line with the reference and/or contact.
 
 ## Aims
 
@@ -15,21 +41,11 @@ The aims of our consortium are:
 -   In the form of summary statistics, provide the scientific community a valuable resource which can be used for interpretation of genome-wide association studies (GWAS), for the development of novel methods and for other scientific projects.
 -   Integrate our results with other QTL consortia, in order to cross-validate the findings and better entangle the molecular mechanisms leading to the formation of complex traits.
 
-## Active projects
-
-`r library(emo); emo::ji("exclamation")`Currently we are working on the [eQTLGen phase II analyses](projects.html#eqtlgen-phase-ii-global-eqtl-analysis): highly-powered *genome-wide* eQTL meta-analysis in blood. This project dramatically expands our previous work where we tested, in addition to *cis*-eQTLs, *trans*-eQTLs for a limited subset of \~10,000 trait-associated SNPs. We plan to conduct such genome-wide meta-analysis on as many blood-based cohorts as possible.
-
-Resulting genome-wide association profiles on gene expression would enable to address many relevant scientific questions. Most simple example: with such data, you can interpret your GWAS locus by finding potentially relevant genes from all over the genome, not only in the near vicinity of trait-associated locus.
-
-Therefore, if you have blood-based eQTL cohort, please consider [joining](collaboration.html) our effort! Please find the details and analysis cookbook from [here](eQTLGen-p2-cookbook.html).
-
-If you know any blood-based eQTL cohort not yet joined our consortium, please drop us a line with the reference and/or contact.
-
 ## Previous work
 
 Previously we have conducted *cis*-eQTL, targeted *trans*-eQTL and eQTS analysis in up to 31,684 blood and PBMC samples from 37 individual cohorts from eQTLGen Consortium (eQTLGen phase I). In this project, we tested the subset of \~10,000 trait-related variants for the associations with the expression of distal genes (*trans*).
 
-Publication: 
+Publication:
 
 <div class="csl-entry">Võsa & Claringbould et. al. (2021). Large-scale cis- and trans-eQTL analyses identify thousands of genetic loci and polygenic scores that regulate blood gene expression. <i>Nature Genetics</i>, <i>53</i>(9), 1300–1310. https://doi.org/10.1038/s41588-021-00913-z</div>
 <br>
