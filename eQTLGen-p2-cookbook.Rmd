@@ -289,7 +289,7 @@ Specifically, the pipeline does the following steps:
   - Comparison of the reported and genetic check, removal of mismatched samples.
   - Removal of samples with unclear genetic sex.
   - Removal of samples with excess heterozygosity (+/-3SD from the mean).
-  - Removal of related samples (3d degree relatives). From each pair of related samples, one is kept in the data.
+  - Removal of related samples (3rd degree relatives). From each pair of related samples, one is kept in the data.
   - Visualisation of samples in the genetic reference space, instructions on how to remove or split the data in case of multi-ancestry samples.
   - Removal of in-sample genetic outliers.
   - Calculates 10 first genetic principal components (PCs), used in analyses as covariates to correct for population stratification.
@@ -333,7 +333,7 @@ If the genotype data is available for \<5,000 samples, the pipeline uses those s
   - Subsequent columns constitute the additional covariate, with the column name corresponding to the covariate name.
   - Categorical variables need to be text-based (e.g. batch1, batch2, etc), rather than numerical.
   - Categorical variables with $k$ categories over 2 ($k>2$) are automatically split into binary variables with values of 0 or 1.
-  - Dichotomous text-based variables ($k==2$) are similarly converted to a variable with values of 0 or 1.
+  - Dichotomous text-based variables ($k=2$) are similarly converted to a variable with values of 0 or 1.
 
 ##### Instructions
 
@@ -347,12 +347,20 @@ If the genotype data is available for \<5,000 samples, the pipeline uses those s
 Copy or symlink the unimputed genotype files, gene expression matrix and genotype-to-expression file into respective folders.
 You can also specify the original location for each file in the script template.
 
-5. Go into pipeline folder `eQTLGen_phase2/1_DataQC/DataQC` and adjust the script template with needed modules, input paths and settings. Aside from the paths to your data files, you must specify:
+5. Go into pipeline folder `eQTLGen_phase2/1_DataQC/DataQC` and adjust the script template with needed modules, input paths and settings.
+6. Aside from the paths to your data files, you must specify:
 
 7. Expression platform of your expression data (`--exp_platform`). Options: Illumina arrays: `HT12v3`, `HT12v4` or `HuRef8`; RNA-seq: `RNAseq`; Affymetrix arrays: `AffyU219` or `AffyHumanExon`.
+
 8. Informative name for your dataset (`--cohort_name`): your unique dataset name used by all pipelines.
+
 9. The genome build of your dataset (`--genome_build`): `hg19`, `GRCh37`, `hg38` or `GRCh38` (`GRCh37` prefilled).
-10. If your dataset concerns a VCF dataset, replace the
+
+10. If your dataset concerns a WGS dataset for which WGS-specific variant-level QC should be performed,
+a VCF file must be supplied.
+WGS-specific variant-level QC (in addition to standard variant-level QC) is enabled by adding `--gen_qc_steps 'WGS'`
+
+11. If your dataset concerns a VCF dataset, replace the
 --bfile argument with the --vcf argument.
 The --vcf argument expects a full path to a vcf dataset.
 Pathname extension using globbing is allowed (using `*` or `?`),

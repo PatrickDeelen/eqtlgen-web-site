@@ -591,8 +591,8 @@ mismatched samples.</li>
       <li>Removal of samples with unclear genetic sex.</li>
       <li>Removal of samples with excess heterozygosity (+/-3SD from the
 mean).</li>
-      <li>Removal of related samples (3d degree relatives). From each pair
-of related samples, one is kept in the data.</li>
+      <li>Removal of related samples (3rd degree relatives). From each
+pair of related samples, one is kept in the data.</li>
       <li>Visualisation of samples in the genetic reference space,
 instructions on how to remove or split the data in case of
 multi-ancestry samples.</li>
@@ -689,7 +689,7 @@ batch2, etc), rather than numerical.</li>
       <li>Categorical variables with <em>k</em> categories over 2 (<em>k</em> &gt; 2)
 are automatically split into binary variables with values of 0
 or 1.</li>
-      <li>Dichotomous text-based variables (<em>k</em> =  = 2) are similarly
+      <li>Dichotomous text-based variables (<em>k</em> = 2) are similarly
 converted to a variable with values of 0 or 1.</li>
     </ul>
   </li>
@@ -717,8 +717,10 @@ the script template.</p>
   </li>
   <li>
     <p>Go into pipeline folder <code class="language-plaintext highlighter-rouge">eQTLGen_phase2/1_DataQC/DataQC</code> and adjust
-the script template with needed modules, input paths and settings.
-Aside from the paths to your data files, you must specify:</p>
+the script template with needed modules, input paths and settings.</p>
+  </li>
+  <li>
+    <p>Aside from the paths to your data files, you must specify:</p>
   </li>
   <li>
     <p>Expression platform of your expression data (<code class="language-plaintext highlighter-rouge">--exp_platform</code>).
@@ -732,6 +734,12 @@ dataset name used by all pipelines.</p>
   <li>
     <p>The genome build of your dataset (<code class="language-plaintext highlighter-rouge">--genome_build</code>): <code class="language-plaintext highlighter-rouge">hg19</code>,
 <code class="language-plaintext highlighter-rouge">GRCh37</code>, <code class="language-plaintext highlighter-rouge">hg38</code> or <code class="language-plaintext highlighter-rouge">GRCh38</code> (<code class="language-plaintext highlighter-rouge">GRCh37</code> prefilled).</p>
+  </li>
+  <li>
+    <p>If your dataset concerns a WGS dataset for which WGS-specific
+variant-level QC should be performed, a VCF file must be supplied.
+WGS-specific variant-level QC (in addition to standard variant-level
+QC) is enabled by adding <code class="language-plaintext highlighter-rouge">--gen_qc_steps 'WGS'</code></p>
   </li>
   <li>
     <p>If your dataset concerns a VCF dataset, replace the –bfile argument
