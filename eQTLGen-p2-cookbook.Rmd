@@ -130,8 +130,7 @@ We will provide detailed instructions for each pipeline below, however for the m
 Example commands here are based on the Slurm scheduler. However, this can be easily changed to other schedulers.
 
 - In order to run Nextflow pipelines, you have to modify each template script and load a couple of modules which enable to run Nextflow and Singularity containers.
-
-These very common modules should be available in your HPC, however exact name and version might differ: **Java \>=8** and **Singularity**.
+These very common modules should be available in your HPC, however exact name and version might differ: **Java \>=11** and **Singularity**.
 You might also need a few extra modules to run Singularity without problems.
 If you think this might be the case, we recommend to check with your HPC documentation and/or tech support which modules are required.
 E.g. in the University of Tartu HPC there is also a module named **squashFS** needed to run Singularity without problems.
@@ -203,7 +202,7 @@ Example 2: If there would be two EstBB RNAseq datasets, I would use: `EstBB_RNAs
 #### Genotype data
 
 - We require either an unimputed PLINK dataset. [.bed](https://www.cog-genomics.org/plink/1.9/formats#bed)/[.bim](https://www.cog-genomics.org/plink/1.9/formats#bim)/[.fam](https://www.cog-genomics.org/plink/1.9/formats#fam) or an unimputed VCF dataset. Can be in hg19/GRCh37 or hg38/GRCh38.
-- WGS datasets are expected to have some sample-level quality control done
+- WGS datasets are expected to have some sample-level quality control previouslydone
 (such as mean sequence coverage, percent of chimeric reads,
 median and standard deviation of insert size, contamination rate,
 bacterial contamination, large chromosomal abnormalities).
@@ -265,7 +264,7 @@ Optionally, an additional set of covariates can be supplied, if you know that th
 - Subsequent columns constitute the additional covariate, with the column name corresponding to the covariate name.
 - Categorical variables need to be text-based (e.g. batch1, batch2, etc), rather than numerical.
 - Categorical variables with $k$ categories over 2 ($k>2$) are automatically split into binary variables with values of 0 or 1.
-- Dichotomous text-based variables ($k==2$) are similarly converted to a variable with values of 0 or 1.
+- Dichotomous text-based variables ($k=2$) are similarly converted to a variable with values of 0 or 1.
 
 #### Mixups
 
@@ -287,7 +286,7 @@ Specifically, the pipeline does the following steps:
   - Comparison of the reported and genetic check, removal of mismatched samples.
   - Removal of samples with unclear genetic sex.
   - Removal of samples with excess heterozygosity (+/-3SD from the mean).
-  - Removal of related samples (3d degree relatives). From each pair of related samples, one is kept in the data.
+  - Removal of related samples (3rd degree relatives). From each pair of related samples, one is kept in the data.
   - Visualisation of samples in the genetic reference space, instructions on how to remove or split the data in case of multi-ancestry samples.
   - Removal of in-sample genetic outliers.
   - Calculates 10 first genetic principal components (PCs), used in analyses as covariates to correct for population stratification.
@@ -335,14 +334,13 @@ If the genotype data is available for \<5,000 samples, the pipeline uses only th
   - Subsequent columns constitute the additional covariate, with the column name corresponding to the covariate name.
   - Categorical variables need to be text-based (e.g. batch1, batch2, etc), rather than numerical.
   - Categorical variables with $k$ categories over 2 ($k>2$) are automatically split into binary variables with values of 0 or 1.
-  - Dichotomous text-based variables ($k==2$) are similarly converted to a variable with values of 0 or 1.
+  - Dichotomous text-based variables ($k=2$) are similarly converted to a variable with values of 0 or 1.
 
 ##### Instructions
 
 1. Go into `eQTLGen_phase2/1_DataQC`.
 2. Clone the `DataQC` pipeline `git clone https://github.com/eQTLGen/DataQC.git`.
 3. Make folder `output`.
-4. Optional: make folders `input/genotypes/`, `input/expression`, `input/gte`. Copy or symlink the unimputed genotype files, gene expression matrix and genotype-to-expression file into respective folders. You can also specify the original location for each file in the script template.
 5. Go into pipeline folder `eQTLGen_phase2/1_DataQC/DataQC` and adjust the script template with needed modules, input paths and settings. Aside from the paths to your data files, you must specify:
 6. Expression platform of your expression data (`--exp_platform`). Options: Illumina arrays: `HT12v3`, `HT12v4` or `HuRef8`; RNA-seq: `RNAseq`; Affymetrix arrays: `AffyU219` or `AffyHumanExon`.
 7. Informative name for your dataset (`--cohort_name`): your unique dataset name used by all pipelines.
@@ -368,7 +366,7 @@ This is the template for Slurm scheduler (`submit_DataQC_pipeline_template.sh`):
 #SBATCH --job-name="DataQc"
 
 # These are needed modules in UT HPC to get singularity and Nextflow running. Replace with appropriate ones for your HPC.
-module load java/11.0.2
+module load java-1.8.0_40
 module load singularity/3.5.3
 module load squashfs/4.4
 
