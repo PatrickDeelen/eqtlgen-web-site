@@ -12,18 +12,15 @@ layout: default
 
 # eQTLGen phase II cookbook
 
-This cookbook is for running genome-wide eQTL mapping in the consortium settings, by using HASE ([Roschupkin et al, 2016](https://www.nature.com/articles/srep36076); [original code repo](https://github.com/roshchupkin/hase)).
-This method enables to run of genome-wide high-dimensional association analyses in consortium settings by limiting the size of the shared data while preserving participant privacy.
+This cookbook is for running genome-wide eQTL mapping in the consortium settings, by using HASE ([Roschupkin et al, 2016](https://www.nature.com/articles/srep36076); [original code repo](https://github.com/roshchupkin/hase)). HASE method enables to run of genome-wide high-dimensional association analyses in consortium settings by limiting the size of the shared data while preserving participant privacy.
 
-In this cookbook we perform the required steps for performing eQTL analysis: we do data QC, remove related samples, do genotype phasing and imputation, convert genotype data to the needed format, prepare covariates, convert expression and covariate data into the needed format, encode the data, calculate partial derivatives, prepare files for permuted data, and organize *non-personal* encoded data and partial derivatives for sharing with the central site.
-We also include pipelines that will be used for running meta-analyses on the central site.
+In this cookbook we perform the required steps for performing eQTL analysis: we do data QC, remove related samples, do genotype phasing and imputation, convert genotype data to the needed format, prepare covariates, convert expression and covariate data into the needed format, encode the data, calculate partial derivatives, prepare files for permuted data, and organize *non-personal* encoded data and partial derivatives for sharing with the central site. We also include pipelines that will be used for running meta-analyses on the central site.
+
 For eQTLGen phase II we perform this analysis for **whole blood** and **PBMC** tissues and in the individual datasets **with at least 100 samples**.
 
 ### Why this method?
 
-Classical meta-analysis requires that each cohort performs a full GWAS for every gene (\~20,000).
-Full summary statistics are large, meaning that, per every cohort, *several terabytes* of data would be needed to be shared with the central site.
-Sharing that much data is technically very complicated.
+Classical meta-analysis requires that each cohort performs a full GWAS for every gene (\~20,000). Full summary statistics are large, meaning that, per every cohort, *several terabytes* of data would be needed to be shared with the central site. Sharing that much data is technically very complicated.
 
 In contrast, the HASE method calculates matrices of aggregate statistics (called partial derivatives) which are needed for running predefined models and, additionally, encoded genotype and expression matrices.
 All those matrices are in the efficient file format and relatively small size, making it feasible to share those.
@@ -36,15 +33,15 @@ You can see the specifics of the method here: [Roschupkin et al, 2016](https://w
 
 ### Technical support
 
-In case of any issues when running this cookbook please contact Urmo Võsa (urmo.vosa at gmail.com) and Robert Warmerdam (c.a.warmerdam at umcg.nl).
+In case of any issues when running this cookbook please contact Urmo Võsa (urmo.vosa at gmail.com) and Robert Warmerdam (c.a.warmerdam at umcg.nl). 
 
 ### Prerequisites
 
 #### Needed
 
-1.  HPC with multiple cores and scheduling system.
+1.  HPC with multiple cores, UNIX/Linux and scheduling system.
 2.  You need to have Bash \>=3.2 installed to your HPC.
-3.  You need to have Java \>=8 installed to your HPC. This is needed for running Nextflow pipeline management tool.
+3.  You need to have Java \>=11 installed to your HPC. This is needed for running Nextflow pipeline management tool.
 
 #### Strongly recommended
 
@@ -55,7 +52,7 @@ In case of any issues when running this cookbook please contact Urmo Võsa (urmo
 #### Recommended
 
 1.  [git](https://git-scm.com/). This is convenient for cloning analysis pipelines from the code repos. However, you can also download those manually.
-2.  Current analysis pipelines and configurations are tailored for usage with [Slurm](slurm.schedmd.com) scheduler. However, it is straightforward to add configurations for other commonly used schedulers (e.g. PBS TORQUE, SGE, etc). Therefore, if your HPC uses some other scheduler, please contact us and we will make the configuration file for that specific scheduler.
+2.  Current analysis pipelines and configurations in this cookbook are tailored for usage with [Slurm](slurm.schedmd.com) scheduler. We also provide profiles for two other commonly used schedulers (PBS/TORQUE and SGE; we have no possibility to test but these should work). It is straightforward to add configurations for other commonly used schedulers. Therefore, if your HPC uses some other scheduler, please contact us and we will try to make the configuration file for that specific scheduler.
 
 ### Setup
 
@@ -82,7 +79,7 @@ We will provide detailed instructions for each pipeline below, however for the m
   mkdir eQTLGen_phase2/tools
   ```
 
-- *Inside* `eQTLGen_phase2/tools` download and self-install Nextflow executable, as specified [here](https://www.nextflow.io/docs/latest/getstarted.html#installation). You might need to load Java \>=8 before running self-install (e.g. `module load [Java >=8 module name in your HPC]`).
+- *Inside* `eQTLGen_phase2/tools` download and self-install Nextflow executable, as specified [here](https://www.nextflow.io/docs/latest/getstarted.html#installation). You might need to load Java \>=11 before running self-install (e.g. `module load [Java >=11 module name in your HPC]`).
 
   ```bash
   cd eQTLGen_phase2/tools
@@ -123,16 +120,17 @@ We will provide detailed instructions for each pipeline below, however for the m
 - Inside each pipeline folder is the script template using name format `submit_*_template.sh` e.g. `eQTLGen_phase2/1_DataQC/DataQC/submit_DataQc_pipeline_template.sh`. You should adjust this according to your data (e.g. specify the path to your input folder, add required HPC modules), and save it. For better tracking, I usually rename it too: `eQTLGen_phase2/1_DataQC/DataQC/submit_DataQc_pipeline_EstBB_HT12v3.sh`.
 
 ❗ To ease the process, we have pre-filled some paths in the templates, assuming that you use the recommended folder structure.
+
 - You should submit each pipeline from *inside* each pipeline folder.
 - The logic of the cookbook is the following: the relevant output from the previous step should be specified as the input for the next step in the analysis.
-- E.g.
-QCd genotype files from the output of first DataQC pipeline: `eQTLGen_phase2/1_DataQC/output/[Your Cohort Name]/outputfolder_gen/gen_data_QCd/` are the input for the second pipeline (imputation).
+- E.g. QCd genotype files from the output of first DataQC pipeline: `eQTLGen_phase2/1_DataQC/output/[Your Cohort Name]/outputfolder_gen/gen_data_QCd/` are the input for the second pipeline (imputation).
 
 #### Running, monitoring and debugging Nextflow pipelines
 
 Example commands here are based on the Slurm scheduler. However, this can be easily changed to other schedulers.
 
 - In order to run Nextflow pipelines, you have to modify each template script and load a couple of modules which enable to run Nextflow and Singularity containers.
+
 These very common modules should be available in your HPC, however exact name and version might differ: **Java \>=8** and **Singularity**.
 You might also need a few extra modules to run Singularity without problems.
 If you think this might be the case, we recommend to check with your HPC documentation and/or tech support which modules are required.
@@ -187,7 +185,7 @@ Be aware that these might be changed from your default if you've sourced the sub
 For this analysis plan you need the following information and data:
 
 - Name of your cohort.
-- Unimputed genotype data for your eQTL samples.
+- Unimputed array genotype data or WGS genotype data for your eQTL samples.
 - Gene expression matrix from your eQTL samples (for this project: whole blood or PBMC).
 - Genotype-to-expression linking file, linking sample IDs between those two datasets.
 
@@ -204,14 +202,13 @@ Example 2: If there would be two EstBB RNAseq datasets, I would use: `EstBB_RNAs
 
 #### Genotype data
 
-- We require either an unimputed PLINK dataset. [.bed](https://www.cog-genomics.org/plink/1.9/formats#bed)/[.bim](https://www.cog-genomics.org/plink/1.9/formats#bim)/[.fam](https://www.cog-genomics.org/plink/1.9/formats#fam) or
-- an unimputed VCF dataset.
+- We require either an unimputed PLINK dataset. [.bed](https://www.cog-genomics.org/plink/1.9/formats#bed)/[.bim](https://www.cog-genomics.org/plink/1.9/formats#bim)/[.fam](https://www.cog-genomics.org/plink/1.9/formats#fam) or an unimputed VCF dataset. Can be in hg19/GRCh37 or hg38/GRCh38.
 - WGS datasets are expected to have some sample-level quality control done
 (such as mean sequence coverage, percent of chimeric reads,
 median and standard deviation of insert size, contamination rate,
-bacterial contamination, large chromosomal abnormalities)
-- We encourage the use of a VCF dataset for WGS data.
-This enables the DataQC step to perform variant level WGS-specific quality control.
+bacterial contamination, large chromosomal abnormalities).
+- We encourage the use of a VCF file format for WGS data.
+This enables the DataQC step to perform variant-level WGS-specific quality control.
 - A VCF dataset can either be split by chromosome (by using a globbing pattern surrounded by single quotes), or it can be a single VCF.
 - Ideally, the `.fam` file should contain information about the
 reported sex of the sample. This information is used in the
@@ -245,9 +242,9 @@ will be used.
 ❗ For **RNA-seq data** we expect that the raw RNA-seq data has already been appropriately processed and QC'd prior to generating the count matrix (e.g. proper settings for the read mapping, etc.).
 
 ❗ For **Affymetrix arrays** we expect that **all** the standard data preprocessing steps for this array type have already been applied (e.g. RMA normalization).
-On top of those, our pipeline just applies inverse normal transformation on each gene (forces the distribution to be normal).
+On top of those, our pipeline just applies inverse normal transformation on each gene (forces the gene expression distribution to be normal).
 
-:exclamation: For **Affymetrix arrays** we have currently used probe-to-gene linking as used in eQTLGen phase 1. It is possible that you have some other format for probe IDs: if this is the case, please contact us and we will update the pipeline accordingly.
+❗ For **Affymetrix arrays** we have currently used probe-to-gene linking as used in eQTLGen phase 1. It is possible that you have some other format for probe IDs: if this is the case, please contact us and we will update the pipeline accordingly.
 
 #### Genotype-to-expression (GTE) linking file
 
@@ -258,12 +255,11 @@ If you participated in eQTLGen phase 1 analyses, this file should already be ava
 #### Additional covariates
 
 As standard, within the dataQC step a number of default covariates are
-constructed from both Genotype data and Expression data.
-Respectively, we calculate 10 and 100 PCs from Genotype and expression data.
-The genotype inferred sex is used as an additional covariate.
-An additional set of covariates can be supplied:
+automatically constructed from both genotype data and expression data.
+Respectively, we calculate 10 genotype and 100 expression PCs from from the the data.
+The genotype-inferred sex is used as an additional covariate.
+Optionally, an additional set of covariates can be supplied, if you know that these are relevant for given dataset. For that please make a file with additional cohort-specific covariates:
 
-- File with additional cohort-specific covariates.
 - Can be tab-delimited or space-delimited.
 - The first column should be the sample identifier, labeled `SampleID`.
 - Subsequent columns constitute the additional covariate, with the column name corresponding to the covariate name.
@@ -273,8 +269,8 @@ An additional set of covariates can be supplied:
 
 #### Mixups
 
-We assume that potential sample mixups have already been identified, resolved or removed.
-See details from [here](https://github.com/molgenis/systemsgenetics/wiki/eQTL-mapping-analysis-cookbook-(eQTLGen)#step-4---mixupmapper).
+We assume that potential sample mixups have already been identified, resolved or removed in the previous research.
+E.g. see details from [here](https://github.com/molgenis/systemsgenetics/wiki/eQTL-mapping-analysis-cookbook-(eQTLGen)#step-4---mixupmapper).
 
 ### Analysis instructions
 
@@ -284,8 +280,8 @@ In this step, we prepare the genotype and gene expression data for the next step
 Specifically, the pipeline does the following steps:
 
 - Genotypes
-  - WGS specific QC
-    - WGS specific variant level QC (VQSR thresholds, PASS labels, inbreeding coefficients, etc.)
+  - WGS-specific QC
+    - WGS-specific variant level QC (VQSR thresholds, PASS labels, inbreeding coefficients, etc.)
   - Standard SNP QC filtering (call-rate\>0.95, Hardy-Weinberg P\>1e-6, MAF\>0.01).
   - Individual-level missingness filter \<0.05.
   - Comparison of the reported and genetic check, removal of mismatched samples.
@@ -318,7 +314,7 @@ Specifically, the pipeline does the following steps:
 
 ❗ Because pre-phasing of genotypes benefits from larger sample sizes and many eQTL datasets have modest sample sizes (N\<1,000), it is not advisable to prefilter the unimputed genotype data to include only eQTL samples.
 Our pipeline will extract eQTL samples itself (based on the genotype-to-expression file) and, *if* additional samples are available, includes additional up to 5,000 genotype samples which will be kept until the pre-phasing step of the analysis.
-If the genotype data is available for \<5,000 samples, the pipeline uses those samples which are avilable.
+If the genotype data is available for \<5,000 samples, the pipeline uses only those samples which are avilable.
 
 ###### Expression data
 - Raw, unprocessed gene expression matrix. Tab-delimited file, genes/probes in the rows, samples in the columns.
@@ -327,8 +323,7 @@ If the genotype data is available for \<5,000 samples, the pipeline uses those s
 - For RNA-seq, gene ID has to be stable ENSEMBL gene ID (ENSEMBL v75).
 - For Affymetrix arrays we expect that gene expression matrix has already gone through the standard preprocessing and is in the same format as was used in eQTLGen phase 1 analyses (incl. array probe names).
     
-:exclamation: For Affymetrix arrays- if you did not participate in eQTLGen phase 1, it might be that your probe name format does not align with our pipeline. Please contact with urmo.vosa at gmail.com and send some information, how the probe naming and annotation was done in your data. We will then update the pipeline accordingly.
-
+❗ For Affymetrix arrays- if you did not participate in eQTLGen phase 1, it might be that your probe name format does not align with our pipeline. Please contact with urmo.vosa at gmail.com and send some information, how the probe naming and annotation was done in your data. We will then update the pipeline accordingly.
 
 ❗ For Affymetrix arrays- if you did not participate in eQTLGen phase 1, it might be that your probe name format does not align with our pipeline. Please contact with urmo.vosa at gmail.com and send some information, how the probe naming and annotation was done in your data. We will then update the pipeline accordingly.
 
@@ -345,25 +340,18 @@ If the genotype data is available for \<5,000 samples, the pipeline uses those s
 ##### Instructions
 
 1. Go into `eQTLGen_phase2/1_DataQC`.
-
 2. Clone the `DataQC` pipeline `git clone https://github.com/eQTLGen/DataQC.git`.
-
 3. Make folder `output`.
-
-4. Optional: make folders `input/genotypes/`, `input/expression`, `input/gte`.
-Copy or symlink the unimputed genotype files, gene expression matrix and genotype-to-expression file into respective folders.
-You can also specify the original location for each file in the script template.
-
+4. Optional: make folders `input/genotypes/`, `input/expression`, `input/gte`. Copy or symlink the unimputed genotype files, gene expression matrix and genotype-to-expression file into respective folders. You can also specify the original location for each file in the script template.
 5. Go into pipeline folder `eQTLGen_phase2/1_DataQC/DataQC` and adjust the script template with needed modules, input paths and settings. Aside from the paths to your data files, you must specify:
-
-7. Expression platform of your expression data (`--exp_platform`). Options: Illumina arrays: `HT12v3`, `HT12v4` or `HuRef8`; RNA-seq: `RNAseq`; Affymetrix arrays: `AffyU219` or `AffyHumanExon`.
-8. Informative name for your dataset (`--cohort_name`): your unique dataset name used by all pipelines.
-9. The genome build of your dataset (`--genome_build`): `hg19`, `GRCh37`, `hg38` or `GRCh38` (`GRCh37` prefilled).
-10. If your dataset concerns a VCF dataset, replace the
---bfile argument with the --vcf argument.
-The --vcf argument expects a full path to a vcf dataset.
-Pathname extension using globbing is allowed (using `*` or `?`),
-but the path should be provided without pathway extension already performed.
+6. Expression platform of your expression data (`--exp_platform`). Options: Illumina arrays: `HT12v3`, `HT12v4` or `HuRef8`; RNA-seq: `RNAseq`; Affymetrix arrays: `AffyU219` or `AffyHumanExon`.
+7. Informative name for your dataset (`--cohort_name`): your unique dataset name used by all pipelines.
+8. The genome build of your dataset (`--genome_build`): `hg19`, `GRCh37`, `hg38` or `GRCh38` (`GRCh37` prefilled).
+9.  If your dataset concerns a VCF dataset, replace the `--bfile` argument with the `--vcf` argument. The `--vcf` argument expects a full path to a vcf dataset. Pathname extension using globbing is allowed (using `*` or `?`), but the path should be provided without pathway extension.
+10. You can select scheduler type by adjusting the profile as following: 
+    -  Slurm: `-profile slurm,singularity`
+    -  PBS/TORQUE: `-profile pbs,singularity`
+    -  SGE: `-profile sge,singularity`
 
 This is the template for Slurm scheduler (`submit_DataQC_pipeline_template.sh`):
 
@@ -380,7 +368,7 @@ This is the template for Slurm scheduler (`submit_DataQC_pipeline_template.sh`):
 #SBATCH --job-name="DataQc"
 
 # These are needed modules in UT HPC to get singularity and Nextflow running. Replace with appropriate ones for your HPC.
-module load java-1.8.0_40
+module load java/11.0.2
 module load singularity/3.5.3
 module load squashfs/4.4
 
@@ -460,7 +448,7 @@ Now QC plots should look as expected.
 13. If some of the plots still indicate issues, adjust the arguments and re-run the pipeline.
 You might need to do so a couple of times until there are no more apparent issues.
 
-14. :tada: Done!
+14. 🎉 Done!
 
 ##### Output
 
@@ -470,7 +458,7 @@ The important files are following.
 1.  Files: `output/outputfolder_gen/gen_data_QCd/*_ToImputation.bed`, `output/outputfolder_gen/gen_data_QCd/*_ToImputation.bim`, `output/outputfolder_gen/gen_data_QCd/*_ToImputation.fam` are the filtered and QCd genotype files which need to be the input for the next, [imputation pipeline](#2-genotype-imputation). You need to specify the path to the *base* name (no extension `.bed/.bim/.fam`) as an input.
 2.  The whole `output` folder should be specified as one of the inputs for [per-cohort preparations pipeline](#4-per-cohort-data-preparations). This pipeline automatically uses the processed, QCd expression data and covariate file to run data encoding and partial derivative calculation. It then organises the encoded matrices for sharing with the central site. It also extracts some QC files, plots and summaries for sharing with the central site.
 
-❗ While continuing with the next step, now it is also good time to already send the `Report_DataQc_[your cohort name].html` to Urmo Võsa (urmo.vosa at gmail.com) and Robert Warmerdam (c.a.warmerdam at umcg.nl). This way we can have a initial look to the quality of the data and let you know if something seems unoptimal.
+❗ While continuing with the next step, now it is also good time to send the `Report_DataQc_[your cohort name].html` to Urmo Võsa (urmo.vosa at gmail.com) and Robert Warmerdam (c.a.warmerdam at umcg.nl). This way we can have a initial look to the quality of the data and let you know if something seems un-optimal.
 
 #### 2. Genotype imputation
 
@@ -512,14 +500,17 @@ You should see this message in your terminal: `eQTLGenReferenceFiles.tar.gz:OK`.
 7.  Unzip the reference file `tar -xfvz eQTLGenReferenceFiles.tar.gz`.
 This yields the folder named `hg38` which contains all needed reference files.
 
-8.  Go into `eQTLGen_phase2/2_Imputation/eQTLGenImpute` pipeline folder and adjust the imputation script template with needed modules and inputs.
-
-1.  Genotype path: path to unimputed and QC'd genotype files in plink `.bed/.bim/.fam` format, ending with `*_ToImputation`. These files are in the output of previous [data QC pipeline](#1-data-qc), files end with `*_ToImputation.*`. These are in the folder `output/outputfolder_gen/gen_data_QCd`. You should specify the full path to those files but **without file extension**.
-2.  Path to reference folder (pre-filled).
-3.  Output path: to the folder `output` you made.
-4.  Cohort name: this should be the same as in `DataQC`.
-5.  Path to the folder with reference files (pre-filled).
-3.  The genome build of your dataset (`--genome_build`): `hg19`, `GRCh37`, `hg38` or `GRCh38` (hg19/GRCh37 by default).
+8.  Go into `eQTLGen_phase2/2_Imputation/eQTLGenImpute` pipeline folder and adjust the imputation script template with needed modules and inputs
+9.  Genotype path: path to unimputed and QC'd genotype files in plink `.bed/.bim/.fam` format, ending with `*_ToImputation`. These files are in the output of previous [data QC pipeline](#1-data-qc), files end with `*_ToImputation.*`. These are in the folder `output/outputfolder_gen/gen_data_QCd`. You should specify the full path to those files but **without file extension**.
+10. Path to reference folder (pre-filled).
+11. Output path: to the folder `output` you made (pre-filled).
+12. Cohort name: this should be the same as in `DataQC`.
+13. Path to the folder with reference files (pre-filled).
+14. The genome build of your dataset (`--genome_build`): `hg19`, `GRCh37`, `hg38` or `GRCh38` (hg19/GRCh37 by default).
+15. You can select scheduler type by adjusting the profile as following: 
+    -  Slurm: `-profile slurm,singularity`
+    -  PBS/TORQUE: `-profile pbs,singularity`
+    -  SGE: `-profile sge,singularity`
 
 This is the template for Slurm scheduler (`submit_imputation_pipeline_template.sh`):
 
@@ -537,7 +528,7 @@ This is the template for Slurm scheduler (`submit_imputation_pipeline_template.s
 
 # These are needed modules in UT HPC to get Singularity and Nextflow running.
 # Replace with appropriate ones for your HPC.
-module load java-1.8.0_40
+module load java/11.0.2
 module load singularity/3.5.3
 module load squashfs/4.4
 
@@ -555,7 +546,7 @@ nextflow_path=../../tools # folder where Nextflow executable is.
 reference_path=../hg38 # folder where you unpacked the reference files.
 
 cohort_name=[name of your cohort]
-qc_input_folder=../../1_DataQC/output/postimpute/ # folder with QCd genotype and expression data, output of DataQC pipeline.
+qc_input_folder=../../1_DataQC/output/ # folder with QCd genotype and expression data, output of DataQC pipeline.
 output_path=../output/ # Output path.
 genome_build="GRCh37"
 
@@ -578,7 +569,7 @@ NXF_VER=21.10.6 ${nextflow_path}/nextflow run eQTLGenImpute.nf \
 
 10. Check the `output/pipeline_info/imputation_report.html`.
 
-11. :tada: Done!
+11. 🎉 Done!
 
 ##### Output
 
@@ -613,9 +604,15 @@ Specifically, this pipeline performs the following steps:
 
 2.  Clone the `ConvertVcf2Hdf5` pipeline `git clone https://github.com/eQTLGen/ConvertVcf2Hdf5.git`.
 
-3.  Go into `3_ConvertVcf2Hdf5/ConvertVcf2Hdf5` and adjust the genotype conversion script template with needed modules and inputs.
+3.  Make folder `output`
 
-4.  Adjust the template script.
+4.  Go into `3_ConvertVcf2Hdf5/ConvertVcf2Hdf5` and adjust the genotype conversion script template with needed modules and inputs.
+5.  Imputed genotype path (pre-filled).
+6.  Output path (pre-filled).
+7.  You can select scheduler type by adjusting the profile as following: 
+    -  Slurm: `-profile slurm,singularity`
+    -  PBS/TORQUE: `-profile pbs,singularity`
+    -  SGE: `-profile sge,singularity`
 
 This is the template for Slurm scheduler (`submit_genotype_conversion_template.sh`):
 
@@ -630,7 +627,7 @@ This is the template for Slurm scheduler (`submit_genotype_conversion_template.s
 
 # These are needed modules in UT HPC to get Singularity and Nextflow running.
 # Replace with appropriate ones for your HPC.
-module load java-1.8.0_40
+module load java/11.0.2
 module load singularity/3.5.3
 module load squashfs/4.4
 
@@ -646,7 +643,7 @@ export NXF_HOME=../../nextflowcache
 nextflow_path=../../tools/  # Path to Nextflow executable, no need to adjust if folder structure is same as recommended in cookbook.
 
 cohortname=[name of your cohort]
-genopath=../../2_Imputation/output/postimpute   # Folder with input genotype files in .vcf.gz format
+genopath=../../2_Imputation/output/postimpute   # Folder with input genotype files in .vcf.gz format, no need to adjust if the folder structure is same as recommended in cookbook.
 outputpath=../output/ # Path to output folder, no need to adjust if the folder structure is same as recommended in cookbook.
 
 NXF_VER=21.10.6 ${nextflow_path}/nextflow run ConvertVcf2Hdf5.nf \
@@ -661,7 +658,7 @@ NXF_VER=21.10.6 ${nextflow_path}/nextflow run ConvertVcf2Hdf5.nf \
 
 6.  Check the `output/pipeline_info/ConvertGenotype_report.html`.
 
-7.  :tada: Done!
+7.  🎉 Done!
 
 ##### Output
 
@@ -681,6 +678,7 @@ Specifically, this pipeline performs the following steps:
 -   Associates expression PCs with genotypes, writes out suggestive associations (P\<1×10^-5^). This enables us to make an informed decision which covariates to include into encoded HASE model in the central site and control for the collider effects.
 -   Replaces original sample IDs in the encoded data with "CohortName\_\_index".
 -   Collects several summary reports, QC reports and diagnostic plots from the output of [data QC pipeline](#1-data-qc).
+-   Collects summary file with SNP QC information (MAF, imputation quality, genotype counts, imputation/typed status).
 -   Organises all the partial derivates, encoded matrices and QC reports into the structured folder structure, ready for sharing.
 -   Calculates `md5sum` for all the shared files, so the integrity of the upload can be checked.
 
@@ -704,6 +702,13 @@ This was already downloaded together with imputation references in [Imputation s
 Therefore you can copy it to the correct location like that: `cp ../../2_Imputation/hg38/hase_reference/* bin/hase/data/.`.
 
 6.  Adjust the template script.
+7.  Path to the genotypes in hdf5 format (pre-filled)
+8.  Path to QC'd expression data (pre-filled)
+9.  Output path (pre-filled)
+10. You can select scheduler type by adjusting the profile as following: 
+    -  Slurm: `-profile slurm,singularity`
+    -  PBS/TORQUE: `-profile pbs,singularity`
+    -  SGE: `-profile sge,singularity`
 
 This is the template script for Slurm scheduler (`submit_per_cohort_preparations_template.sh`):
 
@@ -718,7 +723,7 @@ This is the template script for Slurm scheduler (`submit_per_cohort_preparations
 
 # These are needed modules in UT HPC to get Singularity and Nextflow running.
 # Replace with appropriate ones for your HPC.
-module load java-1.8.0_40
+module load java/11.0.2
 module load singularity/3.5.3
 module load squashfs/4.4
 
@@ -758,15 +763,15 @@ NXF_VER=21.10.6 ${nextflow_path}/nextflow run PerCohortDataPreparations.nf \
 
 #### 5. Share the data with central location
 
-The output folder from [per-cohort preparations pipeline](#4-per-cohort-data-preparations) named `[YourCohortName]_IntermediateFilesEncoded_to_upload` and its accompanying `.md5` file should be uploaded into our sftp server: **TBA**.
+The instructions for getting the SFTP account in UT HPC: send an e-mail to urmo.vosa at gmail.com and we will arrange the account. We will also instruct how to upload the needed data to SFTP server.
 
-The instructions for getting the SFTP account: **TBA**.
+The output folder from [per-cohort preparations pipeline](#4-per-cohort-data-preparations) named `[YourCohortName]_IntermediateFilesEncoded_to_upload` and its accompanying `.md5` file should be uploaded into our sftp server.
 
 ❗ You might want to inform your HPC team about this project and the planned upload.
 Although the sheer file size is much smaller that would be for the classical meta-analysis, it is still \~50GB in case of 500 samples and RNA-seq.
 For the few largest datasets, the upload might be up to 500GB and might raise some red flags when monitoring the data traffic ;).
 
-:tada: Thank you, you have shared the data necessary for global eQTL mapping!
+🎉 Thank you, you have shared the data necessary for global eQTL mapping!
 We will keep you updated and will re-contact if any additional information is needed.
 
 ### Central analyses
@@ -779,13 +784,12 @@ However, feel free to use this code and instructions to conduct further analyses
 
 [Pipeline for extracting subsets of data from full summary statistics](https://gitlab.com/eqtlgen-group/ExtractMetaAnalysisResults) - this is for extracting data subsets for subsequent interpretation.
 
-❗ TODO: add documentation for those repos.
-
 ### Runtime estimates
 
 Here are some runtime benchmarks for each of the steps in this cookbook: these might help you to get some hint how much time running the pipelines might take.
 
-All benchmarks are for RNA-seq dataset with following features: - Final eQTL sample size of 477 samples.
+All benchmarks are for RNA-seq dataset with following features: 
+- Final eQTL sample size of 477 samples.
 - RNA-seq: up to 19,942 genes in processed expression matrix.
 - GSA genotyping array: 700,078 variants in unimputd data.
 
@@ -833,6 +837,8 @@ Note: benchmarks to initial run with default settings, you probably need to re-r
 -   Infrastructure: University HPC with \~150 compute nodes
 -   Scheduler: Slurm
 -   Dependency management: Singularity
+-   Final size of `output` directory: \~50GB
+-   Final size of `work` subdirectory: \~100GB
 
 ## Acknowledgements
 
@@ -863,10 +869,19 @@ Urmo Võsa (Institute of Genomics, University of Tartu, Tartu, Estonia) incorpor
 
 Original method paper for HASE framework:
 
-[Roshchupkin, G. V. et al. HASE: Framework for efficient high-dimensional association analyses. Sci. Rep. 6, 36076; doi: 10.1038/srep36076 (2016)](https://www.nature.com/articles/srep36076)
+[Roshchupkin, G. V., H. H.H. Adams, M. W. Vernooij, A. Hofman, C. M. Van Duijn, M. A. Ikram, and W. J. Niessen. “HASE: Framework for Efficient High-Dimensional Association Analyses.” Scientific Reports 6, no. 1 (December 26, 2016): 36076. https://doi.org/10.1038/srep36076.](https://www.nature.com/articles/srep36076)
+
+1000G 30X imputation reference:
+
+[Byrska-Bishop, Marta, Uday S. Evani, Xuefang Zhao, Anna O. Basile, Haley J. Abel, Allison A. Regier, André Corvelo, et al. “High-Coverage Whole-Genome Sequencing of the Expanded 1000 Genomes Project Cohort Including 602 Trios.” Cell 185, no. 18 (September 1, 2022): 3426-3440.e19. https://doi.org/10.1016/j.cell.2022.08.004.](https://www.sciencedirect.com/science/article/pii/S0092867422009916)
+
+Nextflow workflow management tool:
+
+[Di Tommaso, Paolo, Maria Chatzou, Evan W Floden, Pablo Prieto Barja, Emilio Palumbo, and Cedric Notredame. “Nextflow Enables Reproducible Computational Workflows.” Nature Biotechnology 35, no. 4 (2017): 316–19. https://doi.org/10.1038/nbt.3820.](https://www.nature.com/articles/nbt.3820)
+
 
 ### Contacts
 
-For this Nextflow pipeline: urmo.vosa at gmail.com
+For this cookbook: Urmo Võsa (urmo.vosa at gmail.com) and Robert Warmerdam (c.a.warmerdam at umcg.nl) 
 
-For the method of HASE, find contacts from here: <https://github.com/roshchupkin/hase>
+For the method of HASE, please find contacts from here: <https://github.com/roshchupkin/hase>
