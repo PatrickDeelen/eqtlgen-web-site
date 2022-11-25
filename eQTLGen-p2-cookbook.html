@@ -557,19 +557,17 @@ are the input for the second pipeline (imputation).</li>
 <p>Example commands here are based on the Slurm scheduler. However, this
 can be easily changed to other schedulers.</p>
 <ul>
-<li>In order to run Nextflow pipelines, you have to modify each template
-script and load a couple of modules which enable to run Nextflow and
-Singularity containers.</li>
-</ul>
-<p>These very common modules should be available in your HPC, however
-exact name and version might differ: <strong>Java &gt;=8</strong> and
-<strong>Singularity</strong>. You might also need a few extra modules to
-run Singularity without problems. If you think this might be the case,
-we recommend to check with your HPC documentation and/or tech support
-which modules are required. E.g. in the University of Tartu HPC there is
-also a module named <strong>squashFS</strong> needed to run Singularity
-without problems.</p>
-<ul>
+<li><p>In order to run Nextflow pipelines, you have to modify each
+template script and load a couple of modules which enable to run
+Nextflow and Singularity containers. These very common modules should be
+available in your HPC, however exact name and version might differ:
+<strong>Java &gt;=11</strong> and <strong>Singularity</strong>. You
+might also need a few extra modules to run Singularity without problems.
+If you think this might be the case, we recommend to check with your HPC
+documentation and/or tech support which modules are required. E.g. in
+the University of Tartu HPC there is also a module named
+<strong>squashFS</strong> needed to run Singularity without
+problems.</p></li>
 <li><p>When you submit the job
 e.g. <code>sbatch submit_DataQc_pipeline_EstBB_HT12v3.sh</code>, this
 initiates the pipeline, makes the analysis environment (using
@@ -679,9 +677,9 @@ e.g. <code>_EUR</code>.</p>
 <li>We require either an unimputed PLINK dataset. <a href="https://www.cog-genomics.org/plink/1.9/formats#bed">.bed</a>/<a href="https://www.cog-genomics.org/plink/1.9/formats#bim">.bim</a>/<a href="https://www.cog-genomics.org/plink/1.9/formats#fam">.fam</a> or an
 unimputed VCF dataset. Can be in hg19/GRCh37 or hg38/GRCh38.</li>
 <li>WGS datasets are expected to have some sample-level quality control
-done (such as mean sequence coverage, percent of chimeric reads, median
-and standard deviation of insert size, contamination rate, bacterial
-contamination, large chromosomal abnormalities).</li>
+previouslydone (such as mean sequence coverage, percent of chimeric
+reads, median and standard deviation of insert size, contamination rate,
+bacterial contamination, large chromosomal abnormalities).</li>
 <li>We encourage the use of a VCF file format for WGS data. This enables
 the DataQC step to perform variant-level WGS-specific quality
 control.</li>
@@ -769,7 +767,7 @@ etc), rather than numerical.</li>
 <li>Categorical variables with <span class="math inline">\(k\)</span>
 categories over 2 (<span class="math inline">\(k&gt;2\)</span>) are
 automatically split into binary variables with values of 0 or 1.</li>
-<li>Dichotomous text-based variables (<span class="math inline">\(k==2\)</span>) are similarly converted to a
+<li>Dichotomous text-based variables (<span class="math inline">\(k=2\)</span>) are similarly converted to a
 variable with values of 0 or 1.</li>
 </ul>
 </div>
@@ -801,7 +799,7 @@ samples.</li>
 <li>Removal of samples with unclear genetic sex.</li>
 <li>Removal of samples with excess heterozygosity (+/-3SD from the
 mean).</li>
-<li>Removal of related samples (3d degree relatives). From each pair of
+<li>Removal of related samples (3rd degree relatives). From each pair of
 related samples, one is kept in the data.</li>
 <li>Visualisation of samples in the genetic reference space,
 instructions on how to remove or split the data in case of
@@ -906,7 +904,7 @@ etc), rather than numerical.</li>
 <li>Categorical variables with <span class="math inline">\(k\)</span>
 categories over 2 (<span class="math inline">\(k&gt;2\)</span>) are
 automatically split into binary variables with values of 0 or 1.</li>
-<li>Dichotomous text-based variables (<span class="math inline">\(k==2\)</span>) are similarly converted to a
+<li>Dichotomous text-based variables (<span class="math inline">\(k=2\)</span>) are similarly converted to a
 variable with values of 0 or 1.</li>
 </ul></li>
 </ul>
@@ -919,11 +917,6 @@ variable with values of 0 or 1.</li>
 <li>Clone the <code>DataQC</code> pipeline
 <code>git clone https://github.com/eQTLGen/DataQC.git</code>.</li>
 <li>Make folder <code>output</code>.</li>
-<li>Optional: make folders <code>input/genotypes/</code>,
-<code>input/expression</code>, <code>input/gte</code>. Copy or symlink
-the unimputed genotype files, gene expression matrix and
-genotype-to-expression file into respective folders. You can also
-specify the original location for each file in the script template.</li>
 <li>Go into pipeline folder <code>eQTLGen_phase2/1_DataQC/DataQC</code>
 and adjust the script template with needed modules, input paths and
 settings. Aside from the paths to your data files, you must
@@ -965,7 +958,7 @@ extension.</li>
 #SBATCH --job-name=&quot;DataQc&quot;
 
 # These are needed modules in UT HPC to get singularity and Nextflow running. Replace with appropriate ones for your HPC.
-module load java/11.0.2
+module load java-1.8.0_40
 module load singularity/3.5.3
 module load squashfs/4.4
 
