@@ -44,7 +44,7 @@ In case of any issues when running this cookbook please contact Urmo Võsa (urmo
 
 1.  HPC with multiple cores and scheduling system.
 2.  You need to have Bash \>=3.2 installed to your HPC.
-3.  You need to have Java \>=8 installed to your HPC. This is needed for running Nextflow pipeline management tool.
+3.  You need to have Java \>=11 installed to your HPC. This is needed for running Nextflow pipeline management tool.
 
 #### Strongly recommended
 
@@ -82,7 +82,7 @@ We will provide detailed instructions for each pipeline below, however for the m
   mkdir eQTLGen_phase2/tools
   ```
 
-- *Inside* `eQTLGen_phase2/tools` download and self-install Nextflow executable, as specified [here](https://www.nextflow.io/docs/latest/getstarted.html#installation). You might need to load Java \>=8 before running self-install (e.g. `module load [Java >=8 module name in your HPC]`).
+- *Inside* `eQTLGen_phase2/tools` download and self-install Nextflow executable, as specified [here](https://www.nextflow.io/docs/latest/getstarted.html#installation). You might need to load Java \>=11 before running self-install (e.g. `module load [Java >=11 module name in your HPC]`).
 
   ```bash
   cd eQTLGen_phase2/tools
@@ -133,7 +133,7 @@ QCd genotype files from the output of first DataQC pipeline: `eQTLGen_phase2/1_D
 Example commands here are based on the Slurm scheduler. However, this can be easily changed to other schedulers.
 
 - In order to run Nextflow pipelines, you have to modify each template script and load a couple of modules which enable to run Nextflow and Singularity containers.
-These very common modules should be available in your HPC, however exact name and version might differ: **Java \>=8** and **Singularity**.
+These very common modules should be available in your HPC, however exact name and version might differ: **Java \>=11** and **Singularity**.
 You might also need a few extra modules to run Singularity without problems.
 If you think this might be the case, we recommend to check with your HPC documentation and/or tech support which modules are required.
 E.g. in the University of Tartu HPC there is also a module named **squashFS** needed to run Singularity without problems.
@@ -267,7 +267,7 @@ An additional set of covariates can be supplied:
 - Subsequent columns constitute the additional covariate, with the column name corresponding to the covariate name.
 - Categorical variables need to be text-based (e.g. batch1, batch2, etc), rather than numerical.
 - Categorical variables with $k$ categories over 2 ($k>2$) are automatically split into binary variables with values of 0 or 1.
-- Dichotomous text-based variables ($k==2$) are similarly converted to a variable with values of 0 or 1.
+- Dichotomous text-based variables ($k=2$) are similarly converted to a variable with values of 0 or 1.
 
 #### Mixups
 
@@ -381,7 +381,7 @@ This is the template for Slurm scheduler (`submit_DataQC_pipeline_template.sh`):
 #SBATCH --job-name="DataQc"
 
 # These are needed modules in UT HPC to get singularity and Nextflow running. Replace with appropriate ones for your HPC.
-module load java-1.8.0_40
+module load java/11.0.8_10
 module load singularity/3.5.3
 module load squashfs/4.4
 
@@ -536,7 +536,7 @@ This is the template for Slurm scheduler (`submit_imputation_pipeline_template.s
 
 # These are needed modules in UT HPC to get Singularity and Nextflow running.
 # Replace with appropriate ones for your HPC.
-module load java-1.8.0_40
+module load java/11.0.8_10
 module load singularity/3.5.3
 module load squashfs/4.4
 
@@ -629,7 +629,7 @@ This is the template for Slurm scheduler (`submit_genotype_conversion_template.s
 
 # These are needed modules in UT HPC to get Singularity and Nextflow running.
 # Replace with appropriate ones for your HPC.
-module load java-1.8.0_40
+module load java/11.0.8_10
 module load singularity/3.5.3
 module load squashfs/4.4
 
@@ -717,7 +717,7 @@ This is the template script for Slurm scheduler (`submit_per_cohort_preparations
 
 # These are needed modules in UT HPC to get Singularity and Nextflow running.
 # Replace with appropriate ones for your HPC.
-module load java-1.8.0_40
+module load java/11.0.8_10
 module load singularity/3.5.3
 module load squashfs/4.4
 

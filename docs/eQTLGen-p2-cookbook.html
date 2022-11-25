@@ -170,7 +170,7 @@ umcg.nl).</p>
 <ol>
   <li>HPC with multiple cores and scheduling system.</li>
   <li>You need to have Bash &gt;=3.2 installed to your HPC.</li>
-  <li>You need to have Java &gt;=8 installed to your HPC. This is needed
+  <li>You need to have Java &gt;=11 installed to your HPC. This is needed
 for running Nextflow pipeline management tool.</li>
 </ol>
 
@@ -256,8 +256,8 @@ so that scripts find Nextflow executable.</p>
     <p><em>Inside</em> <code class="language-plaintext highlighter-rouge">eQTLGen_phase2/tools</code> download and self-install Nextflow
 executable, as specified
 <a href="https://www.nextflow.io/docs/latest/getstarted.html#installation">here</a>.
-You might need to load Java &gt;=8 before running self-install
-(e.g. <code class="language-plaintext highlighter-rouge">module load [Java &gt;=8 module name in your HPC]</code>).</p>
+You might need to load Java &gt;=11 before running self-install
+(e.g. <code class="language-plaintext highlighter-rouge">module load [Java &gt;=11 module name in your HPC]</code>).</p>
 
     <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd eQTLGen_phase2/tools
 wget -qO- https://get.nextflow.io | bash
@@ -337,9 +337,9 @@ can be easily changed to other schedulers.</p>
 script and load a couple of modules which enable to run Nextflow and
 Singularity containers. These very common modules should be
 available in your HPC, however exact name and version might differ:
-<strong>Java &gt;=8</strong> and <strong>Singularity</strong>. You might also need a few extra
-modules to run Singularity without problems. If you think this might
-be the case, we recommend to check with your HPC documentation
+<strong>Java &gt;=11</strong> and <strong>Singularity</strong>. You might also need a few
+extra modules to run Singularity without problems. If you think this
+might be the case, we recommend to check with your HPC documentation
 and/or tech support which modules are required. E.g. in the
 University of Tartu HPC there is also a module named <strong>squashFS</strong>
 needed to run Singularity without problems.</p>
@@ -557,8 +557,8 @@ column name corresponding to the covariate name.</li>
 etc), rather than numerical.</li>
   <li>Categorical variables with <em>k</em> categories over 2 (<em>k</em> &gt; 2) are
 automatically split into binary variables with values of 0 or 1.</li>
-  <li>Dichotomous text-based variables (<em>k</em> =  = 2) are similarly
-converted to a variable with values of 0 or 1.</li>
+  <li>Dichotomous text-based variables (<em>k</em> = 2) are similarly converted
+to a variable with values of 0 or 1.</li>
 </ul>
 
 <h4 id="mixups">Mixups</h4>
@@ -765,7 +765,7 @@ already performed.</p>
 #SBATCH --job-name="DataQc"
 
 # These are needed modules in UT HPC to get singularity and Nextflow running. Replace with appropriate ones for your HPC.
-module load java-1.8.0_40
+module load java/11.0.8_10
 module load singularity/3.5.3
 module load squashfs/4.4
 
@@ -1006,7 +1006,7 @@ path to those files but <strong>without file extension</strong>.</p>
 
 # These are needed modules in UT HPC to get Singularity and Nextflow running.
 # Replace with appropriate ones for your HPC.
-module load java-1.8.0_40
+module load java/11.0.8_10
 module load singularity/3.5.3
 module load squashfs/4.4
 
@@ -1139,7 +1139,7 @@ conversion script template with needed modules and inputs.</p>
 
 # These are needed modules in UT HPC to get Singularity and Nextflow running.
 # Replace with appropriate ones for your HPC.
-module load java-1.8.0_40
+module load java/11.0.8_10
 module load singularity/3.5.3
 module load squashfs/4.4
 
@@ -1275,7 +1275,7 @@ you can copy it to the correct location like that:
 
 # These are needed modules in UT HPC to get Singularity and Nextflow running.
 # Replace with appropriate ones for your HPC.
-module load java-1.8.0_40
+module load java/11.0.8_10
 module load singularity/3.5.3
 module load squashfs/4.4
 
