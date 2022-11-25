@@ -477,7 +477,7 @@ Specifically, this pipeline performs the following steps:
 ##### Input files
 
 -   Unimputed and QC'd genotype files in plink `.bed/.bim/.fam`. These files are in the output of previous [data QC pipeline](#1-data-qc). These are in the folder `output/outputfolder_gen/gen_data_QCd`. You need to specify the path to the base name (no extension `.bed/.bim/.fam`) as an input.
--   Folder with all the needed reference files for pre-phasing and imputation. We provide it [here](TODO!!!).
+-   Folder with all the needed reference files for pre-phasing and imputation. We provide it in Dropbox (see below).
 -   Genotype-to-expression file.
 
 ##### Instructions
@@ -490,9 +490,9 @@ Specifically, this pipeline performs the following steps:
 
 4.  Download the zipped reference `wget https://www.dropbox.com/s/6g58ygjg9d2fvbi/eQTLGenReferenceFiles.tar.gz?dl=1`.
 
-5.  Because this file is \~30GB and can corrupt during the download, also download corresponding md5sum file `wget https://www.dropbox.com/s/ekfciajzevn6o1l/eQTLGenReferenceFiles.tar.gz.md5?dl=1`.
+5.  Because this file is \~30GB and can corrupt during the download, also please download corresponding md5sum file `wget https://www.dropbox.com/s/ekfciajzevn6o1l/eQTLGenReferenceFiles.tar.gz.md5?dl=1`.
 
-6.  Check if download was sucessful `md5sum --check eQTLGenReferenceFiles.tar.gz.md5`.
+6.  Check if download was successful `md5sum --check eQTLGenReferenceFiles.tar.gz.md5`.
 You should see this message in your terminal: `eQTLGenReferenceFiles.tar.gz:OK`.
 
 7.  Unzip the reference file `tar -xfvz eQTLGenReferenceFiles.tar.gz`.
