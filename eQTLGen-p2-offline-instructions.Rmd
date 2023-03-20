@@ -1,0 +1,171 @@
+---
+title: "Instructions for running eQTLGen phase II cookbook offline"
+output:
+html_document:
+highlight: pygments
+date: '2023-03-15'
+editor_options:
+markdown:
+wrap: sentence
+layout: default
+---
+
+# Instructions for running eQTLGen phase II cookbook offline
+
+In some HPC setups, access to internet is restricted. This document helps you to get [eQTLGen phase II cookbook](eQTLGen-p2-cookbook.html) running when there is no internet access. Please first have a look to [analysis setup](eQTLGen-p2-cookbook.html#setup), make those preparations which are possible, and then continue with the instructions below.
+
+## Installing Nextflow offline
+
+When you try to install Nextflow as specified [here](https://www.nextflow.io/docs/latest/getstarted.html#installation), it automatically tries to connect internet and check if update is available. In case of firewall or connection restrictions, you might see error message. In order to run Nextflow offline, follow these steps:
+
+- Go to tools folder:
+
+`cd eQTLGen_phase2/tools`
+
+- Download Nextflow v21.10.6 executable file:
+
+`wget https://github.com/nextflow-io/nextflow/releases/download/v21.10.0/nextflow-21.10.0-all`
+
+- Rename the Nextflow v21.10.6 executable file:
+
+`mv nextflow-21.10.0-all nextflow`
+
+- Ensure that the file is executable:
+
+`chmod -x nextflow`
+
+- Modify the .bashrc, so that Nextflow does not try to update from internet:
+
+`echo "export NXF_OFFLINE='TRUE'" >> ~/.bashrc`
+
+- Load java >=11
+
+`module load [Java >=11 module name in your HPC]`
+
+- Run the nextflow executable, so it self-installs:
+
+This might take some memory, so first initiate interactive job (below example for SLURM):
+
+`srun --nodes=1 --ntasks-per-node=1 --time=01:00:00 --pty bash -i`
+
+Or alternatively, perform test run as usual scheduled job.
+
+Run the command:
+
+`./nextflow run hello`
+
+You should see the message with Nextflow version number 21.10.0.
+
+- 🎉 Done! Now Nextflow should work as in the [eQTLGen phase II cookbook](eQTLGen-p2-cookbook.html)
+
+## Getting the software containers
+
+- Go to analysis root folder:
+  `cd eQTLGen_phase2`
+- Get eQTLGen phase II offline files:
+  `wget https://www.dropbox.com/s/zticzqos052dtxp/eQTLGenP2OfflineFiles.tar.gz?dl=1`
+- Get the md5sum file:
+  `wget https://www.dropbox.com/s/zticzqos052dtxp/eQTLGenP2OfflineFiles.tar.gz.md5?dl=1`
+- Check the integrity of download, you should see "OK":
+  `md5sum -c eQTLGenP2OfflineFiles.tar.gz.md5`
+- Unzip the folder:
+  `tar –xvzf eQTLGenP2OfflineFiles.tar.gz`
+
+In the unzipped folder there are folders with docker images for each pipeline. After you have cloned each pipeline from github (as specified [here](eQTLGen-p2-cookbook.html#setup)), you should copy each `singularity_img` folder inside the corresponding pipeline folder.
+
+`cp -R eQTLGenP2OfflineFiles/1_DataQC_additional_files/singularity_img 1_DataQC/DataQC/.`
+
+`eQTLGenP2OfflineFiles/2_Imputation_additional_files/singularity_img 2_Imputation/eQTLGenImpute/.`
+
+`eQTLGenP2OfflineFiles/3_ConvertVcf2Hdf5_additional_files/singularity_img 3_ConvertVcf2Hdf5/ConvertVcf2Hdf5/.`
+
+`eQTLGenP2OfflineFiles/4_PerCohortPreparations/singularity_img 4_PerCohortPreparations/PerCohortDataPreparations/.`
+
+Now Nextflow pipelines will use those images in the analysis, instead of trying to download those from online repo. 
+
+## Offline files for [Data QC pipeline](eQTLGen-p2-cookbook.html#1-data-qc)
+
+By default, [Data QC pipeline](eQTLGen-p2-cookbook.html#1-data-qc) tries to download two plink executables and 1000G reference data from online. If download is not possible, it is instead possible to adjust the script template and provide corresponding files via additional arguments. Corresponding files are available in the folder you unpacked in the previous step.
+
+In the following script template, additional arguments are pre-filled.
+
+```bash
+#!/bin/bash
+
+#SBATCH --time=48:00:00
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem=6G
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
+#SBATCH --job-name="DataQc"
+
+# These are needed modules in UT HPC to get singularity and Nextflow running. Replace with appropriate ones for your HPC.
+module load java-1.8.0_40
+module load singularity/3.5.3
+module load squashfs/4.4
+
+# If you follow the eQTLGen phase II cookbook and analysis folder structure,
+# some of the following paths are pre-filled.
+# https://github.com/eQTLGen/eQTLGen-phase-2-cookbook/wiki/eQTLGen-phase-II-cookbook
+
+# We set the following variables for nextflow to prevent writing to your home directory (and potentially filling it completely)
+# Feel free to change these as you wish.
+export SINGULARITY_CACHEDIR=../../singularitycache
+export NXF_HOME=../../nextflowcache
+
+# Disable pathname expansion. Nextflow handles pathname expansion by itself.
+set -f
+
+# Define paths
+nextflow_path=../../tools # folder where Nextflow executable is
+
+# Genotype data
+bfile_path=[full path to your input genotype files without .bed/.bim/.fam extension]
+
+# Other data
+exp_path=[full path to your gene expression matrix]
+gte_path=[full path to your genotype-to-expression file]
+exp_platform=[expression platform name: HT12v3/HT12v4/HuRef8/RNAseq/AffyU219/AffyHumanExon]
+cohort_name=[name of the cohort]
+genome_build="GRCh37"
+output_path=../output # Output path
+
+# Additional files for offline use
+plink_executable=../../eQTLGenP2OfflineFiles/1_DataQC_additional_files/plink_executables/plink
+plink2_executable=../../eQTLGenP2OfflineFiles/1_DataQC_additional_files/plink_executables/plink2
+reference_1000g_folder=../../eQTLGenP2OfflineFiles/1_DataQC_additional_files/bigsnpr_reference/
+
+# Additional settings and optional arguments for the command
+
+# --GenOutThresh [numeric threshold]
+# --GenSdThresh [numeric threshold]
+# --ExpSdThresh [numeric threshold]
+# --ContaminationArea [number between 0 and 90, default 30]
+# --AdditionalCovariates [file with additional covariates]
+# --InclusionList [file with the list of samples to restrict the analysis]
+# --ExclusionList [file with the list of samples to remove from the analysis]
+# --preselected_sex_check_vars "data/Affy6_pruned_chrX_variant_positions.txt"
+# --AdditionalCovariates [file with additional covariates. First column should be `SampleID`]
+# --gen_qc_steps 'WGS'
+# --fam [PLINK .fam file. Takes precedence over .fam file supplied with `--bfile`]
+# --plink_executable [path to plink executable (PLINK v1.90b6.26 64-bit)]
+# --plink2_executable [path to plink2 executable (PLINK v2.00a3.7LM 64-bit Intel)]
+# --reference_1000g_folder [path to folder with 1000G reference data]
+
+# Command:
+NXF_VER=21.10.6 ${nextflow_path}/nextflow run DataQC.nf \
+--bfile ${bfile_path} \
+--expfile ${exp_path} \
+--gte ${gte_path} \
+--exp_platform ${exp_platform} \
+--cohort_name ${cohort_name} \
+--genome_build ${genome_build} \
+--outdir ${output_path}  \
+--plink_executable \
+--plink2_executable \
+--reference_1000g_folder \
+-profile slurm,singularity \
+-resume
+```

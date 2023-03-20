@@ -47,7 +47,7 @@ In case of any issues when running this cookbook please contact Urmo Võsa (urmo
 
 1.  Our pipelines expect that you have [Singularity](https://sylabs.io/guides/3.5/user-guide/index.html#) configured and running in your HPC, for managing needed tools/dependencies. This means that you don't need to install many programs to your HPC. If there is no way of using Singularity in your HPC, please contact us and we will look into alternative ways for dependency management.
 2.  You might also need a few extra modules, so that Singularity would run as expected. If this is the case, we recommend to check this with your HPC documentation and/or tech support. E.g. in University of Tartu HPC there is also module named **squashFS** needed, so that Singularity would work correctly.
-3.  You HPC should have access to the internet. This is needed for downloading analysis pipelines from code repos, for automatic download of the containers from container repos and for downloading some reference files. If it is mandatory for you to work offline, please contact us and we will adjust the pipeline for working offline.
+3.  You HPC should have access to the internet. This is needed for downloading analysis pipelines from code repos, for automatic download of the containers from container repos and for downloading some reference files. If it is mandatory for you to work offline, please use [these instructions](eQTLGen-p2-offline-instructions.html) for getting the pipelines working offline. Please contact lead analysts in case additional help is needed.
 
 #### Recommended
 
@@ -86,6 +86,8 @@ We will provide detailed instructions for each pipeline below, however for the m
   wget -qO- https://get.nextflow.io | bash
   ```
 
+❗ If this does not work, it might be that your HPC has restrictions in connecting with internet. If this is the case please use [these instructions](eQTLGen-p2-offline-instructions.html) for trying to install Nextflow offline. Please contact lead analysts in case additional help is needed.
+
 - *Inside* `eQTLGen_phase2`, make additional separate folders for each step of this analysis plan:
   - `eQTLGen_phase2/1_DataQC`
   - `eQTLGen_phase2/2_Imputation`
@@ -113,7 +115,6 @@ We will provide detailed instructions for each pipeline below, however for the m
 
 - We recommend to specify `output` (and, if needed, `input` etc.) folder(s) for each step. E.g. `eQTLGen_phase2/1_DataQC/output`.
 
-
   ```bash
   cd ..
   mkdir 1_DataQC/output 2_Imputation/output 3_ConvertVcf2Hdf5/output 4_PerCohortPreparations/output
@@ -126,6 +127,10 @@ We will provide detailed instructions for each pipeline below, however for the m
 - You should submit each pipeline from *inside* each pipeline folder.
 - The logic of the cookbook is the following: the relevant output from the previous step should be specified as the input for the next step in the analysis.
 - E.g. QCd genotype files from the output of first DataQC pipeline: `eQTLGen_phase2/1_DataQC/output/[Your Cohort Name]/outputfolder_gen/gen_data_QCd/` are the input for the second pipeline (imputation).
+
+#### Offline use
+
+In some HPCs the internet accessibility is restricted and this causes error messages when trying to install Nextflow and running it. This is because, by default, Nextflow executable tries to contact internet and check if newer version of Nextflow is available. Also, by default, first [Data QC pipeline](#1-data-qc) tries to automatically download plink executables and 1000G reference panel. In order to get the setup working offline, please follow [these instructions](eQTLGen-p2-offline-instructions.html). Please consult with lead analysts, in case abovementioned instructions are not solving the issues.
 
 #### Running, monitoring and debugging Nextflow pipelines
 
@@ -352,6 +357,7 @@ If the genotype data is available for \<5,000 samples, the pipeline uses only th
   - Slurm: `-profile slurm,singularity`
   - PBS/TORQUE: `-profile pbs,singularity`
   - SGE: `-profile sge,singularity`
+11. If your cluster setup does not allow internet connection, you can specify paths to local plink executables and reference files (arguments: `--plink_executable`, `--plink2_executable` and `--reference_1000g_folder`). Contact lead analysts for further guidance, if needed.
 
 This is the template for Slurm scheduler (`submit_DataQC_pipeline_template.sh`):
 
@@ -411,6 +417,9 @@ output_path=../output # Output path
 # --AdditionalCovariates [file with additional covariates. First column should be `SampleID`]
 # --gen_qc_steps 'WGS'
 # --fam [PLINK .fam file. Takes precedence over .fam file supplied with `--bfile`]
+# --plink_executable [path to plink executable (PLINK v1.90b6.26 64-bit)]
+# --plink2_executable [path to plink2 executable (PLINK v2.00a3.7LM 64-bit Intel)]
+# --reference_1000g_folder [path to folder with 1000G reference data]
 
 # Command:
 NXF_VER=21.10.6 ${nextflow_path}/nextflow run DataQC.nf \
@@ -501,7 +510,7 @@ You should see this message in your terminal: `eQTLGenReferenceFiles.tar.gz:OK`.
 This yields the folder named `hg38` which contains all needed reference files.
 
 8.  Go into `eQTLGen_phase2/2_Imputation/eQTLGenImpute` pipeline folder and adjust the imputation script template with needed modules and inputs
-9.  Genotype path: path to unimputed and QC'd genotype files in plink `.bed/.bim/.fam` format, ending with `*_ToImputation`. These files are in the output of previous [data QC pipeline](#1-data-qc), files end with `*_ToImputation.*`. These are in the folder `output/outputfolder_gen/gen_data_QCd`. You should specify the full path to those files but **without file extension**.
+9.  Path to QCd genotype data: path pointing to unimputed and QC'd genotype files in plink `.bed/.bim/.fam` format, ending with `*_ToImputation`. These files are in the output of previous [data QC pipeline](#1-data-qc), ending with `*_ToImputation.*` and are in the folder `output/outputfolder_gen/gen_data_QCd`. This path is pre-filled.
 10. Path to reference folder (pre-filled).
 11. Output path: to the folder `output` you made (pre-filled).
 12. Cohort name: this should be the same as in `DataQC`.
@@ -788,7 +797,8 @@ However, feel free to use this code and instructions to conduct further analyses
 
 Here are some runtime benchmarks for each of the steps in this cookbook: these might help you to get some hint how much time running the pipelines might take.
 
-All benchmarks are for RNA-seq dataset with following features: 
+All benchmarks are for RNA-seq dataset with following features:
+
 - Final eQTL sample size of 477 samples.
 - RNA-seq: up to 19,942 genes in processed expression matrix.
 - GSA genotyping array: 700,078 variants in unimputed data.
@@ -818,8 +828,8 @@ Note: benchmarks to initial run with default settings, you probably need to re-r
 -   Dependency management: Singularity
 -   Time to run the pipeline: \~4.5h
 -   CPU hours: \~80h
--   Final size of `output` directory: \~500GB
--   Final size of `work` subdirectory: \~500GB
+-   Final size of `output` directory: \~13GB
+-   Final size of `work` subdirectory: \~100GB
 
 #### Genotype conversion
 
@@ -829,8 +839,8 @@ Note: benchmarks to initial run with default settings, you probably need to re-r
 -   Dependency management: Singularity
 -   Time to run the pipeline (without wall times): \~4.5h
 -   CPU hours: \~80h
--   Final size of `output` directory: \~500GB
--   Final size of `work` subdirectory: \~500GB
+-   Final size of `output` directory: \~4GB
+-   Final size of `work` subdirectory: \~100GB
 
 #### Per-cohort data preparation
 
