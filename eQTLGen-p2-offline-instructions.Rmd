@@ -60,6 +60,8 @@ You should see the message with Nextflow version number 21.10.0.
 
 ## Getting the software containers
 
+Our Nextflow pipelines use Singularity for software dependency management. By default, the pipelines try to download corresponding container images from our online repo. However, if internet access is restricted, you will see the error. Therefore, we provide the container images here via separate dropbox link, so you can download those via whicever way is possible and avoid automatic download by pipeline.
+
 - Go to analysis root folder:
   `cd eQTLGen_phase2`
 - Get eQTLGen phase II offline files:
@@ -83,7 +85,7 @@ In the unzipped folder there are folders with docker images for each pipeline. A
 
 Now Nextflow pipelines will use those images in the analysis, instead of trying to download those from online repo. 
 
-## Offline files for [Data QC pipeline](eQTLGen-p2-cookbook.html#1-data-qc)
+## Offline files for Data QC pipeline
 
 By default, [Data QC pipeline](eQTLGen-p2-cookbook.html#1-data-qc) tries to download two plink executables and 1000G reference data from online. If download is not possible, it is instead possible to adjust the script template and provide corresponding files via additional arguments. Corresponding files are available in the folder you unpacked in the previous step.
 
