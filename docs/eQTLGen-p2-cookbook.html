@@ -195,8 +195,10 @@ Singularity would work correctly.</li>
 downloading analysis pipelines from code repos, for automatic
 download of the containers from container repos and for downloading
 some reference files. If it is mandatory for you to work offline,
-please contact us and we will adjust the pipeline for working
-offline.</li>
+please use <a href="eQTLGen-p2-offline-instructions.html">these
+instructions</a> for getting the
+pipelines working offline. Please contact lead analysts in case
+additional help is needed.</li>
 </ol>
 
 <h4 id="recommended">Recommended</h4>
@@ -267,6 +269,15 @@ You might need to load Java &gt;=11 before running self-install
 wget -qO- https://get.nextflow.io | bash
 </code></pre></div>    </div>
   </li>
+</ul>
+
+<p>❗ If this does not work, it might be that your HPC has restrictions in
+connecting with internet. If this is the case please use <a href="eQTLGen-p2-offline-instructions.html">these
+instructions</a> for trying to
+install Nextflow offline. Please contact lead analysts in case
+additional help is needed.</p>
+
+<ul>
   <li>
     <p><em>Inside</em> <code class="language-plaintext highlighter-rouge">eQTLGen_phase2</code>, make additional separate folders for each
 step of this analysis plan:</p>
@@ -332,6 +343,19 @@ in the analysis.</li>
 <code class="language-plaintext highlighter-rouge">eQTLGen_phase2/1_DataQC/output/[Your Cohort Name]/outputfolder_gen/gen_data_QCd/</code>
 are the input for the second pipeline (imputation).</li>
 </ul>
+
+<h4 id="offline-use">Offline use</h4>
+
+<p>In some HPCs the internet accessibility is restricted and this causes
+error messages when trying to install Nextflow and running it. This is
+because, by default, Nextflow executable tries to contact internet and
+check if newer version of Nextflow is available. Also, by default, first
+<a href="#1-data-qc">Data QC pipeline</a> tries to automatically download plink
+executables and 1000G reference panel. In order to get the setup working
+offline, please follow <a href="eQTLGen-p2-offline-instructions.html">these
+instructions</a>. Please consult with
+lead analysts, in case abovementioned instructions are not solving the
+issues.</p>
 
 <h4 id="running-monitoring-and-debugging-nextflow-pipelines">Running, monitoring and debugging Nextflow pipelines</h4>
 
@@ -764,6 +788,14 @@ pathway extension.</li>
   <li>SGE: <code class="language-plaintext highlighter-rouge">-profile sge,singularity</code></li>
 </ul>
 
+<ol>
+  <li>If your cluster setup does not allow internet connection, you can
+specify paths to local plink executables and reference files
+(arguments: <code class="language-plaintext highlighter-rouge">--plink_executable</code>, <code class="language-plaintext highlighter-rouge">--plink2_executable</code> and
+<code class="language-plaintext highlighter-rouge">--reference_1000g_folder</code>). Contact lead analysts for further
+guidance, if needed.</li>
+</ol>
+
 <p>This is the template for Slurm scheduler
 (<code class="language-plaintext highlighter-rouge">submit_DataQC_pipeline_template.sh</code>):</p>
 
@@ -822,6 +854,9 @@ output_path=../output # Output path
 # --AdditionalCovariates [file with additional covariates. First column should be `SampleID`]
 # --gen_qc_steps 'WGS'
 # --fam [PLINK .fam file. Takes precedence over .fam file supplied with `--bfile`]
+# --plink_executable [path to plink executable (PLINK v1.90b6.26 64-bit)]
+# --plink2_executable [path to plink2 executable (PLINK v2.00a3.7LM 64-bit Intel)]
+# --reference_1000g_folder [path to folder with 1000G reference data]
 
 # Command:
 NXF_VER=21.10.6 ${nextflow_path}/nextflow run DataQC.nf \
@@ -985,12 +1020,12 @@ and adjust the imputation script template with needed modules and
 inputs</p>
   </li>
   <li>
-    <p>Genotype path: path to unimputed and QC’d genotype files in plink
-<code class="language-plaintext highlighter-rouge">.bed/.bim/.fam</code> format, ending with <code class="language-plaintext highlighter-rouge">*_ToImputation</code>. These files
-are in the output of previous <a href="#1-data-qc">data QC pipeline</a>, files
-end with <code class="language-plaintext highlighter-rouge">*_ToImputation.*</code>. These are in the folder
-<code class="language-plaintext highlighter-rouge">output/outputfolder_gen/gen_data_QCd</code>. You should specify the full
-path to those files but <strong>without file extension</strong>.</p>
+    <p>Path to QCd genotype data: path pointing to unimputed and QC’d
+genotype files in plink <code class="language-plaintext highlighter-rouge">.bed/.bim/.fam</code> format, ending with
+<code class="language-plaintext highlighter-rouge">*_ToImputation</code>. These files are in the output of previous <a href="#1-data-qc">data QC
+pipeline</a>, ending with <code class="language-plaintext highlighter-rouge">*_ToImputation.*</code> and are in the
+folder <code class="language-plaintext highlighter-rouge">output/outputfolder_gen/gen_data_QCd</code>. This path is
+pre-filled.</p>
   </li>
   <li>
     <p>Path to reference folder (pre-filled).</p>
@@ -1436,10 +1471,13 @@ this is for extracting data subsets for subsequent interpretation.</p>
 these might help you to get some hint how much time running the
 pipelines might take.</p>
 
-<p>All benchmarks are for RNA-seq dataset with following features: - Final
-eQTL sample size of 477 samples. - RNA-seq: up to 19,942 genes in
-processed expression matrix. - GSA genotyping array: 700,078 variants in
-unimputed data.</p>
+<p>All benchmarks are for RNA-seq dataset with following features:</p>
+
+<ul>
+  <li>Final eQTL sample size of 477 samples.</li>
+  <li>RNA-seq: up to 19,942 genes in processed expression matrix.</li>
+  <li>GSA genotyping array: 700,078 variants in unimputed data.</li>
+</ul>
 
 <h4 id="data-qc">Data QC</h4>
 
@@ -1470,8 +1508,8 @@ to re-run at least once after adjusting the settings.</p>
   <li>Dependency management: Singularity</li>
   <li>Time to run the pipeline: ~4.5h</li>
   <li>CPU hours: ~80h</li>
-  <li>Final size of <code class="language-plaintext highlighter-rouge">output</code> directory: ~500GB</li>
-  <li>Final size of <code class="language-plaintext highlighter-rouge">work</code> subdirectory: ~500GB</li>
+  <li>Final size of <code class="language-plaintext highlighter-rouge">output</code> directory: ~13GB</li>
+  <li>Final size of <code class="language-plaintext highlighter-rouge">work</code> subdirectory: ~100GB</li>
 </ul>
 
 <h4 id="genotype-conversion">Genotype conversion</h4>
@@ -1483,8 +1521,8 @@ to re-run at least once after adjusting the settings.</p>
   <li>Dependency management: Singularity</li>
   <li>Time to run the pipeline (without wall times): ~4.5h</li>
   <li>CPU hours: ~80h</li>
-  <li>Final size of <code class="language-plaintext highlighter-rouge">output</code> directory: ~500GB</li>
-  <li>Final size of <code class="language-plaintext highlighter-rouge">work</code> subdirectory: ~500GB</li>
+  <li>Final size of <code class="language-plaintext highlighter-rouge">output</code> directory: ~4GB</li>
+  <li>Final size of <code class="language-plaintext highlighter-rouge">work</code> subdirectory: ~100GB</li>
 </ul>
 
 <h4 id="per-cohort-data-preparation">Per-cohort data preparation</h4>
