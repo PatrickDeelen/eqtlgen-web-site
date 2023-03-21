@@ -132,13 +132,13 @@ error message. In order to run Nextflow offline, follow these steps:</p>
   <li>Download Nextflow v21.10.6 executable file:</li>
 </ul>
 
-<p><code class="language-plaintext highlighter-rouge">wget https://github.com/nextflow-io/nextflow/releases/download/v21.10.0/nextflow-21.10.0-all</code></p>
+<p><code class="language-plaintext highlighter-rouge">wget https://github.com/nextflow-io/nextflow/releases/download/v21.10.6/nextflow-21.10.6-all</code></p>
 
 <ul>
   <li>Rename the Nextflow v21.10.6 executable file:</li>
 </ul>
 
-<p><code class="language-plaintext highlighter-rouge">mv nextflow-21.10.0-all nextflow</code></p>
+<p><code class="language-plaintext highlighter-rouge">mv nextflow-21.10.6-all nextflow</code></p>
 
 <ul>
   <li>Ensure that the file is executable:</li>
@@ -174,7 +174,7 @@ example for SLURM):</p>
 
 <p><code class="language-plaintext highlighter-rouge">./nextflow run hello</code></p>
 
-<p>You should see the message with Nextflow version number 21.10.0.</p>
+<p>You should see the message with Nextflow version number 21.10.6.</p>
 
 <ul>
   <li>🎉 Done! Now Nextflow should work as in the <a href="eQTLGen-p2-cookbook.html">eQTLGen phase II
@@ -182,6 +182,13 @@ cookbook</a></li>
 </ul>
 
 <h2 id="getting-the-software-containers">Getting the software containers</h2>
+
+<p>Our Nextflow pipelines use Singularity for software dependency
+management. By default, the pipelines try to download corresponding
+container images from our online repo. However, if internet access is
+restricted, you will see the error. Therefore, we provide the container
+images here via separate dropbox link, so you can download those via
+whicever way is possible and avoid automatic download by pipeline.</p>
 
 <ul>
   <li>Go to analysis root folder: <code class="language-plaintext highlighter-rouge">cd eQTLGen_phase2</code></li>
@@ -210,7 +217,7 @@ pipeline. After you have cloned each pipeline from github (as specified
 <p>Now Nextflow pipelines will use those images in the analysis, instead of
 trying to download those from online repo.</p>
 
-<h2 id="offline-files-for-data-qc-pipeline">Offline files for <a href="eQTLGen-p2-cookbook.html#1-data-qc">Data QC pipeline</a></h2>
+<h2 id="offline-files-for-data-qc-pipeline">Offline files for Data QC pipeline</h2>
 
 <p>By default, <a href="eQTLGen-p2-cookbook.html#1-data-qc">Data QC pipeline</a> tries
 to download two plink executables and 1000G reference data from online.

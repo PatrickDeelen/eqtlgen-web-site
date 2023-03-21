@@ -24,11 +24,11 @@ When you try to install Nextflow as specified [here](https://www.nextflow.io/doc
 
 - Download Nextflow v21.10.6 executable file:
 
-`wget https://github.com/nextflow-io/nextflow/releases/download/v21.10.0/nextflow-21.10.0-all`
+`wget https://github.com/nextflow-io/nextflow/releases/download/v21.10.6/nextflow-21.10.6-all`
 
 - Rename the Nextflow v21.10.6 executable file:
 
-`mv nextflow-21.10.0-all nextflow`
+`mv nextflow-21.10.6-all nextflow`
 
 - Ensure that the file is executable:
 
@@ -54,7 +54,7 @@ Run the command:
 
 `./nextflow run hello`
 
-You should see the message with Nextflow version number 21.10.0.
+You should see the message with Nextflow version number 21.10.6.
 
 - 🎉 Done! Now Nextflow should work as in the [eQTLGen phase II cookbook](eQTLGen-p2-cookbook.html)
 
