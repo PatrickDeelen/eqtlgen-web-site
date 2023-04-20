@@ -47,12 +47,12 @@ In case of any issues when running this cookbook please contact Urmo Võsa (urmo
 
 1.  Our pipelines expect that you have [Singularity](https://sylabs.io/guides/3.5/user-guide/index.html#) configured and running in your HPC, for managing needed tools/dependencies. This means that you don't need to install many programs to your HPC. If there is no way of using Singularity in your HPC, please contact us and we will look into alternative ways for dependency management.
 2.  You might also need a few extra modules, so that Singularity would run as expected. If this is the case, we recommend to check this with your HPC documentation and/or tech support. E.g. in University of Tartu HPC there is also module named **squashFS** needed, so that Singularity would work correctly.
-3.  You HPC should have access to the internet. This is needed for downloading analysis pipelines from code repos, for automatic download of the containers from container repos and for downloading some reference files. If it is mandatory for you to work offline, please contact us and we will adjust the pipeline for working offline.
+3.  You HPC should have access to the internet. This is needed for downloading analysis pipelines from code repos, for automatic download of the containers from container repos and for downloading some reference files. If it is mandatory for you to work offline, please use [these instructions](eQTLGen-p2-offline-instructions.html) for getting the pipelines working offline. Please contact lead analysts in case additional help is needed.
 
 #### Recommended
 
 1.  [git](https://git-scm.com/). This is convenient for cloning analysis pipelines from the code repos. However, you can also download those manually.
-2.  Current analysis pipelines and configurations in this cookbook are tailored for usage with [Slurm](slurm.schedmd.com) scheduler. We also provide profiles for two other commonly used schedulers (PBS/TORQUE and SGE; we have no possibility to test but these should work). It is straightforward to add configurations for other commonly used schedulers. Therefore, if your HPC uses some other scheduler, please contact us and we will try to make the configuration file for that specific scheduler.
+2.  Current analysis pipelines and configurations in this cookbook are tailored for usage with [Slurm](slurm.schedmd.com) scheduler. We also provide profiles for two other commonly used schedulers (PBS/TORQUE and SGE; we have no possibility to test but these should work). It is also straightforward to add configurations for other commonly used schedulers. Therefore, if your HPC uses some other scheduler, please contact us and we will try to make the configuration file for that specific scheduler.
 
 ### Setup
 
@@ -86,11 +86,14 @@ We will provide detailed instructions for each pipeline below, however for the m
   wget -qO- https://get.nextflow.io | bash
   ```
 
+❗ If this does not work, it might be that your HPC has restrictions in connecting with internet. If this is the case please use [these instructions](eQTLGen-p2-offline-instructions.html) for trying to install Nextflow offline. Please contact lead analysts in case additional help is needed.
+
 - *Inside* `eQTLGen_phase2`, make additional separate folders for each step of this analysis plan:
   - `eQTLGen_phase2/1_DataQC`
   - `eQTLGen_phase2/2_Imputation`
   - `eQTLGen_phase2/3_ConvertVcf2Hdf5`
   - `eQTLGen_phase2/4_PerCohortPreparations`
+
 
   ```bash
   cd ../
@@ -125,6 +128,10 @@ We will provide detailed instructions for each pipeline below, however for the m
 - The logic of the cookbook is the following: the relevant output from the previous step should be specified as the input for the next step in the analysis.
 - E.g. QCd genotype files from the output of first DataQC pipeline: `eQTLGen_phase2/1_DataQC/output/[Your Cohort Name]/outputfolder_gen/gen_data_QCd/` are the input for the second pipeline (imputation).
 
+#### Offline use
+
+In some HPCs the internet accessibility is restricted and this causes error messages when trying to install Nextflow and running it. This is because, by default, Nextflow executable tries to contact internet and check if newer version of Nextflow is available. Also, by default, first [Data QC pipeline](#1-data-qc) tries to automatically download plink executables and 1000G reference panel. In order to get the setup working offline, please follow [these instructions](eQTLGen-p2-offline-instructions.html). Please consult with lead analysts, in case abovementioned instructions are not solving the issues.
+
 #### Running, monitoring and debugging Nextflow pipelines
 
 Example commands here are based on the Slurm scheduler. However, this can be easily changed to other schedulers.
@@ -139,8 +146,8 @@ E.g. in the University of Tartu HPC there is also a module named **squashFS** ne
 A separate `work` directory is made in the pipeline folder and will contain all the interim files of the pipeline.
 
 - Monitoring:
-
   -   Monitor the `slurm-***.out` log file or the `.nextflow.log` file and check if all the steps finish without error. Trick: command `watch tail -n 20 slurm-***.out` helps you to interactively monitor the status of the jobs.
+
   -   Use `squeue -u [YourUserName]` to see if individual tasks are in the queue.
 
 - If the pipeline has crashed (e.g. due to wall time), you can just resubmit the same script after any required changes are implemented.
@@ -201,8 +208,8 @@ Example 2: If there would be two EstBB RNAseq datasets, I would use: `EstBB_RNAs
 
 #### Genotype data
 
-- We require either an unimputed PLINK dataset. [.bed](https://www.cog-genomics.org/plink/1.9/formats#bed)/[.bim](https://www.cog-genomics.org/plink/1.9/formats#bim)/[.fam](https://www.cog-genomics.org/plink/1.9/formats#fam) or an unimputed VCF dataset. Can be in hg19/GRCh37 or hg38/GRCh38.
-- WGS datasets are expected to have some sample-level quality control previouslydone
+- We require either an unimputed PLINK dataset. [.bed](https://www.cog-genomics.org/plink/1.9/formats#bed)/[.bim](https://www.cog-genomics.org/plink/1.9/formats#bim)/[.fam](https://www.cog-genomics.org/plink/1.9/formats#fam) or an unimputed VCF dataset. Can be either genotyping array-based or WGS data. Can be in hg19/GRCh37 or hg38/GRCh38.
+- WGS datasets are expected to have some sample-level quality control previously done
 (such as mean sequence coverage, percent of chimeric reads,
 median and standard deviation of insert size, contamination rate,
 bacterial contamination, large chromosomal abnormalities).
@@ -217,7 +224,7 @@ control step will be skipped.
 - For both VCF and Plink input, a separate .fam file can be supplied with reported sex data. When Plink input is used, this separate .fam file will take precedence
 over the one in the Plink dataset.
 - In order to take advantage of optimal pre-phasing, the input
-genotype data should have several thousand genotype samples. This
+genotype data should ideally have several thousand genotype samples. This
 means that if you have e.g. 7,000 samples in the available genotype
 data and only 500 of those have expression available (eQTL samples),
 please specify all 7,000 as the input of the analysis, not only eQTL
@@ -308,12 +315,12 @@ Specifically, the pipeline does the following steps:
 
 ###### Genotype data
 - Unimputed genotype file in plink [.bed/.bim/.fam](https://www.cog-genomics.org/plink/1.9/input#bed) format. It is advisable that the .fam file also includes observed sex for all samples (format: males=1, females=2) so that pipeline is able to compare this with genetically inferred sex. For samples with missing reported sex, this step will be skipped.
-- We also allow unimputed VCF datasets as input, specifically for WGS datasets for which we can do WGS specific variant level QC.
+- We also allow unimputed VCF datasets as input, specifically for WGS datasets for which we can do WGS-specific variant level QC.
 - We allow a separate .fam file to be supplied with reported sex information, which is especially useful for VCF datasets.
 
 ❗ Because pre-phasing of genotypes benefits from larger sample sizes and many eQTL datasets have modest sample sizes (N\<1,000), it is not advisable to prefilter the unimputed genotype data to include only eQTL samples.
 Our pipeline will extract eQTL samples itself (based on the genotype-to-expression file) and, *if* additional samples are available, includes additional up to 5,000 genotype samples which will be kept until the pre-phasing step of the analysis.
-If the genotype data is available for \<5,000 samples, the pipeline uses only those samples which are avilable.
+If the genotype data is available for \<5,000 samples, the pipeline uses only those samples which are available.
 
 ###### Expression data
 - Raw, unprocessed gene expression matrix. Tab-delimited file, genes/probes in the rows, samples in the columns.
@@ -346,10 +353,11 @@ If the genotype data is available for \<5,000 samples, the pipeline uses only th
 7. Informative name for your dataset (`--cohort_name`): your unique dataset name used by all pipelines.
 8. The genome build of your dataset (`--genome_build`): `hg19`, `GRCh37`, `hg38` or `GRCh38` (`GRCh37` prefilled).
 9.  If your dataset concerns a VCF dataset, replace the `--bfile` argument with the `--vcf` argument. The `--vcf` argument expects a full path to a vcf dataset. Pathname extension using globbing is allowed (using `*` or `?`), but the path should be provided without pathway extension.
-10. You can select scheduler type by adjusting the profile as following: 
-    -  Slurm: `-profile slurm,singularity`
-    -  PBS/TORQUE: `-profile pbs,singularity`
-    -  SGE: `-profile sge,singularity`
+10. You can select scheduler type by adjusting the profile as following:
+  - Slurm: `-profile slurm,singularity`
+  - PBS/TORQUE: `-profile pbs,singularity`
+  - SGE: `-profile sge,singularity`
+11. If your cluster setup does not allow internet connection, you can specify paths to local plink executables and reference files (arguments: `--plink_executable`, `--plink2_executable` and `--reference_1000g_folder`). Contact lead analysts for further guidance, if needed.
 
 This is the template for Slurm scheduler (`submit_DataQC_pipeline_template.sh`):
 
@@ -409,6 +417,9 @@ output_path=../output # Output path
 # --AdditionalCovariates [file with additional covariates. First column should be `SampleID`]
 # --gen_qc_steps 'WGS'
 # --fam [PLINK .fam file. Takes precedence over .fam file supplied with `--bfile`]
+# --plink_executable [path to plink executable (PLINK v1.90b6.26 64-bit)]
+# --plink2_executable [path to plink2 executable (PLINK v2.00a3.7LM 64-bit Intel)]
+# --reference_1000g_folder [path to folder with 1000G reference data]
 
 # Command:
 NXF_VER=21.10.6 ${nextflow_path}/nextflow run DataQC.nf \
@@ -456,7 +467,7 @@ The important files are following.
 1.  Files: `output/outputfolder_gen/gen_data_QCd/*_ToImputation.bed`, `output/outputfolder_gen/gen_data_QCd/*_ToImputation.bim`, `output/outputfolder_gen/gen_data_QCd/*_ToImputation.fam` are the filtered and QCd genotype files which need to be the input for the next, [imputation pipeline](#2-genotype-imputation). You need to specify the path to the *base* name (no extension `.bed/.bim/.fam`) as an input.
 2.  The whole `output` folder should be specified as one of the inputs for [per-cohort preparations pipeline](#4-per-cohort-data-preparations). This pipeline automatically uses the processed, QCd expression data and covariate file to run data encoding and partial derivative calculation. It then organises the encoded matrices for sharing with the central site. It also extracts some QC files, plots and summaries for sharing with the central site.
 
-❗ While continuing with the next step, now it is also good time to send the `Report_DataQc_[your cohort name].html` to Urmo Võsa (urmo.vosa at gmail.com) and Robert Warmerdam (c.a.warmerdam at umcg.nl). This way we can have a initial look to the quality of the data and let you know if something seems un-optimal.
+❗ While continuing with the next step, now it is also good time to send the `Report_DataQc_[your cohort name].html` to Urmo Võsa (urmo.vosa at gmail.com) and Robert Warmerdam (c.a.warmerdam at umcg.nl). This way we can have a initial look to the quality of the data and let you know if something seems unoptimal.
 
 #### 2. Genotype imputation
 
@@ -499,7 +510,7 @@ You should see this message in your terminal: `eQTLGenReferenceFiles.tar.gz:OK`.
 This yields the folder named `hg38` which contains all needed reference files.
 
 8.  Go into `eQTLGen_phase2/2_Imputation/eQTLGenImpute` pipeline folder and adjust the imputation script template with needed modules and inputs
-9.  Genotype path: path to unimputed and QC'd genotype files in plink `.bed/.bim/.fam` format, ending with `*_ToImputation`. These files are in the output of previous [data QC pipeline](#1-data-qc), files end with `*_ToImputation.*`. These are in the folder `output/outputfolder_gen/gen_data_QCd`. You should specify the full path to those files but **without file extension**.
+9.  Path to QCd genotype data: path pointing to unimputed and QC'd genotype files in plink `.bed/.bim/.fam` format, ending with `*_ToImputation`. These files are in the output of previous [data QC pipeline](#1-data-qc), ending with `*_ToImputation.*` and are in the folder `output/outputfolder_gen/gen_data_QCd`. This path is pre-filled.
 10. Path to reference folder (pre-filled).
 11. Output path: to the folder `output` you made (pre-filled).
 12. Cohort name: this should be the same as in `DataQC`.
@@ -588,7 +599,7 @@ Specifically, this pipeline performs the following steps:
 -   It converts the chunks into `.hdf5` format.
 -   It outputs a file with summary and quality metrics for each SNP included in the analysis. This includes MAF, Hardy-Weinberg P-value, Mach R2 (a measure of imputation quality), genotype counts, call rate (always 1 as imputed data) and an indicator whether SNP was typed of imputed.
 
-> These quality metrics will be used for performing additional per-variant QC in the central site, if needed.
+> These quality metrics will be used for performing additional per-variant QC in the central site.
 
 -   It renames and organises files into custom hdf5 genotype folder format so that these are usable in the HASE framework.
 
@@ -786,10 +797,11 @@ However, feel free to use this code and instructions to conduct further analyses
 
 Here are some runtime benchmarks for each of the steps in this cookbook: these might help you to get some hint how much time running the pipelines might take.
 
-All benchmarks are for RNA-seq dataset with following features: 
+All benchmarks are for RNA-seq dataset with following features:
+
 - Final eQTL sample size of 477 samples.
 - RNA-seq: up to 19,942 genes in processed expression matrix.
-- GSA genotyping array: 700,078 variants in unimputd data.
+- GSA genotyping array: 700,078 variants in unimputed data.
 
 #### Data QC
 
@@ -816,8 +828,8 @@ Note: benchmarks to initial run with default settings, you probably need to re-r
 -   Dependency management: Singularity
 -   Time to run the pipeline: \~4.5h
 -   CPU hours: \~80h
--   Final size of `output` directory: \~500GB
--   Final size of `work` subdirectory: \~500GB
+-   Final size of `output` directory: \~13GB
+-   Final size of `work` subdirectory: \~100GB
 
 #### Genotype conversion
 
@@ -827,14 +839,16 @@ Note: benchmarks to initial run with default settings, you probably need to re-r
 -   Dependency management: Singularity
 -   Time to run the pipeline (without wall times): \~4.5h
 -   CPU hours: \~80h
--   Final size of `output` directory: \~500GB
--   Final size of `work` subdirectory: \~500GB
+-   Final size of `output` directory: \~4GB
+-   Final size of `work` subdirectory: \~100GB
 
 #### Per-cohort data preparation
 
 -   Infrastructure: University HPC with \~150 compute nodes
 -   Scheduler: Slurm
 -   Dependency management: Singularity
+-   Time to run the pipeline (without wall times): \~1.5h
+-   CPU hours: \~44.8h
 -   Final size of `output` directory: \~50GB
 -   Final size of `work` subdirectory: \~100GB
 
