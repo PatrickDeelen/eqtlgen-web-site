@@ -182,7 +182,7 @@ But this means that the pipeline will restart from scratch, if you ever need to 
 - Nextflow and Singularity by default create cache folders in your home directory. This may unexpectedly fill your home.
 Therefore, we manually set and export the environment variables responsible for cache folders within each
 nextflow pipeline to `../../singularitycache` and `../../nextflowcache`. If you followed the naming
-scheme from the [setup](setup) chapter and ran the pipelines from within the pipeline directories,
+scheme from the [setup](#setup) chapter and ran the pipelines from within the pipeline directories,
 these evaluate to `eQTLGen_phase2/singularitycache` and `eQTLGen_phase2/nextflowcache`.
 Be aware that these might be changed from your default if you've sourced the submit script from a different directory.
 

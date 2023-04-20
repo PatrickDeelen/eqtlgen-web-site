@@ -1,32 +1,32 @@
 @font-face {
     font-family: GG;
     font-weight: lighter;
-    src: url("../fonts/Geogtq-Lg.otf");
+    src: url("../../fonts/Geogtq-Lg.otf");
 }
 
 @font-face {
     font-family: GPC;
     font-weight: lighter;
-    src: url("../fonts/GalaxiePolarisCondensed-Light.otf");
+    src: url("../../fonts/GalaxiePolarisCondensed-Light.otf");
 }
 
 @font-face {
     font-family: GPC;
     font-weight: medium;
-    src: url("../fonts/GalaxiePolarisCondensed-Medium.otf");
+    src: url("../../fonts/GalaxiePolarisCondensed-Medium.otf");
 }
 
 @font-face {
     font-family: GP;
     font-weight: medium;
-    src: url("../fonts/GalaxiePolaris-Medium.otf");
+    src: url("../../fonts/GalaxiePolaris-Medium.otf");
 }
 
 @font-face {
     font-family: GPC;
     font-weight: lighter;
     font-style: italic;
-    src: url("../fonts/GalaxiePolarisCondensed-LightItalic.otf");
+    src: url("../../fonts/GalaxiePolarisCondensed-LightItalic.otf");
 }
 
 body {
