@@ -10,11 +10,22 @@
 
     <title>{{ page.title }} - {{ site.title }}</title>
 
+    {% if site.url == "https://eqtlgen.org" %}
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="../css/vendor/bootstrap/bootstrap.min.css">
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="../css/phase2/eqtlgen.css">
+
+    {% else %}
+
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="{{ "css/vendor/bootstrap/bootstrap.min.css" | relative_url }}">
 
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="{{ "css/eqtlgen.css" | relative_url }}">
+    <link rel="stylesheet" href="{{ "css/phase2/eqtlgen.css" | relative_url }}">
+    {% endif %}
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 

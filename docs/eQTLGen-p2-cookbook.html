@@ -10,11 +10,14 @@
 
     <title>Cookbook for eQTLGen phase II analyses - eQTLGen Phase II</title>
 
+    
+
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="/eqtlgen-web-site/css/vendor/bootstrap/bootstrap.min.css">
 
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="/eqtlgen-web-site/css/eqtlgen.css">
+    <link rel="stylesheet" href="/eqtlgen-web-site/css/phase2/eqtlgen.css">
+    
 
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -176,8 +179,10 @@ Singularity would work correctly.</li>
 downloading analysis pipelines from code repos, for automatic
 download of the containers from container repos and for downloading
 some reference files. If it is mandatory for you to work offline,
-please contact us and we will adjust the pipeline for working
-offline.</li>
+please use <a href="eQTLGen-p2-offline-instructions.html">these
+instructions</a> for getting the
+pipelines working offline. Please contact lead analysts in case
+additional help is needed.</li>
 </ol>
 
 <h4 id="recommended">Recommended</h4>
@@ -190,7 +195,7 @@ manually.</li>
 tailored for usage with <a href="slurm.schedmd.com">Slurm</a> scheduler. We
 also provide profiles for two other commonly used schedulers
 (PBS/TORQUE and SGE; we have no possibility to test but these should
-work). It is straightforward to add configurations for other
+work). It is also straightforward to add configurations for other
 commonly used schedulers. Therefore, if your HPC uses some other
 scheduler, please contact us and we will try to make the
 configuration file for that specific scheduler.</li>
@@ -248,6 +253,15 @@ You might need to load Java &gt;=11 before running self-install
 wget -qO- https://get.nextflow.io | bash
 </code></pre></div>    </div>
   </li>
+</ul>
+
+<p>❗ If this does not work, it might be that your HPC has restrictions in
+connecting with internet. If this is the case please use <a href="eQTLGen-p2-offline-instructions.html">these
+instructions</a> for trying to
+install Nextflow offline. Please contact lead analysts in case
+additional help is needed.</p>
+
+<ul>
   <li>
     <p><em>Inside</em> <code class="language-plaintext highlighter-rouge">eQTLGen_phase2</code>, make additional separate folders for each
 step of this analysis plan:</p>
@@ -314,6 +328,19 @@ in the analysis.</li>
 are the input for the second pipeline (imputation).</li>
 </ul>
 
+<h4 id="offline-use">Offline use</h4>
+
+<p>In some HPCs the internet accessibility is restricted and this causes
+error messages when trying to install Nextflow and running it. This is
+because, by default, Nextflow executable tries to contact internet and
+check if newer version of Nextflow is available. Also, by default, first
+<a href="#1-data-qc">Data QC pipeline</a> tries to automatically download plink
+executables and 1000G reference panel. In order to get the setup working
+offline, please follow <a href="eQTLGen-p2-offline-instructions.html">these
+instructions</a>. Please consult with
+lead analysts, in case abovementioned instructions are not solving the
+issues.</p>
+
 <h4 id="running-monitoring-and-debugging-nextflow-pipelines">Running, monitoring and debugging Nextflow pipelines</h4>
 
 <p>Example commands here are based on the Slurm scheduler. However, this
@@ -345,12 +372,16 @@ of the pipeline.</p>
     <p>Monitoring:</p>
 
     <ul>
-      <li>Monitor the <code class="language-plaintext highlighter-rouge">slurm-***.out</code> log file or the <code class="language-plaintext highlighter-rouge">.nextflow.log</code> file
+      <li>
+        <p>Monitor the <code class="language-plaintext highlighter-rouge">slurm-***.out</code> log file or the <code class="language-plaintext highlighter-rouge">.nextflow.log</code> file
 and check if all the steps finish without error. Trick: command
 <code class="language-plaintext highlighter-rouge">watch tail -n 20 slurm-***.out</code> helps you to interactively
-monitor the status of the jobs.</li>
-      <li>Use <code class="language-plaintext highlighter-rouge">squeue -u [YourUserName]</code> to see if individual tasks are in
-the queue.</li>
+monitor the status of the jobs.</p>
+      </li>
+      <li>
+        <p>Use <code class="language-plaintext highlighter-rouge">squeue -u [YourUserName]</code> to see if individual tasks are in
+the queue.</p>
+      </li>
     </ul>
   </li>
   <li>
@@ -461,9 +492,10 @@ e.g. <code class="language-plaintext highlighter-rouge">_EUR</code>.</p>
 <ul>
   <li>We require either an unimputed PLINK dataset.
 <a href="https://www.cog-genomics.org/plink/1.9/formats#bed">.bed</a>/<a href="https://www.cog-genomics.org/plink/1.9/formats#bim">.bim</a>/<a href="https://www.cog-genomics.org/plink/1.9/formats#fam">.fam</a>
-or an unimputed VCF dataset. Can be in hg19/GRCh37 or hg38/GRCh38.</li>
+or an unimputed VCF dataset. Can be either genotyping array-based or
+WGS data. Can be in hg19/GRCh37 or hg38/GRCh38.</li>
   <li>WGS datasets are expected to have some sample-level quality control
-previouslydone (such as mean sequence coverage, percent of chimeric
+previously done (such as mean sequence coverage, percent of chimeric
 reads, median and standard deviation of insert size, contamination
 rate, bacterial contamination, large chromosomal abnormalities).</li>
   <li>We encourage the use of a VCF file format for WGS data. This enables
@@ -480,16 +512,16 @@ control step will be skipped.</li>
 with reported sex data. When Plink input is used, this separate .fam
 file will take precedence over the one in the Plink dataset.</li>
   <li>In order to take advantage of optimal pre-phasing, the input
-genotype data should have several thousand genotype samples. This
-means that if you have e.g. 7,000 samples in the available genotype
-data and only 500 of those have expression available (eQTL samples),
-please specify all 7,000 as the input of the analysis, not only eQTL
-samples. A larger number of input genotype samples will yield better
-pre-phasing and subsequent imputation. eQTL samples will be filtered
-after the imputation step. Our pipelines will automatically use up
-to 5,000 genotype samples in data QC and imputation pipelines. If
-only eQTL samples have genotype data available, only eQTL samples
-will be used.</li>
+genotype data should ideally have several thousand genotype samples.
+This means that if you have e.g. 7,000 samples in the available
+genotype data and only 500 of those have expression available (eQTL
+samples), please specify all 7,000 as the input of the analysis, not
+only eQTL samples. A larger number of input genotype samples will
+yield better pre-phasing and subsequent imputation. eQTL samples
+will be filtered after the imputation step. Our pipelines will
+automatically use up to 5,000 genotype samples in data QC and
+imputation pipelines. If only eQTL samples have genotype data
+available, only eQTL samples will be used.</li>
 </ul>
 
 <p>❗ Standard pre-imputation genotype and sample quality control will be
@@ -641,7 +673,7 @@ sex for all samples (format: males=1, females=2) so that pipeline is
 able to compare this with genetically inferred sex. For samples with
 missing reported sex, this step will be skipped.</li>
   <li>We also allow unimputed VCF datasets as input, specifically for WGS
-datasets for which we can do WGS specific variant level QC.</li>
+datasets for which we can do WGS-specific variant level QC.</li>
   <li>We allow a separate .fam file to be supplied with reported sex
 information, which is especially useful for VCF datasets.</li>
 </ul>
@@ -654,7 +686,7 @@ genotype-to-expression file) and, <em>if</em> additional samples are available,
 includes additional up to 5,000 genotype samples which will be kept
 until the pre-phasing step of the analysis. If the genotype data is
 available for &lt;5,000 samples, the pipeline uses only those samples
-which are avilable.</p>
+which are available.</p>
 
 <h6 id="expression-data">Expression data</h6>
 
@@ -731,13 +763,21 @@ argument with the <code class="language-plaintext highlighter-rouge">--vcf</code
 full path to a vcf dataset. Pathname extension using globbing is
 allowed (using <code class="language-plaintext highlighter-rouge">*</code> or <code class="language-plaintext highlighter-rouge">?</code>), but the path should be provided without
 pathway extension.</li>
-  <li>You can select scheduler type by adjusting the profile as following:
-    <ul>
-      <li>Slurm: <code class="language-plaintext highlighter-rouge">-profile slurm,singularity</code></li>
-      <li>PBS/TORQUE: <code class="language-plaintext highlighter-rouge">-profile pbs,singularity</code></li>
-      <li>SGE: <code class="language-plaintext highlighter-rouge">-profile sge,singularity</code></li>
-    </ul>
-  </li>
+  <li>You can select scheduler type by adjusting the profile as following:</li>
+</ol>
+
+<ul>
+  <li>Slurm: <code class="language-plaintext highlighter-rouge">-profile slurm,singularity</code></li>
+  <li>PBS/TORQUE: <code class="language-plaintext highlighter-rouge">-profile pbs,singularity</code></li>
+  <li>SGE: <code class="language-plaintext highlighter-rouge">-profile sge,singularity</code></li>
+</ul>
+
+<ol>
+  <li>If your cluster setup does not allow internet connection, you can
+specify paths to local plink executables and reference files
+(arguments: <code class="language-plaintext highlighter-rouge">--plink_executable</code>, <code class="language-plaintext highlighter-rouge">--plink2_executable</code> and
+<code class="language-plaintext highlighter-rouge">--reference_1000g_folder</code>). Contact lead analysts for further
+guidance, if needed.</li>
 </ol>
 
 <p>This is the template for Slurm scheduler
@@ -798,6 +838,9 @@ output_path=../output # Output path
 # --AdditionalCovariates [file with additional covariates. First column should be `SampleID`]
 # --gen_qc_steps 'WGS'
 # --fam [PLINK .fam file. Takes precedence over .fam file supplied with `--bfile`]
+# --plink_executable [path to plink executable (PLINK v1.90b6.26 64-bit)]
+# --plink2_executable [path to plink2 executable (PLINK v2.00a3.7LM 64-bit Intel)]
+# --reference_1000g_folder [path to folder with 1000G reference data]
 
 # Command:
 NXF_VER=21.10.6 ${nextflow_path}/nextflow run DataQC.nf \
@@ -887,7 +930,7 @@ sharing with the central site.</li>
 the <code class="language-plaintext highlighter-rouge">Report_DataQc_[your cohort name].html</code> to Urmo Võsa (urmo.vosa at
 gmail.com) and Robert Warmerdam (c.a.warmerdam at umcg.nl). This way we
 can have a initial look to the quality of the data and let you know if
-something seems un-optimal.</p>
+something seems unoptimal.</p>
 
 <h4 id="2-genotype-imputation">2. Genotype imputation</h4>
 
@@ -961,12 +1004,12 @@ and adjust the imputation script template with needed modules and
 inputs</p>
   </li>
   <li>
-    <p>Genotype path: path to unimputed and QC’d genotype files in plink
-<code class="language-plaintext highlighter-rouge">.bed/.bim/.fam</code> format, ending with <code class="language-plaintext highlighter-rouge">*_ToImputation</code>. These files
-are in the output of previous <a href="#1-data-qc">data QC pipeline</a>, files
-end with <code class="language-plaintext highlighter-rouge">*_ToImputation.*</code>. These are in the folder
-<code class="language-plaintext highlighter-rouge">output/outputfolder_gen/gen_data_QCd</code>. You should specify the full
-path to those files but <strong>without file extension</strong>.</p>
+    <p>Path to QCd genotype data: path pointing to unimputed and QC’d
+genotype files in plink <code class="language-plaintext highlighter-rouge">.bed/.bim/.fam</code> format, ending with
+<code class="language-plaintext highlighter-rouge">*_ToImputation</code>. These files are in the output of previous <a href="#1-data-qc">data QC
+pipeline</a>, ending with <code class="language-plaintext highlighter-rouge">*_ToImputation.*</code> and are in the
+folder <code class="language-plaintext highlighter-rouge">output/outputfolder_gen/gen_data_QCd</code>. This path is
+pre-filled.</p>
   </li>
   <li>
     <p>Path to reference folder (pre-filled).</p>
@@ -1097,7 +1140,7 @@ typed of imputed.</li>
 
 <blockquote>
   <p>These quality metrics will be used for performing additional
-per-variant QC in the central site, if needed.</p>
+per-variant QC in the central site.</p>
 </blockquote>
 
 <ul>
@@ -1412,10 +1455,13 @@ this is for extracting data subsets for subsequent interpretation.</p>
 these might help you to get some hint how much time running the
 pipelines might take.</p>
 
-<p>All benchmarks are for RNA-seq dataset with following features: - Final
-eQTL sample size of 477 samples. - RNA-seq: up to 19,942 genes in
-processed expression matrix. - GSA genotyping array: 700,078 variants in
-unimputd data.</p>
+<p>All benchmarks are for RNA-seq dataset with following features:</p>
+
+<ul>
+  <li>Final eQTL sample size of 477 samples.</li>
+  <li>RNA-seq: up to 19,942 genes in processed expression matrix.</li>
+  <li>GSA genotyping array: 700,078 variants in unimputed data.</li>
+</ul>
 
 <h4 id="data-qc">Data QC</h4>
 
@@ -1446,8 +1492,8 @@ to re-run at least once after adjusting the settings.</p>
   <li>Dependency management: Singularity</li>
   <li>Time to run the pipeline: ~4.5h</li>
   <li>CPU hours: ~80h</li>
-  <li>Final size of <code class="language-plaintext highlighter-rouge">output</code> directory: ~500GB</li>
-  <li>Final size of <code class="language-plaintext highlighter-rouge">work</code> subdirectory: ~500GB</li>
+  <li>Final size of <code class="language-plaintext highlighter-rouge">output</code> directory: ~13GB</li>
+  <li>Final size of <code class="language-plaintext highlighter-rouge">work</code> subdirectory: ~100GB</li>
 </ul>
 
 <h4 id="genotype-conversion">Genotype conversion</h4>
@@ -1459,8 +1505,8 @@ to re-run at least once after adjusting the settings.</p>
   <li>Dependency management: Singularity</li>
   <li>Time to run the pipeline (without wall times): ~4.5h</li>
   <li>CPU hours: ~80h</li>
-  <li>Final size of <code class="language-plaintext highlighter-rouge">output</code> directory: ~500GB</li>
-  <li>Final size of <code class="language-plaintext highlighter-rouge">work</code> subdirectory: ~500GB</li>
+  <li>Final size of <code class="language-plaintext highlighter-rouge">output</code> directory: ~4GB</li>
+  <li>Final size of <code class="language-plaintext highlighter-rouge">work</code> subdirectory: ~100GB</li>
 </ul>
 
 <h4 id="per-cohort-data-preparation">Per-cohort data preparation</h4>
@@ -1469,6 +1515,8 @@ to re-run at least once after adjusting the settings.</p>
   <li>Infrastructure: University HPC with ~150 compute nodes</li>
   <li>Scheduler: Slurm</li>
   <li>Dependency management: Singularity</li>
+  <li>Time to run the pipeline (without wall times): ~1.5h</li>
+  <li>CPU hours: ~44.8h</li>
   <li>Final size of <code class="language-plaintext highlighter-rouge">output</code> directory: ~50GB</li>
   <li>Final size of <code class="language-plaintext highlighter-rouge">work</code> subdirectory: ~100GB</li>
 </ul>
