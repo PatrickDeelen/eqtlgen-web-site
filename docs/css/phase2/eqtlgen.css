@@ -1,0 +1,136 @@
+@font-face {
+    font-family: GG;
+    font-weight: lighter;
+    src: url("../../fonts/Geogtq-Lg.otf");
+}
+
+@font-face {
+    font-family: GPC;
+    font-weight: lighter;
+    src: url("../../fonts/GalaxiePolarisCondensed-Light.otf");
+}
+
+@font-face {
+    font-family: GPC;
+    font-weight: medium;
+    src: url("../../fonts/GalaxiePolarisCondensed-Medium.otf");
+}
+
+@font-face {
+    font-family: GP;
+    font-weight: medium;
+    src: url("../../fonts/GalaxiePolaris-Medium.otf");
+}
+
+@font-face {
+    font-family: GPC;
+    font-weight: lighter;
+    font-style: italic;
+    src: url("../../fonts/GalaxiePolarisCondensed-LightItalic.otf");
+}
+
+body {
+  padding-top: 54px;
+}
+
+div.dataTables_wrapper div.dataTables_processing {
+  background: rgba(255, 255, 255, .0);
+  width: 100px;
+  border: 0px;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+    text-align: left;
+}
+
+div.dataTables_wrapper div.dataTables_length {
+    text-align: right;
+}
+
+.navbar-toggler {
+  border: 0px;
+}
+
+.page-item.active .page-link {
+    background-color: #212529;
+    border-color: #dee2e6;
+}
+
+.page-link {
+    color: #212529;
+}
+
+.table-header-upper > th {
+  padding-bottom: .1rem
+}
+
+.table-header-lower > th {
+  padding-top: .1rem;
+}
+
+@media (min-width: 992px) {
+  body {
+    padding-top: 56px;
+  }
+}
+
+.bg-dark {
+    background-color: #4d4d4d!important;
+}
+
+.carousel-item {
+  height: 65vh;
+  min-height: 300px;
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.portfolio-item {
+  margin-bottom: 30px;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-family: GG, 'PT Sans Caption', Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    margin-right: 0.5rem;
+}
+
+.nav-item {
+    font-family: GG, 'PT Sans Caption', Helvetica, Arial, sans-serif;
+}
+
+nav.navbar > div.container > .btn-group > button.dropdown-toggle {
+    font-family: GG, 'PT Sans Caption', Helvetica, Arial, sans-serif;
+    color: rgba(255, 255, 255, .5);
+    border: 0px;
+}
+
+.navbar-expand>.container, .navbar-expand>.container-fluid {
+  padding-left: 15px
+}
+
+.fixed-top-2 {
+    margin-top: 56px;
+}
+
+.card-group {
+  box-shadow: rgb(0 0 0 / 10%) 0px 2px 8px 0px;
+}
+
+table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_desc_disabled:before {
+    right: 1.1em;
+}
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}

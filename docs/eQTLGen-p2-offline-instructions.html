@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Instructions for running eQTLGen phase II cookbook offline - eQTLGen Phase II</title>
+
+    
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="/eqtlgen-web-site/css/vendor/bootstrap/bootstrap.min.css">
+
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="/eqtlgen-web-site/css/phase2/eqtlgen.css">
+    
+
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="index.html">eQTLGen phase II</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">
+                        Home
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="cohorts.html">
+                        Consortium members
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="collaboration.html">
+                        Collaborate
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="documents.html">
+                        Documents
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="eQTLGen-p2-cookbook.html">
+                        Cookbook
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="articles.html">
+                        Publications
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="resources.html">
+                        Recources
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/eQTLGen">
+                        <span class="fa fa-github"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container" style="margin-top: 75px">
+    <h1 id="instructions-for-running-eqtlgen-phase-ii-cookbook-offline">Instructions for running eQTLGen phase II cookbook offline</h1>
+
+<p>In some HPC setups, access to internet is restricted. This document
+helps you to get <a href="eQTLGen-p2-cookbook.html">eQTLGen phase II cookbook</a>
+running when there is no internet access. Please first have a look to
+<a href="eQTLGen-p2-cookbook.html#setup">analysis setup</a>, make those
+preparations which are possible, and then continue with the instructions
+below.</p>
+
+<h2 id="installing-nextflow-offline">Installing Nextflow offline</h2>
+
+<p>When you try to install Nextflow as specified
+<a href="https://www.nextflow.io/docs/latest/getstarted.html#installation">here</a>,
+it automatically tries to connect internet and check if update is
+available. In case of firewall or connection restrictions, you might see
+error message. In order to run Nextflow offline, follow these steps:</p>
+
+<ul>
+  <li>Go to tools folder:</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">cd eQTLGen_phase2/tools</code></p>
+
+<ul>
+  <li>Download Nextflow v21.10.6 executable file:</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">wget https://github.com/nextflow-io/nextflow/releases/download/v21.10.6/nextflow-21.10.6-all</code></p>
+
+<ul>
+  <li>Rename the Nextflow v21.10.6 executable file:</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">mv nextflow-21.10.6-all nextflow</code></p>
+
+<ul>
+  <li>Ensure that the file is executable:</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">chmod -x nextflow</code></p>
+
+<ul>
+  <li>Modify the .bashrc, so that Nextflow does not try to update from
+internet:</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">echo "export NXF_OFFLINE='TRUE'" &gt;&gt; ~/.bashrc</code></p>
+
+<ul>
+  <li>Load java &gt;=11</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">module load [Java &gt;=11 module name in your HPC]</code></p>
+
+<ul>
+  <li>Run the nextflow executable, so it self-installs:</li>
+</ul>
+
+<p>This might take some memory, so first initiate interactive job (below
+example for SLURM):</p>
+
+<p><code class="language-plaintext highlighter-rouge">srun --nodes=1 --ntasks-per-node=1 --time=01:00:00 --pty bash -i</code></p>
+
+<p>Or alternatively, perform test run as usual scheduled job.</p>
+
+<p>Run the command:</p>
+
+<p><code class="language-plaintext highlighter-rouge">./nextflow run hello</code></p>
+
+<p>You should see the message with Nextflow version number 21.10.6.</p>
+
+<ul>
+  <li>🎉 Done! Now Nextflow should work as in the <a href="eQTLGen-p2-cookbook.html">eQTLGen phase II
+cookbook</a></li>
+</ul>
+
+<h2 id="getting-the-software-containers">Getting the software containers</h2>
+
+<p>Our Nextflow pipelines use Singularity for software dependency
+management. By default, the pipelines try to download corresponding
+container images from our online repo. However, if internet access is
+restricted, you will see the error. Therefore, we provide the container
+images here via separate dropbox link, so you can download those via
+whicever way is possible and avoid automatic download by pipeline.</p>
+
+<ul>
+  <li>Go to analysis root folder: <code class="language-plaintext highlighter-rouge">cd eQTLGen_phase2</code></li>
+  <li>Get eQTLGen phase II offline files:
+<code class="language-plaintext highlighter-rouge">wget https://www.dropbox.com/s/zticzqos052dtxp/eQTLGenP2OfflineFiles.tar.gz?dl=1</code></li>
+  <li>Get the md5sum file:
+<code class="language-plaintext highlighter-rouge">wget https://www.dropbox.com/s/zticzqos052dtxp/eQTLGenP2OfflineFiles.tar.gz.md5?dl=1</code></li>
+  <li>Check the integrity of download, you should see “OK”:
+<code class="language-plaintext highlighter-rouge">md5sum -c eQTLGenP2OfflineFiles.tar.gz.md5</code></li>
+  <li>Unzip the folder: <code class="language-plaintext highlighter-rouge">tar –xvzf eQTLGenP2OfflineFiles.tar.gz</code></li>
+</ul>
+
+<p>In the unzipped folder there are folders with docker images for each
+pipeline. After you have cloned each pipeline from github (as specified
+<a href="eQTLGen-p2-cookbook.html#setup">here</a>), you should copy each
+<code class="language-plaintext highlighter-rouge">singularity_img</code> folder inside the corresponding pipeline folder.</p>
+
+<p><code class="language-plaintext highlighter-rouge">cp -R eQTLGenP2OfflineFiles/1_DataQC_additional_files/singularity_img 1_DataQC/DataQC/.</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">eQTLGenP2OfflineFiles/2_Imputation_additional_files/singularity_img 2_Imputation/eQTLGenImpute/.</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">eQTLGenP2OfflineFiles/3_ConvertVcf2Hdf5_additional_files/singularity_img 3_ConvertVcf2Hdf5/ConvertVcf2Hdf5/.</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">eQTLGenP2OfflineFiles/4_PerCohortPreparations/singularity_img 4_PerCohortPreparations/PerCohortDataPreparations/.</code></p>
+
+<p>Now Nextflow pipelines will use those images in the analysis, instead of
+trying to download those from online repo.</p>
+
+<h2 id="offline-files-for-data-qc-pipeline">Offline files for Data QC pipeline</h2>
+
+<p>By default, <a href="eQTLGen-p2-cookbook.html#1-data-qc">Data QC pipeline</a> tries
+to download two plink executables and 1000G reference data from online.
+If download is not possible, it is instead possible to adjust the script
+template and provide corresponding files via additional arguments.
+Corresponding files are available in the folder you unpacked in the
+previous step.</p>
+
+<p>In the following script template, additional arguments are pre-filled.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#!/bin/bash
+
+#SBATCH --time=48:00:00
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem=6G
+#SBATCH --mail-type=BEGIN
+#SBATCH --mail-type=END
+#SBATCH --mail-type=FAIL
+#SBATCH --job-name="DataQc"
+
+# These are needed modules in UT HPC to get singularity and Nextflow running. Replace with appropriate ones for your HPC.
+module load java-1.8.0_40
+module load singularity/3.5.3
+module load squashfs/4.4
+
+# If you follow the eQTLGen phase II cookbook and analysis folder structure,
+# some of the following paths are pre-filled.
+# https://github.com/eQTLGen/eQTLGen-phase-2-cookbook/wiki/eQTLGen-phase-II-cookbook
+
+# We set the following variables for nextflow to prevent writing to your home directory (and potentially filling it completely)
+# Feel free to change these as you wish.
+export SINGULARITY_CACHEDIR=../../singularitycache
+export NXF_HOME=../../nextflowcache
+
+# Disable pathname expansion. Nextflow handles pathname expansion by itself.
+set -f
+
+# Define paths
+nextflow_path=../../tools # folder where Nextflow executable is
+
+# Genotype data
+bfile_path=[full path to your input genotype files without .bed/.bim/.fam extension]
+
+# Other data
+exp_path=[full path to your gene expression matrix]
+gte_path=[full path to your genotype-to-expression file]
+exp_platform=[expression platform name: HT12v3/HT12v4/HuRef8/RNAseq/AffyU219/AffyHumanExon]
+cohort_name=[name of the cohort]
+genome_build="GRCh37"
+output_path=../output # Output path
+
+# Additional files for offline use
+plink_executable=../../eQTLGenP2OfflineFiles/1_DataQC_additional_files/plink_executables/plink
+plink2_executable=../../eQTLGenP2OfflineFiles/1_DataQC_additional_files/plink_executables/plink2
+reference_1000g_folder=../../eQTLGenP2OfflineFiles/1_DataQC_additional_files/bigsnpr_reference/
+
+# Additional settings and optional arguments for the command
+
+# --GenOutThresh [numeric threshold]
+# --GenSdThresh [numeric threshold]
+# --ExpSdThresh [numeric threshold]
+# --ContaminationArea [number between 0 and 90, default 30]
+# --AdditionalCovariates [file with additional covariates]
+# --InclusionList [file with the list of samples to restrict the analysis]
+# --ExclusionList [file with the list of samples to remove from the analysis]
+# --preselected_sex_check_vars "data/Affy6_pruned_chrX_variant_positions.txt"
+# --AdditionalCovariates [file with additional covariates. First column should be `SampleID`]
+# --gen_qc_steps 'WGS'
+# --fam [PLINK .fam file. Takes precedence over .fam file supplied with `--bfile`]
+# --plink_executable [path to plink executable (PLINK v1.90b6.26 64-bit)]
+# --plink2_executable [path to plink2 executable (PLINK v2.00a3.7LM 64-bit Intel)]
+# --reference_1000g_folder [path to folder with 1000G reference data]
+
+# Command:
+NXF_VER=21.10.6 ${nextflow_path}/nextflow run DataQC.nf \
+--bfile ${bfile_path} \
+--expfile ${exp_path} \
+--gte ${gte_path} \
+--exp_platform ${exp_platform} \
+--cohort_name ${cohort_name} \
+--genome_build ${genome_build} \
+--outdir ${output_path}  \
+--plink_executable \
+--plink2_executable \
+--reference_1000g_folder \
+-profile slurm,singularity \
+-resume
+</code></pre></div></div>
+
+</div>
+<footer class="pt-5">
+    <hr>
+    <div class="container text-center">
+        <img src="figs/genoomika.png" height="100px">
+        <img src="figs/rug.jpg" height="100px">
+        <p class="m-0 text-center text-white">Copyright &copy; eQTLGen 2022</p>
+    </div>
+    <!-- /.container -->
+</footer>
+
+<!-- Bootstrap core JavaScript -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+        integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
