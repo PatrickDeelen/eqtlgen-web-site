@@ -2,11 +2,16 @@
 layout: default
 ---
 <div class="jumbotron">
-        <h1 class="display-4">Welcome to the eQTLGen consortium</h1>
+    <h1 class="display-4">Welcome to the eQTLGen consortium</h1>
     <p class="lead">Scroll down to see the aims of the eQTLGen phase II project,
         wherein we will perform a large-scale <i>genome-wide</i> meta-analysis in blood.
-        Click <a href="{{ eQTLGen-p2-cookbook.html | relative_url }}">here to go directly to the phase II cookbook</a>,
-                or head to the site of a sister project with the links below.</p>
+        Click
+        {% if site.url == "https://eqtlgen.org" %}
+        <a href="phase2/eQTLGen-p2-cookbook.html">here to go directly to the phase II cookbook</a>,
+        {% else %}
+        <a href="eQTLGen-p2-cookbook.html">here to go directly to the phase II cookbook</a>,
+        {% endif %}
+        or head to the site of a sister project with the links below.</p>
 </div>
     <div class="card-deck">
         <div class="card mb-3" style="max-width: 540px;">
@@ -19,7 +24,7 @@ layout: default
                         <h5 class="card-title">eQTLGen phase I</h5>
                         <p class="card-text">Go here to see publications and resources produced in the first installment of the eQTLGen project.</p>
                         {% if site.url == "https://eqtlgen.org" %}
-                        <a href="../" class="stretched-link">Phase I website</a>
+                        <a href="phase1.html" class="stretched-link">Phase I website</a>
                         {% else %}
                         <a href="https://eqtlgen.org/" class="stretched-link">Phase I website</a>
                         {% endif %}
