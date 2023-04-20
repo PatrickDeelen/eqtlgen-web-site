@@ -4,3 +4,38 @@ output: html_document
 layout: default
 ---
 
+# Consortium members
+
+Below we have listed the eQTLGen consortium members.
+
+- BIOS Consortium
+- The Cohort on Diabetes and Atherosclerosis Maastricht (CODAM)
+- Genome of the Netherlands (GoNL WGS)
+- LifeLines DEEP
+- The Leiden Longevity Study
+- The Netherlands Study of Depression and Anxiety (NESDA)
+- The Netherlands Twin Register (NTR)
+- PAN
+- The Rotterdam Study
+- Estonian Gene Expression Cohort (EGCUT1)
+- Estonian Center for Translational Genomics cohort (EGCUT2)
+- CARTaGENE
+- The Depression Genes and Networks study (DGN)
+- The Genotype-Tissue Expression Consortium (GTEx)
+- Bangladesh Vitamin E and Selenium Trial (BEST)
+- Brisbane System Genetics Study (BSGS)
+- Cardiology
+- The Center for Health Discovery and Well Being (CHDWB)
+- DIetary, Lifestyle and Genetic determinants of Obesity and Metabolic syndrome (DILGOM)
+- Fehrmann study
+- The Heart and Vascular Health study (HVH)
+- Invecchiare in Chianti, ageing in the Chianti area study (InCHIANTI)
+- The Cooperative Health Research in the Region of Augsburg (KORA F4)
+- LIFE-Adult
+- LIFE-Heart
+- Morocco study
+- The Study of Health in Pomerania (SHIP-TREND)
+- The Singapore Systems Immunology Cohort (SSIC)
+- Sorbs study
+- Young Finns Study (YFS)
+- Framingham Heart Study (FHS)
