@@ -1,16 +1,14 @@
 ---
 title: Home
-layout: default
+layout: landing
 ---
 
-<img src="figs/eQTLGen.svg" width="200">
-
-# Welcome to the eQTLGen consortium
+# eQTLGen phase II
 
 The eQTLGen Consortium has been set up to investigate the genetic
 architecture of blood gene expression and to understand the genetic
 underpinnings of complex traits. Currently, we are initiating the
-second phase of [eQTLGen analyses](projects.html#eqtlgen-phase-ii-global-eqtl-analysis):
+second phase of eQTLGen analyses:
 highly-powered *genome-wide* eQTL
 meta-analysis in blood. This project
 dramatically expands our previous work where we tested, in addition to

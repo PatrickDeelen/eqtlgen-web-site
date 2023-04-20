@@ -1,0 +1,52 @@
+---
+layout: default
+---
+<div class="jumbotron">
+        <h1 class="display-4">Welcome to the eQTLGen consortium</h1>
+    <p class="lead">Scroll down to see the aims of the eQTLGen phase II project,
+        wherein we will perform a large-scale <i>genome-wide</i> meta-analysis in blood.
+        Click <a href="{{ eQTLGen-p2-cookbook.html }}">here to go directly to the phase II cookbook</a>,
+                or head to the site of a sister project with the links below.</p>
+</div>
+    <div class="card-deck">
+        <div class="card mb-3" style="max-width: 540px;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img src="/figs/eQTLGen.svg" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">eQTLGen phase I</h5>
+                        <p class="card-text">Go here to see publications and resources produced in the first installment of the eQTLGen project.</p>
+                        {% if site.url == "https://eqtlgen.org" %}
+                        <a class="dropdown-item" href="../">Phase I website</a>
+                        {% else %}
+                        <a href="https://eqtlgen.org/" class="stretched-link">Phase I website</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-3" style="max-width: 540px;">
+            <div class="row no-gutters">
+                <div class="col-md-4">
+                    <img src="/figs/sc-eqtlgen.svg" alt="...">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">Single-cell eQTLGen</h5>
+                        <p class="card-text">Head to here to see publications and resources produced in the single-cell flavour of the eQTLGen project.</p>
+                        {% if site.url == "https://eqtlgen.org" %}
+                        <a class="dropdown-item" href="../sc">Single-cell website</a>
+                        {% else %}
+                        <a href="https://eqtlgen.org/sc" class="stretched-link">Single-cell website</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</div>
+<hr class="featurette-divider">
+{{ content }}
+
