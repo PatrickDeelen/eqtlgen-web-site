@@ -4,8 +4,6 @@ output: html_document
 layout: default
 ---
 
-#### eQTLGen phase II
-
 #### eQTLGen phase I
 
 <div class="csl-entry">Võsa & Claringbould et. al. (2021). Large-scale cis- and trans-eQTL analyses identify thousands of genetic loci and polygenic scores that regulate blood gene expression. <i>Nature Genetics</i>, <i>53</i>(9), 1300–1310. https://doi.org/10.1038/s41588-021-00913-z</div>
