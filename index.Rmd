@@ -46,10 +46,11 @@ Previously we have conducted *cis*-eQTL, targeted *trans*-eQTL and eQTS analysis
 Publication:
 
 <div class="csl-entry">Võsa & Claringbould et. al. (2021). Large-scale cis- and trans-eQTL analyses identify thousands of genetic loci and polygenic scores that regulate blood gene expression. <i>Nature Genetics</i>, <i>53</i>(9), 1300–1310. https://doi.org/10.1038/s41588-021-00913-z</div>
-<br>
+
 Full summary statistics from eQTLGen phase I are available on the dedicated [web site](www.eqtlgen.org).
 
-Results from this project have been extensively used in collaboration projects before and after publication. According to Google Scholar, the published paper has been cited 100 times and preprint 401 times (16.06.2022).
+Results from this project have been used in collaboration projects before and after publication.
+According to Google Scholar, the published paper and preprint have been cited 733 times (by 21.04.2023).
 
 ## Data
 
@@ -60,5 +61,4 @@ Links to all available summary statistics from our publications and preprints ar
 eQTLGen Consortium is jointly coordinated by:
 
 University of Tartu, Institute of Genomics, Estonian Genome Center (Urmo Võsa, PI: Prof. Tõnu Esko)
-
 University Medical Center Groningen, University of Groningen (Robert Warmerdam, PI: Prof. Lude Franke)
