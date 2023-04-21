@@ -60,5 +60,5 @@ Links to all available summary statistics from our publications and preprints ar
 
 eQTLGen Consortium is jointly coordinated by:
 
-University of Tartu, Institute of Genomics, Estonian Genome Center (Urmo Võsa, PI: Prof. Tõnu Esko)
-University Medical Center Groningen, University of Groningen (Robert Warmerdam, PI: Prof. Lude Franke)
+- University of Tartu, Institute of Genomics, Estonian Genome Center (Urmo Võsa, PI: Prof. Tõnu Esko)
+- University Medical Center Groningen, University of Groningen (Robert Warmerdam, PI: Prof. Lude Franke)
