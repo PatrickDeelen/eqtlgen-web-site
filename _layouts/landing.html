@@ -3,15 +3,21 @@ layout: default
 ---
 <div class="jumbotron">
     <h1 class="display-4">Welcome to the eQTLGen consortium</h1>
-    <p class="lead">Scroll down to see the aims of the eQTLGen phase II project,
-        wherein we will perform a large-scale <i>genome-wide</i> meta-analysis in blood.
-        Click
+    <p class="lead">The aim of the eQTLGen consortium is to investigate the genetic architecture of
+        blood gene expression and to understand the genetic underpinnings of complex traits.
+        The bulk eQTLGen project is currently in its second phase, which is focused on a large-scale <i>genome-wide</i> meta-analysis in blood.
         {% if site.url == "https://eqtlgen.org" %}
-        <a href="phase2/eQTLGen-p2-cookbook.html">here to go directly to the phase II cookbook</a>,
+        <a href="https://eqtlgen.github.io/eqtlgen-web-site/eQTLGen-p2-cookbook.html">The cookbook for this second phase analysis can be found here</a>.
         {% else %}
-        <a href="eQTLGen-p2-cookbook.html">here to go directly to the phase II cookbook</a>,
+        <a href="eQTLGen-p2-cookbook.html">The cookbook for this second phase analysis can be found here</a>.
         {% endif %}
-        or head to the site of a sister project with the links below.</p>
+        We are also working on a single-cell version of this consortium, called
+        {% if site.url == "https://eqtlgen.org" %}
+        <a href="../sc">Single-Cell eQTLGen</a>.
+        {% else %}
+        <a href="https://eqtlgen.org/sc">Single-Cell eQTLGen</a>.
+        {% endif %}
+    </p>
 </div>
     <div class="card-deck">
         <div class="card mb-3" style="max-width: 540px;">

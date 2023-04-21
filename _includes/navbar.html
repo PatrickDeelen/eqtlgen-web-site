@@ -10,9 +10,15 @@
             <ul class="navbar-nav ml-auto">
                 {% for item in site.data.navbar %}
                 <li class="nav-item">
+                    {% if site.url == "https://eqtlgen.org" %}
+                    <a class="nav-link" href="https://eqtlgen.github.io//eqtlgen-web-site/{{item.link}}">
+                        {{ item.name }}
+                    </a>
+                    {% else %}
                     <a class="nav-link" href="{{item.link}}">
                         {{ item.name }}
                     </a>
+                    {% endif %}
                 </li>
                 {% endfor %}
                 <li class="nav-item">
