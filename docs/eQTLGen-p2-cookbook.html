@@ -828,6 +828,7 @@ output_path=../output # Output path
 # --GenOutThresh [numeric threshold]
 # --GenSdThresh [numeric threshold]
 # --ExpSdThresh [numeric threshold]
+# --ContaminationSlope [number between 0 and 90, default 45]
 # --ContaminationArea [number between 0 and 90, default 30]
 # --AdditionalCovariates [file with additional covariates]
 # --InclusionList [file with the list of samples to restrict the analysis]
@@ -867,8 +868,9 @@ report.</p>
     <p>According to the instructions in the QC report, it is likely that
 you need to adjust some of the QC thresholds. In your slurm script,
 you can add the some or all of the arguments <code class="language-plaintext highlighter-rouge">--GenOutThresh</code>,
-<code class="language-plaintext highlighter-rouge">--GenSdThresh</code>, <code class="language-plaintext highlighter-rouge">--ExpSdThresh</code>, <code class="language-plaintext highlighter-rouge">--ContaminationArea</code>, and specify
-the appropriate values for each of those.</p>
+<code class="language-plaintext highlighter-rouge">--GenSdThresh</code>, <code class="language-plaintext highlighter-rouge">--ExpSdThresh</code>, <code class="language-plaintext highlighter-rouge">--ContaminationSlope</code>,
+<code class="language-plaintext highlighter-rouge">--ContaminationArea</code>, and specify the appropriate values for each
+of those.</p>
   </li>
   <li>
     <p>In WGS datasets many samples might not fit the thresholds set on the

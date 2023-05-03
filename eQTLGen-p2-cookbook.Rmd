@@ -409,6 +409,7 @@ output_path=../output # Output path
 # --GenOutThresh [numeric threshold]
 # --GenSdThresh [numeric threshold]
 # --ExpSdThresh [numeric threshold]
+# --ContaminationSlope [number between 0 and 90, default 45]
 # --ContaminationArea [number between 0 and 90, default 30]
 # --AdditionalCovariates [file with additional covariates]
 # --InclusionList [file with the list of samples to restrict the analysis]
@@ -440,7 +441,7 @@ NXF_VER=21.10.6 ${nextflow_path}/nextflow run DataQC.nf \
 You will find diagnostic plots and instructions on how to proceed from this report.
 
 8.  According to the instructions in the QC report, it is likely that you need to adjust some of the QC thresholds.
-In your slurm script, you can add the some or all of the arguments `--GenOutThresh`, `--GenSdThresh`, `--ExpSdThresh`, `--ContaminationArea`, and specify the appropriate values for each of those.
+In your slurm script, you can add the some or all of the arguments `--GenOutThresh`, `--GenSdThresh`, `--ExpSdThresh`, `--ContaminationSlope`, `--ContaminationArea`, and specify the appropriate values for each of those.
 
 9.  In WGS datasets many samples might not fit the thresholds set on the X-chromosome heterozygosity (F<0.2 and F>0.8).
 To resolve this you can add the argument `--preselected_sex_check_vars ${sex_check_vars_path}`, which will make the method use a preselected
