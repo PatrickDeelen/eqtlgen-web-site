@@ -31,19 +31,15 @@ For secondary projects and external collaborations, there are following requirem
 
 ### Conference abstracts
 
-There are following requirements:
+There are the following requirements:
 
 - If consortium contributes with only the interim unpublished data freeze, "eQTLGen Consortium" should be added as the named banner author into the author list.
 - Submission-ready manuscript draft should be disseminated among the consortium members 3 work days before prospective submission deadline, and all authors on the banner should be given chance to send any comments.
 
 ## Documents
 
-### Consortium agreement for eQTLGen phase II
-
 ### Project proposal template
 
-### Consortium banner author
-
-### Analysis plans
-
-#### Analysis plan for eQTLGen phase II
+Should you wish to initiate a project in the eQTLGen Consortium, either making use of unpublished summary statistics,
+or requiring Consortium members to run additional analyses. A project proposal should be made and approved within the
+eQTLGen Consortium. The project proposal template can be downloaded from [here](documents/eQTLGenProjectProposalForm_v1.docx).

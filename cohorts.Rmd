@@ -19,6 +19,7 @@ Below we have listed the eQTLGen consortium members.
 - The Rotterdam Study
 - Estonian Gene Expression Cohort (EGCUT1)
 - Estonian Center for Translational Genomics cohort (EGCUT2)
+- INTERVAL
 - CARTaGENE
 - The Depression Genes and Networks study (DGN)
 - The Genotype-Tissue Expression Consortium (GTEx)

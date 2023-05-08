@@ -4,6 +4,8 @@
   link: cohorts.html
 - name: Cookbook
   link: eQTLGen-p2-cookbook.html
+- name: Documents
+  link: documents.html
 - name: Publications
   link: articles.html
 - name: Resources
