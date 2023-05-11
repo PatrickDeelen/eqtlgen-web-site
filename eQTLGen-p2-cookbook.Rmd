@@ -790,9 +790,9 @@ Following pipelines are for performing global *trans*-eQTL **meta**-analysis in 
 If you are cohort analyst, no further action is needed.
 However, feel free to use this code and instructions to conduct further analyses in your respective cohort.
 
-[Pipeline for running encoded meta-analysis](https://gitlab.com/eqtlgen-group/metaanalysis) - this is for running encoded eQTL meta-analysis on one or several datasets.
+[Pipeline for running encoded meta-analysis](https://github.com/eQTLGen/MetaAnalysis) - this is for running encoded eQTL meta-analysis on one or several datasets.
 
-[Pipeline for extracting subsets of data from full summary statistics](https://gitlab.com/eqtlgen-group/ExtractMetaAnalysisResults) - this is for extracting data subsets for subsequent interpretation.
+[Pipeline for extracting subsets of data from full summary statistics](https://github.com/eQTLGen/ExtractMetaAnalysisResults) - this is for extracting data subsets for subsequent interpretation.
 
 ### Runtime estimates
 
