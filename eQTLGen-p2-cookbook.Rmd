@@ -794,6 +794,9 @@ However, feel free to use this code and instructions to conduct further analyses
 
 [Pipeline for extracting subsets of data from full summary statistics](https://github.com/eQTLGen/ExtractMetaAnalysisResults) - this is for extracting data subsets for subsequent interpretation.
 
+We have been working on more convenient output formats and pipelines that allow for quicker extractions of parts of the data. These updates are not yet included in the github repositories.
+These will be updated soon.
+
 ### Runtime estimates
 
 Here are some runtime benchmarks for each of the steps in this cookbook: these might help you to get some hint how much time running the pipelines might take.

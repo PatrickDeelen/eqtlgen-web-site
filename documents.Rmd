@@ -42,4 +42,4 @@ There are the following requirements:
 
 Should you wish to initiate a project in the eQTLGen Consortium, either making use of unpublished summary statistics,
 or requiring Consortium members to run additional analyses. A project proposal should be made and approved within the
-eQTLGen Consortium. The project proposal template can be downloaded from [here](documents/eQTLGenProjectProposalForm_v1.docx).
+eQTLGen Consortium. The project proposal template can be downloaded from [here](documents/eQTLGenProjectProposalForm_v2.docx).
