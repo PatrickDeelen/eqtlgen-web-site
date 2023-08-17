@@ -183,9 +183,9 @@ whicever way is possible and avoid automatic download by pipeline.</p>
 <ul>
   <li>Go to analysis root folder: <code class="language-plaintext highlighter-rouge">cd eQTLGen_phase2</code></li>
   <li>Get eQTLGen phase II offline files:
-<code class="language-plaintext highlighter-rouge">wget https://www.dropbox.com/s/zticzqos052dtxp/eQTLGenP2OfflineFiles.tar.gz?dl=1</code></li>
+<code class="language-plaintext highlighter-rouge">wget https://www.dropbox.com/s/zticzqos052dtxp/eQTLGenP2OfflineFiles.tar.gz?dl=1 -O eQTLGenP2OfflineFiles.tar.gz</code></li>
   <li>Get the md5sum file:
-<code class="language-plaintext highlighter-rouge">wget https://www.dropbox.com/s/zticzqos052dtxp/eQTLGenP2OfflineFiles.tar.gz.md5?dl=1</code></li>
+<code class="language-plaintext highlighter-rouge">wget https://www.dropbox.com/s/889gifnwc95fjy2/eQTLGenP2OfflineFiles.tar.gz.md5?dl=1 -O eQTLGenP2OfflineFiles.tar.gz.md5</code></li>
   <li>Check the integrity of download, you should see “OK”:
 <code class="language-plaintext highlighter-rouge">md5sum -c eQTLGenP2OfflineFiles.tar.gz.md5</code></li>
   <li>Unzip the folder: <code class="language-plaintext highlighter-rouge">tar –xvzf eQTLGenP2OfflineFiles.tar.gz</code></li>
@@ -198,14 +198,26 @@ pipeline. After you have cloned each pipeline from github (as specified
 
 <p><code class="language-plaintext highlighter-rouge">cp -R eQTLGenP2OfflineFiles/1_DataQC_additional_files/singularity_img 1_DataQC/DataQC/.</code></p>
 
-<p><code class="language-plaintext highlighter-rouge">eQTLGenP2OfflineFiles/2_Imputation_additional_files/singularity_img 2_Imputation/eQTLGenImpute/.</code></p>
+<p><code class="language-plaintext highlighter-rouge">cp -R eQTLGenP2OfflineFiles/2_Imputation_additional_files/singularity_img 2_Imputation/eQTLGenImpute/.</code></p>
 
-<p><code class="language-plaintext highlighter-rouge">eQTLGenP2OfflineFiles/3_ConvertVcf2Hdf5_additional_files/singularity_img 3_ConvertVcf2Hdf5/ConvertVcf2Hdf5/.</code></p>
+<p><code class="language-plaintext highlighter-rouge">cp -R eQTLGenP2OfflineFiles/3_ConvertVcf2Hdf5_additional_files/singularity_img 3_ConvertVcf2Hdf5/ConvertVcf2Hdf5/.</code></p>
 
-<p><code class="language-plaintext highlighter-rouge">eQTLGenP2OfflineFiles/4_PerCohortPreparations/singularity_img 4_PerCohortPreparations/PerCohortDataPreparations/.</code></p>
+<p><code class="language-plaintext highlighter-rouge">cp -R eQTLGenP2OfflineFiles/4_PerCohortPreparations/singularity_img 4_PerCohortPreparations/PerCohortDataPreparations/.</code></p>
 
 <p>Now Nextflow pipelines will use those images in the analysis, instead of
 trying to download those from online repo.</p>
+
+<p>❗ If the genotype build for you input is not hg19 but <strong>hg38</strong>, you
+additionally need couple of chain files for LiftOver: - Make
+<code class="language-plaintext highlighter-rouge">chain_folder</code> subfolder into your offline files folder:
+<code class="language-plaintext highlighter-rouge">mkdir eQTLGenP2OfflineFiles/chain_folder</code> - Download chain files from
+UCSC web site:
+<code class="language-plaintext highlighter-rouge">wget https://hgdownload.cse.ucsc.edu/goldenpath/hg19/liftOver/hg19ToHg38.over.chain.gz -O eQTLGenP2OfflineFiles/chain_folder/hg19ToHg38.over.chain.gz</code>
+<code class="language-plaintext highlighter-rouge">wget https://hgdownload.cse.ucsc.edu/goldenpath/hg38/liftOver/hg38ToHg19.over.chain.gz -O eQTLGenP2OfflineFiles/chain_folder/hg38ToHg19.over.chain.gz</code></p>
+
+<p>❗ If the genotype build for you input is <strong>hg38</strong>, you need to
+uncomment corresponding variable and add <code class="language-plaintext highlighter-rouge">--chain_path</code> argument into
+the Nextflow command in the template below.</p>
 
 <h2 id="offline-files-for-data-qc-pipeline">Offline files for Data QC pipeline</h2>
 
@@ -265,6 +277,9 @@ plink_executable=../../eQTLGenP2OfflineFiles/1_DataQC_additional_files/plink_exe
 plink2_executable=../../eQTLGenP2OfflineFiles/1_DataQC_additional_files/plink_executables/plink2
 reference_1000g_folder=../../eQTLGenP2OfflineFiles/1_DataQC_additional_files/bigsnpr_reference/
 
+# If your genotype build is hg38/GRCh38, uncomment this argument.
+#chain_path=../../eQTLGenP2OfflineFiles/chain_folder
+
 # Additional settings and optional arguments for the command
 
 # --GenOutThresh [numeric threshold]
@@ -281,6 +296,7 @@ reference_1000g_folder=../../eQTLGenP2OfflineFiles/1_DataQC_additional_files/big
 # --plink_executable [path to plink executable (PLINK v1.90b6.26 64-bit)]
 # --plink2_executable [path to plink2 executable (PLINK v2.00a3.7LM 64-bit Intel)]
 # --reference_1000g_folder [path to folder with 1000G reference data]
+# --chain_path [path to folder hg19-&gt;hg38 and hg38-&gt;hg19 liftOver chain files]
 
 # Command:
 NXF_VER=21.10.6 ${nextflow_path}/nextflow run DataQC.nf \
@@ -291,9 +307,9 @@ NXF_VER=21.10.6 ${nextflow_path}/nextflow run DataQC.nf \
 --cohort_name ${cohort_name} \
 --genome_build ${genome_build} \
 --outdir ${output_path}  \
---plink_executable \
---plink2_executable \
---reference_1000g_folder \
+--plink_executable ${plink_executable} \
+--plink2_executable ${plink2_executable} \
+--reference_1000g_folder ${reference_1000g_folder} \
 -profile slurm,singularity \
 -resume
 </code></pre></div></div>
