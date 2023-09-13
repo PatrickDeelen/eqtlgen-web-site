@@ -32,7 +32,7 @@ When you try to install Nextflow as specified [here](https://www.nextflow.io/doc
 
 - Ensure that the file is executable:
 
-`chmod -x nextflow`
+`chmod +x nextflow`
 
 - Modify the .bashrc, so that Nextflow does not try to update from internet:
 
