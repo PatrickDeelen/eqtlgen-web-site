@@ -73,7 +73,7 @@ Our Nextflow pipelines use Singularity for software dependency management. By de
 - Unzip the folder:
   `tar –xvzf eQTLGenP2OfflineFiles.tar.gz`
 
-In the unzipped folder there are folders with docker images for each pipeline. After you have cloned each pipeline from github (as specified [here](eQTLGen-p2-cookbook.html#setup)), you should copy each `singularity_img` folder inside the corresponding pipeline folder.
+In the unzipped folder there are folders with docker images for each pipeline. After you have cloned each pipeline from github (as specified [here](eQTLGen-p2-cookbook.html#setup)), you should copy/move each `singularity_img` folder inside the corresponding pipeline folder.
 
 `cp -R eQTLGenP2OfflineFiles/1_DataQC_additional_files/singularity_img 1_DataQC/DataQC/.`
 
