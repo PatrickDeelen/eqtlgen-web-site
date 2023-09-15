@@ -77,11 +77,13 @@ In the unzipped folder there are folders with docker images for each pipeline. A
 
 `cp -R eQTLGenP2OfflineFiles/1_DataQC_additional_files/singularity_img 1_DataQC/DataQC/.`
 
-`cp -R eQTLGenP2OfflineFiles/2_Imputation_additional_files/singularity_img 2_Imputation/eQTLGenImpute/.`
+`mv eQTLGenP2OfflineFiles/2_Imputation_additional_files/singularity_img 2_Imputation/eQTLGenImpute/.`
 
-`cp -R eQTLGenP2OfflineFiles/3_ConvertVcf2Hdf5_additional_files/singularity_img 3_ConvertVcf2Hdf5/ConvertVcf2Hdf5/.`
+`mv eQTLGenP2OfflineFiles/1_DataQC_additional_files/singularity_img/* 2_Imputation/eQTLGenImpute/singularity_img/.`
 
-`cp -R eQTLGenP2OfflineFiles/4_PerCohortPreparations/singularity_img 4_PerCohortPreparations/PerCohortDataPreparations/.`
+`mv eQTLGenP2OfflineFiles/3_ConvertVcf2Hdf5_additional_files/singularity_img 3_ConvertVcf2Hdf5/ConvertVcf2Hdf5/.`
+
+`mv eQTLGenP2OfflineFiles/4_PerCohortPreparations/singularity_img 4_PerCohortPreparations/PerCohortDataPreparations/.`
 
 Now Nextflow pipelines will use those images in the analysis, instead of trying to download those from online repo. 
 
