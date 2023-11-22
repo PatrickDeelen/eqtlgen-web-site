@@ -703,7 +703,7 @@ Specifically, this pipeline performs the following steps:
 
 2.  Make folder `output`
 
-3.  Clone the `PerCohortPreparations` pipeline `git clone https://github.com/eQTLGen/PerCohortDataPreparatons.git`.
+3.  Clone the `PerCohortPreparations` pipeline `git clone https://github.com/eQTLGen/PerCohortDataPreparations.git`.
 
 4.  Go into `4_PerCohortPreparations/PerCohortPreparations`.
 
