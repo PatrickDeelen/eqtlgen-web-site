@@ -73,15 +73,17 @@ Our Nextflow pipelines use Singularity for software dependency management. By de
 - Unzip the folder:
   `tar –xvzf eQTLGenP2OfflineFiles.tar.gz`
 
-In the unzipped folder there are folders with docker images for each pipeline. After you have cloned each pipeline from github (as specified [here](eQTLGen-p2-cookbook.html#setup)), you should copy each `singularity_img` folder inside the corresponding pipeline folder.
+In the unzipped folder there are folders with docker images for each pipeline. After you have cloned each pipeline from github (as specified [here](eQTLGen-p2-cookbook.html#setup)), you should copy/move each `singularity_img` folder inside the corresponding pipeline folder.
 
 `cp -R eQTLGenP2OfflineFiles/1_DataQC_additional_files/singularity_img 1_DataQC/DataQC/.`
 
-`cp -R eQTLGenP2OfflineFiles/2_Imputation_additional_files/singularity_img 2_Imputation/eQTLGenImpute/.`
+`mv eQTLGenP2OfflineFiles/2_Imputation_additional_files/singularity_img 2_Imputation/eQTLGenImpute/.`
 
-`cp -R eQTLGenP2OfflineFiles/3_ConvertVcf2Hdf5_additional_files/singularity_img 3_ConvertVcf2Hdf5/ConvertVcf2Hdf5/.`
+`mv eQTLGenP2OfflineFiles/1_DataQC_additional_files/singularity_img/* 2_Imputation/eQTLGenImpute/singularity_img/.`
 
-`cp -R eQTLGenP2OfflineFiles/4_PerCohortPreparations/singularity_img 4_PerCohortPreparations/PerCohortDataPreparations/.`
+`mv eQTLGenP2OfflineFiles/3_ConvertVcf2Hdf5_additional_files/singularity_img 3_ConvertVcf2Hdf5/ConvertVcf2Hdf5/.`
+
+`mv eQTLGenP2OfflineFiles/4_PerCohortPreparations/singularity_img 4_PerCohortPreparations/PerCohortDataPreparations/.`
 
 Now Nextflow pipelines will use those images in the analysis, instead of trying to download those from online repo. 
 
