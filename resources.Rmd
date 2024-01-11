@@ -7,4 +7,4 @@ layout: default
 
 ### eQTLGen summary statistics
 
-- Summary statistics from eQTLGen phase I are available on http://www.eqtlgen.org
+- Summary statistics from eQTLGen phase I are available on https://eqtlgen.org/phase1.html
