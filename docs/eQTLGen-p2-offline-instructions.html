@@ -183,9 +183,9 @@ whicever way is possible and avoid automatic download by pipeline.</p>
 <ul>
   <li>Go to analysis root folder: <code class="language-plaintext highlighter-rouge">cd eQTLGen_phase2</code></li>
   <li>Get eQTLGen phase II offline files:
-<code class="language-plaintext highlighter-rouge">wget https://www.dropbox.com/s/zticzqos052dtxp/eQTLGenP2OfflineFiles.tar.gz?dl=1 -O eQTLGenP2OfflineFiles.tar.gz</code></li>
+<code class="language-plaintext highlighter-rouge">wget https://www.dropbox.com/scl/fi/sikrvqoftp74iuq951i41/eQTLGenP2OfflineFiles.tar.gz?rlkey=lgnqv1v84v9btks7jy42u7von&amp;dl=1 -O eQTLGenP2OfflineFiles.tar.gz</code></li>
   <li>Get the md5sum file:
-<code class="language-plaintext highlighter-rouge">wget https://www.dropbox.com/s/889gifnwc95fjy2/eQTLGenP2OfflineFiles.tar.gz.md5?dl=1 -O eQTLGenP2OfflineFiles.tar.gz.md5</code></li>
+<code class="language-plaintext highlighter-rouge">wget https://www.dropbox.com/scl/fi/0fdidje513qxsza4kynar/eQTLGenP2OfflineFiles.tar.gz.md5?rlkey=6679cowtq9q2crjlmt9enz7xk&amp;dl=1 -O eQTLGenP2OfflineFiles.tar.gz.md5</code></li>
   <li>Check the integrity of download, you should see “OK”:
 <code class="language-plaintext highlighter-rouge">md5sum -c eQTLGenP2OfflineFiles.tar.gz.md5</code></li>
   <li>Unzip the folder: <code class="language-plaintext highlighter-rouge">tar –xvzf eQTLGenP2OfflineFiles.tar.gz</code></li>
@@ -193,16 +193,18 @@ whicever way is possible and avoid automatic download by pipeline.</p>
 
 <p>In the unzipped folder there are folders with docker images for each
 pipeline. After you have cloned each pipeline from github (as specified
-<a href="eQTLGen-p2-cookbook.html#setup">here</a>), you should copy each
+<a href="eQTLGen-p2-cookbook.html#setup">here</a>), you should copy/move each
 <code class="language-plaintext highlighter-rouge">singularity_img</code> folder inside the corresponding pipeline folder.</p>
 
 <p><code class="language-plaintext highlighter-rouge">cp -R eQTLGenP2OfflineFiles/1_DataQC_additional_files/singularity_img 1_DataQC/DataQC/.</code></p>
 
-<p><code class="language-plaintext highlighter-rouge">cp -R eQTLGenP2OfflineFiles/2_Imputation_additional_files/singularity_img 2_Imputation/eQTLGenImpute/.</code></p>
+<p><code class="language-plaintext highlighter-rouge">mv eQTLGenP2OfflineFiles/2_Imputation_additional_files/singularity_img 2_Imputation/eQTLGenImpute/.</code></p>
 
-<p><code class="language-plaintext highlighter-rouge">cp -R eQTLGenP2OfflineFiles/3_ConvertVcf2Hdf5_additional_files/singularity_img 3_ConvertVcf2Hdf5/ConvertVcf2Hdf5/.</code></p>
+<p><code class="language-plaintext highlighter-rouge">mv eQTLGenP2OfflineFiles/1_DataQC_additional_files/singularity_img/* 2_Imputation/eQTLGenImpute/singularity_img/.</code></p>
 
-<p><code class="language-plaintext highlighter-rouge">cp -R eQTLGenP2OfflineFiles/4_PerCohortPreparations/singularity_img 4_PerCohortPreparations/PerCohortDataPreparations/.</code></p>
+<p><code class="language-plaintext highlighter-rouge">mv eQTLGenP2OfflineFiles/3_ConvertVcf2Hdf5_additional_files/singularity_img 3_ConvertVcf2Hdf5/ConvertVcf2Hdf5/.</code></p>
+
+<p><code class="language-plaintext highlighter-rouge">mv eQTLGenP2OfflineFiles/4_PerCohortPreparations/singularity_img 4_PerCohortPreparations/PerCohortDataPreparations/.</code></p>
 
 <p>Now Nextflow pipelines will use those images in the analysis, instead of
 trying to download those from online repo.</p>
