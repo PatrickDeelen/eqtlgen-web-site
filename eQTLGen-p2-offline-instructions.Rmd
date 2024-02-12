@@ -65,9 +65,9 @@ Our Nextflow pipelines use Singularity for software dependency management. By de
 - Go to analysis root folder:
   `cd eQTLGen_phase2`
 - Get eQTLGen phase II offline files:
-  `wget https://www.dropbox.com/scl/fi/sikrvqoftp74iuq951i41/eQTLGenP2OfflineFiles.tar.gz?rlkey=lgnqv1v84v9btks7jy42u7von&dl=1 -O eQTLGenP2OfflineFiles.tar.gz`
+  `wget "https://www.dropbox.com/scl/fi/sikrvqoftp74iuq951i41/eQTLGenP2OfflineFiles.tar.gz?rlkey=lgnqv1v84v9btks7jy42u7von&dl=1" -O eQTLGenP2OfflineFiles.tar.gz`
 - Get the md5sum file:
-  `wget https://www.dropbox.com/scl/fi/0fdidje513qxsza4kynar/eQTLGenP2OfflineFiles.tar.gz.md5?rlkey=6679cowtq9q2crjlmt9enz7xk&dl=1 -O eQTLGenP2OfflineFiles.tar.gz.md5`
+  `wget "https://www.dropbox.com/scl/fi/0fdidje513qxsza4kynar/eQTLGenP2OfflineFiles.tar.gz.md5?rlkey=6679cowtq9q2crjlmt9enz7xk&dl=1" -O eQTLGenP2OfflineFiles.tar.gz.md5`
 - Check the integrity of download, you should see "OK":
   `md5sum -c eQTLGenP2OfflineFiles.tar.gz.md5`
 - Unzip the folder:
