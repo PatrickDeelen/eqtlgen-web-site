@@ -1,12 +1,12 @@
 # eQTLgen interaction analysis
 
-Test for interaction of the eQTL effect.
+Test for interaction of the eQTL effects.
 
 ## Parameters
 
 ### Input data
 
-Most of these files are either already used by the eQTLgen phase 2 cookbook DataQC or imputation pipeline.
+Most of these files are either already used or made by the eQTLgen phase 2 cookbook DataQC or imputation pipeline.
 
 - `vcf_dir` - full path to the folder with imputed filtered vcf files produced by eQTLGen imptutation pipeline "2_Imputation" step (postimpute folder)
 - `raw_expfile` - raw expression data (same as input to DataQC step)
@@ -15,19 +15,19 @@ Most of these files are either already used by the eQTLgen phase 2 cookbook Data
 - `covariates` - File that contains cohort covariates: E.g. sex and age. Sample ids should be the same as in the genotype data
 - `exp_platform` - Options: RNAseq; RNAseq_HGNC; HT12v3; HT12v4; HuRef8; AffyU219; AffyHumanExon
 - `cohort_name` - TODO seems to be unused
-- `covariate_to_test` - TODO this needs to be predefined list
-- `qtls_to_test` - list of eQTLs to test for interaction, contains the *cis* and *trans* eqtls found by eQTLgen
 - `genotype_pcs` - The genotypes PCs as calculated by the DataQC (GenotypePCs.txt)
-- `chunk_file` - Chuck file used to create smaller jobs for calculations
 
 ### Other settings
 
-- `resume` - flag to allow restarting the pipeline without rerunning successfully completed tasks.
-- `profile` - should typically be set to "singularity,slurm"
 - `outdir` - Folder with the results that should be uploaded for the meta-analysis
+- `chunk_file` - Chuck file used to create smaller jobs for calculations
+- `covariate_to_test` - TODO this needs to be predefined list
+- `qtls_to_test` - list of eQTLs to test for interaction, contains the *cis* and *trans* eqtls found by eQTLgen
 - `run_stratified` - Currently not used
 - `preadjust` - Flag to first regress out non-tested covariates
 - `cell_perc_interactions` -
+- `resume` - flag to allow restarting the pipeline without rerunning successfully completed tasks.
+- `profile` - should typically be set to "singularity,slurm"
 
 ## Pipeline overview
 
