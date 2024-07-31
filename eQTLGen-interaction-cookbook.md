@@ -9,10 +9,10 @@ Test for interaction of the eQTL effects.
 Most of these files are either already used or made by the eQTLgen phase 2 cookbook DataQC or imputation pipeline.
 
 - `vcf_dir` - full path to the folder with imputed filtered vcf files produced by eQTLGen imptutation pipeline "2_Imputation" step (postimpute folder)
-- `raw_expfile` - raw expression data (same as input to DataQC step)
-- `norm_expfile` - normalized expression data (output of the DataQC step)
+- `raw_expfile` - raw expression data (same as input to DataQC step). Genes/Probes on rows and samples on columns. Samples ids as specified on column 2 of the GTE file.
+- `norm_expfile` - normalized expression data (output of the DataQC step) samples on rows and Genes/Probes on columns. This file should be use exactly as created by the eQTLgen QCpipeline.
 - `gte` - genotype to expression coupling file
-- `covariates` - File that contains cohort covariates: E.g. sex and age. Sample ids should be the same as in the genotype data
+- `covariates` - File that contains cohort covariates: E.g. sex and age. Samples on rows and covariates on columns. Sample ids should be the same as in the genotype data (column 1 of the GTE file)
 - `exp_platform` - Options: RNAseq; RNAseq_HGNC; HT12v3; HT12v4; HuRef8; AffyU219; AffyHumanExon
 - `cohort_name` - TODO seems to be unused
 - `genotype_pcs` - The genotypes PCs as calculated by the DataQC (GenotypePCs.txt)
@@ -27,7 +27,7 @@ Most of these files are either already used or made by the eQTLgen phase 2 cookb
 - `preadjust` - Flag to first regress out non-tested covariates
 - `cell_perc_interactions` -
 - `resume` - flag to allow restarting the pipeline without rerunning successfully completed tasks.
-- `profile` - should typically be set to "singularity,slurm"
+- `profile` - should typically be set to `singularity,slurm`
 
 ## Pipeline overview
 
@@ -68,11 +68,16 @@ Below are the procedures as they can be selected using the `exp_platform` option
 2. Remove samples not in the sample mapping file or in the eQTLgen normalized expression data.
 3. Remove genes with no variance.
 
+### ConvertVcfToPlink & MergePlinkPerChr
+
+By default, the pipeline uses the VCF files as they are created by the eQTLgen imputation pipeline. 
+These are converted to plink bed/bim/fam files and then the chromosomes files are concatenated. 
+
 ### Prepare_covariates
 The prepare covariates step has different substeps
 
 #### CalculateRNAQualityScore
-For RNAseq only, this steps correlates each sample to the average expression of all samples. This 
+This steps correlates each sample to the average expression of all samples. This 
 correlation is an indication of overall quality
 
 #### Deconvolution
@@ -93,3 +98,6 @@ Optionally does a pre correction of covariates otherwise the covariates are adde
 Limix first does a inversion normal transformation of the expression data and then creates a model 
 without the interaction term and second model including the interaction effect. 
 These two models are then compared using Likelihood Ratio Test. Limix uses 20 permutations 
+
+## Permutation strategy
+
