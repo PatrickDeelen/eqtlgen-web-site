@@ -2,7 +2,13 @@
 
 Test for interaction of the eQTL effects.
 
+
+## Downloading the pipeline
+The pipeline and support files can be downloaded here: TODO
+
 ## Parameters
+
+The 
 
 ### Input data
 
@@ -28,6 +34,11 @@ Most of these files are either already used or made by the eQTLgen phase 2 cookb
 - `cell_perc_interactions` -
 - `resume` - flag to allow restarting the pipeline without rerunning successfully completed tasks.
 - `profile` - should typically be set to `singularity,slurm`
+
+## Running the pipeline
+
+
+
 
 ## Pipeline overview
 
@@ -62,7 +73,7 @@ Below are the procedures as they can be selected using the `exp_platform` option
 
 #### AffyU219 AffyHumanExon
 
-**Note:** affymetrix based expression data should be pre-normalized instead of raw
+**Note:** affymetrix based expression data should be pre-normalized instead of raw in the same manner as done previously for eQTLgen
 
 1. Convert to probes to genes using the provided empirical probe mapping files, exclude probes to mapped to a gene.
 2. Remove samples not in the sample mapping file or in the eQTLgen normalized expression data.
