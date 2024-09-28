@@ -4,7 +4,25 @@ Test for interaction of the eQTL effects.
 
 
 ## Downloading the pipeline
-The pipeline and support files can be downloaded here: TODO
+
+If you don't have a new nextflow available it can be downloaded using: 
+```
+wget https://github.com/nextflow-io/nextflow/releases/download/v24.04.4/nextflow-24.04.4-all
+chmod ug+x nextflow-24.04.4-all
+```
+
+The pipeline can be obtained using: 
+```
+wget https://github.com/eQTLGen/eQTLGenInteractions/archive/refs/heads/main.zip
+unzip main.zip
+rm main.zip
+```
+
+Finally, two additional files are needed: 
+```
+wget https://downloads.molgeniscloud.org/downloads/eqtlgen/interactions/EigenvectorsTop1000.txt.gz
+wget https://downloads.molgeniscloud.org/downloads/eqtlgen/interactions/Ica100.txt.gz
+```
 
 ## Parameters
 
@@ -26,6 +44,8 @@ Most of these files are either already used or made by the eQTLgen phase 2 cookb
 ### Other settings
 
 - `outdir` - Folder with the results that should be uploaded for the meta-analysis
+- `expression_eigenvectors` - The downloaded file with expression eigenvectors of eQTLgen (EigenvectorsTop1000.txt.gz)
+- `expression_ics` - The downloaded file with expression independent components of eQTLgen (Ica100.txt.gz)
 - `chunk_file` - Chuck file used to create smaller jobs for calculations
 - `covariate_to_test` - TODO this needs to be predefined list
 - `qtls_to_test` - list of eQTLs to test for interaction, contains the *cis* and *trans* eqtls found by eQTLgen
@@ -41,6 +61,9 @@ Most of these files are either already used or made by the eQTLgen phase 2 cookb
 
 
 ## Pipeline overview
+
+The chapters below describe in more details what the individuals steps of the pipeline do. This is information
+is not needed to run the pipeline.
 
 ### NormalizeExpression
 First the data needs to be normalized in a different way then currently done for eQTLgen phase 2.
