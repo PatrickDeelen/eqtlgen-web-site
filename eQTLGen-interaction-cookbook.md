@@ -57,8 +57,13 @@ Most of these files are either already used or made by the eQTLgen phase 2 cookb
 
 ## Running the pipeline
 
+First tabix files are needed to be able to process the VCF files. Go to the VCF folder and run this command:
 
+```
+for chr in {1..22}; do echo $chr; tabix -p vcf -f chr${chr}.filtered.vcf.gz; done
+```
 
+If tabix is not available it can be downloaded here: https://www.htslib.org/download/ as part of the HTSlib package.
 
 ## Pipeline overview
 
